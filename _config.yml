@@ -6,6 +6,7 @@ baseurl: "/SAGA-App-Support"
 header_pages:
   - quick-start.md
   - troubleshooting.md
+  - faq.md
   - support.md
   - privacy.md
   - refunds.md
