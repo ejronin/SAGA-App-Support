@@ -3,6 +3,10 @@ layout: page
 title: Quick Start
 ---
 
+<p align="center">
+  <img src="assets/saga-app-icon.webp" alt="SAGA app icon" width="96">
+</p>
+
 # SAGA Quick Start
 
 ## 1. Install SAGA
@@ -73,4 +77,4 @@ The evaluation is intended to let users verify SAGA's complete workflow before p
 
 ## Help
 
-See [Troubleshooting](troubleshooting), the [Support Policy](support), and the [Privacy Policy](privacy), or email **sagaappsupport@gmail.com**.
+See [Troubleshooting](troubleshooting.md), the [Support Policy](support.md), and the [Privacy Policy](privacy.md), or email **sagaappsupport@gmail.com**.
