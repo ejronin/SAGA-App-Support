@@ -3,6 +3,11 @@ description: Support, privacy, licensing, release notes, and troubleshooting for
 theme: minima
 url: "https://ejronin.github.io"
 baseurl: "/SAGA-App-Support"
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: false
 header_pages:
   - quick-start.md
   - troubleshooting.md
