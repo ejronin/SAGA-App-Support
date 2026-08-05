@@ -11,6 +11,14 @@ title: SAGA Support
 
 SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion viewport captures while keeping project and publication files local.
 
+## Example output
+
+<p align="center">
+  <a href="assets/sample-output.jpg"><img src="assets/sample-output.jpg" alt="Example assembly guide produced with SAGA" width="300"></a>
+</p>
+
+The example above shows a compiled assembly guide created from the included SAGA demonstration project.
+
 ## Support
 
 Email **sagaappsupport@gmail.com**.
