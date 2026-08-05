@@ -15,15 +15,15 @@ Support is provided by email only, Monday through Friday, 10:00 a.m. to 5:00 p.m
 
 ## Documentation
 
-- [Quick Start](quick-start)
-- [Troubleshooting](troubleshooting)
-- [Frequently Asked Questions](faq)
-- [Support Policy](support)
-- [Privacy Policy](privacy)
-- [Refund Policy](refunds)
-- [Licensing](licensing)
-- [Release and Update Policy](updates)
-- [Release Notes](release-notes)
+- [Quick Start](quick-start.md)
+- [Troubleshooting](troubleshooting.md)
+- [Frequently Asked Questions](faq.md)
+- [Support Policy](support.md)
+- [Privacy Policy](privacy.md)
+- [Refund Policy](refunds.md)
+- [Licensing](licensing.md)
+- [Release and Update Policy](updates.md)
+- [Release Notes](release-notes.md)
 
 SAGA is published by Shawn Gordon. SAGA is not an Autodesk product and is not endorsed, sponsored, or warranted by Autodesk.
 
