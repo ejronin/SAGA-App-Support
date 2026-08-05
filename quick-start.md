@@ -8,7 +8,7 @@ title: Quick Start
 ## 1. Install SAGA
 
 1. Sign in to the Autodesk Design and Make Marketplace using the Autodesk account used with Fusion.
-2. Open the SAGA product listing and complete the purchase or start the available evaluation.
+2. Open the SAGA product listing and follow the listing instructions for purchase or evaluation.
 3. Close Autodesk Fusion.
 4. Download and run the Autodesk-provided SAGA installer.
 5. Restart Fusion.
