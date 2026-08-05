@@ -1,0 +1,117 @@
+---
+---
+
+@import "minima";
+
+/* SAGA charcoal theme */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #24272b;
+  color: #e8eaed;
+}
+
+body,
+.site-header,
+.site-footer,
+.page-content {
+  background: #24272b;
+}
+
+.site-header {
+  border-top-color: #0ea5b7;
+  border-bottom-color: #4a4f55;
+}
+
+.site-title,
+.site-title:visited,
+.page-link,
+.page-link:visited,
+.footer-heading,
+.post-title,
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  color: #f5f7fa;
+}
+
+body,
+p,
+li,
+dt,
+dd,
+blockquote,
+.post-meta,
+.footer-col-wrapper {
+  color: #e0e3e7;
+}
+
+a,
+a:visited {
+  color: #48c7d8;
+}
+
+a:hover,
+a:focus {
+  color: #7ddfed;
+  text-decoration-thickness: 2px;
+}
+
+hr {
+  border-color: #4a4f55;
+}
+
+pre,
+code {
+  background: #1b1d20;
+  border-color: #4a4f55;
+  color: #f1f3f5;
+}
+
+blockquote {
+  border-left-color: #5b626a;
+}
+
+table {
+  color: #e8eaed;
+  border-color: #4a4f55;
+}
+
+table tr:nth-child(even) {
+  background: #2d3136;
+}
+
+table th,
+table td {
+  border-color: #4a4f55;
+}
+
+.site-footer {
+  border-top-color: #4a4f55;
+}
+
+.svg-icon {
+  fill: #c7cbd1;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .site-nav {
+    background: #24272b;
+    border-color: #4a4f55;
+  }
+
+  .site-nav .menu-icon > svg {
+    fill: #e8eaed;
+  }
+}
