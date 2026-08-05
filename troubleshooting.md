@@ -80,4 +80,4 @@ Use Windows **Installed Apps** or the Autodesk-provided uninstall process. Close
 
 ## Contact support
 
-Email **sagaappsupport@gmail.com**. See the [Support Policy](support) for covered issues and the information to include.
+Email **sagaappsupport@gmail.com**. See the [Support Policy](support.md) for covered issues and the information to include.
