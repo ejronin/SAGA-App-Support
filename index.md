@@ -3,6 +3,10 @@ layout: home
 title: SAGA Support
 ---
 
+<p align="center">
+  <img src="assets/saga-logo.webp" alt="SAGA logo" width="220">
+</p>
+
 # SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion
 
 SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion viewport captures while keeping project and publication files local.
