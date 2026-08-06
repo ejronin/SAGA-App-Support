@@ -1,5 +1,5 @@
 title: SAGA Support
-description: Support, privacy, licensing, release notes, and troubleshooting for SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion.
+description: Support, privacy, licensing, release notes, and user documentation for SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion.
 theme: minima
 url: "https://ejronin.github.io"
 baseurl: "/SAGA-App-Support"
@@ -7,9 +7,10 @@ plugins:
   - jekyll-relative-links
 relative_links:
   enabled: true
-  collections: false
+  collections: true
 header_pages:
   - quick-start.md
+  - user-guide.md
   - troubleshooting.md
   - faq.md
   - support.md
