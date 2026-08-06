@@ -21,6 +21,11 @@ body,
   background: #24272b;
 }
 
+.wrapper {
+  width: calc(100% - 40px);
+  max-width: 1080px;
+}
+
 .site-header {
   border-top-color: #0ea5b7;
   border-bottom-color: #4a4f55;
@@ -100,9 +105,96 @@ table td {
   fill: #c7cbd1;
 }
 
-img {
+.site-nav .page-link {
+  white-space: nowrap;
+}
+
+.post-content {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.post-content h2 {
+  margin-top: 2.4rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid #42474d;
+}
+
+.post-content h3 {
+  margin-top: 1.8rem;
+}
+
+.brand-mark {
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.brand-mark img {
+  border: 0;
+  box-shadow: none;
+}
+
+.guide-shot {
+  margin: 1.3rem 0 2rem;
+  text-align: center;
+}
+
+.guide-shot img {
+  display: block;
+  width: auto;
   max-width: 100%;
   height: auto;
+  margin: 0 auto;
+  border: 1px solid #4a4f55;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+}
+
+.guide-shot--compact img {
+  width: 100%;
+  max-height: 620px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.guide-shot--wide img {
+  width: 100%;
+}
+
+.guide-shot--pdf img {
+  max-height: 720px;
+}
+
+.guide-shot figcaption {
+  margin-top: 0.65rem;
+  color: #b8bec6;
+  font-size: 0.92rem;
+}
+
+.notice-box,
+.page-toc {
+  margin: 1.25rem 0 1.75rem;
+  padding: 1rem 1.15rem;
+  background: #1d2024;
+  border: 1px solid #4a4f55;
+  border-left: 4px solid #0ea5b7;
+  border-radius: 6px;
+}
+
+.page-toc ul {
+  columns: 2;
+  column-gap: 2rem;
+  margin: 0.6rem 0 0;
+}
+
+@media screen and (max-width: 780px) {
+  .wrapper {
+    width: calc(100% - 28px);
+  }
+
+  .page-toc ul {
+    columns: 1;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -113,5 +205,9 @@ img {
 
   .site-nav .menu-icon > svg {
     fill: #e8eaed;
+  }
+
+  .post-content {
+    font-size: 16px;
   }
 }

@@ -3,7 +3,7 @@ layout: home
 title: SAGA Support
 ---
 
-<p align="center">
+<p class="brand-mark">
   <img src="assets/saga-logo.webp" alt="SAGA logo" width="220">
 </p>
 
@@ -13,19 +13,22 @@ SAGA helps makers, independent product designers, and small hardware developers 
 
 ## Get started
 
-- [Quick Start](quick-start.md) — create a project, capture a step, add markup, and generate the PDF
-- [User Guide](user-guide.md) — full instructions for projects, captures, BOMs, steps, configurations, publication, and licensing
+- [Quick Start](quick-start.md) — install SAGA, verify Marketplace access, create a project, capture a step, add markup, and generate the PDF
+- [User Guide](user-guide.md) — complete instructions for projects, captures, BOMs, steps, configurations, publication, access, and support
 - [Troubleshooting](troubleshooting.md) — common problems and the information to include with a support request
 
 ## Example output
 
-The demonstration guide includes transparent Fusion captures, safety and inspection notices, BOM-linked callouts, a configuration branch, and a total bill of materials.
+The approved demonstration guide includes transparent Fusion captures, notices, BOM-linked callouts, a configuration branch, and a total bill of materials.
 
-<p align="center">
-  <img src="assets/sample-output.jpg" alt="Example assembly guide produced with SAGA" width="320">
-</p>
+<figure class="guide-shot guide-shot--pdf">
+  <img src="assets/sample-output.jpg" alt="Example assembly guide produced with SAGA">
+  <figcaption>Example assembly guide produced with SAGA. The complete demonstration guide is included with the Autodesk Marketplace listing.</figcaption>
+</figure>
 
-The complete demonstration guide is also included with the Autodesk Marketplace listing and release materials.
+## Trial and purchase
+
+SAGA is sold as a one-time purchase through Autodesk Marketplace. Autodesk offers an optional 30-day trial. The trial is fully functional, does not watermark PDF output, and does not disable customer branding.
 
 ## Support
 

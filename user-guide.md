@@ -3,32 +3,59 @@ layout: page
 title: User Guide
 ---
 
-# SAGA User Guide
+SAGA — Shawn's Assembly Guide Authoring — is an Autodesk Fusion add-in for creating illustrated assembly guides from the model and view already open in Fusion. Projects remain editable and are stored in a normal local folder. When the guide is ready, SAGA creates one complete PDF in that project folder.
 
-SAGA — Shawn's Assembly Guide Authoring — is a Fusion add-in for building illustrated assembly guides from the model and view already open in Autodesk Fusion. A SAGA project stays editable and is stored in a normal local folder. When the guide is ready, SAGA creates one linked PDF in that project folder.
+For a shorter first-use walkthrough, start with the [Quick Start](quick-start.md).
 
-This guide covers the complete SAGA 1.0 workflow. For a faster introduction, start with the [Quick Start](quick-start.md).
+<div class="page-toc">
+<strong>In this guide</strong>
+<ul>
+  <li><a href="#access-installation-and-startup">Access, installation, and startup</a></li>
+  <li><a href="#projects-and-local-storage">Projects and local storage</a></li>
+  <li><a href="#project-settings">Project settings</a></li>
+  <li><a href="#parts-hardware-tools-and-consumables">Parts, hardware, tools, and consumables</a></li>
+  <li><a href="#steps-captures-and-markup">Steps, captures, and markup</a></li>
+  <li><a href="#configuration-paths">Configuration paths</a></li>
+  <li><a href="#check-project">Check Project</a></li>
+  <li><a href="#create-the-pdf">Create the PDF</a></li>
+  <li><a href="#marketplace-access">Marketplace access</a></li>
+  <li><a href="#logs-help-and-support">Logs, help, and support</a></li>
+</ul>
+</div>
 
-## Start SAGA
+## Access, installation, and startup
 
-SAGA is installed through the Autodesk Design and Make Marketplace. Close Fusion before installing, updating, or removing it.
+SAGA is distributed through the Autodesk Design and Make Marketplace for 64-bit Windows.
 
-SAGA does not start automatically by default. In Fusion:
+Close Fusion before installing, updating, or removing SAGA. After installation:
 
 1. Open **Utilities > Scripts and Add-Ins**.
 2. Select **Add-Ins**.
-3. Select **SAGA** and run it.
-4. Use the SAGA command in Fusion's **Scripts and Add-Ins** panel whenever you need to reopen the palette.
+3. Select **SAGA** and choose **Run**.
+4. Use the SAGA toolbar command to reopen the palette during the same Fusion session.
 
-![SAGA selected in Scripts and Add-Ins](assets/scripts-addins.webp)
+SAGA does not start automatically by default. Fusion may allow you to enable automatic startup later.
 
-Fusion allows users to enable automatic startup later. Leaving it disabled keeps SAGA out of Fusion's normal startup path until it is needed.
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/scripts-addins.webp" alt="SAGA selected in Fusion Scripts and Add-Ins">
+  <figcaption>SAGA appears as an add-in; automatic startup is intentionally off by default.</figcaption>
+</figure>
+
+At launch, SAGA checks the signed-in Fusion account through Autodesk Marketplace. See [Marketplace access](#marketplace-access) for trial, purchase, and offline behavior.
 
 ## Projects and local storage
 
-A SAGA project is a folder containing the editable project record, captured images, optional cover assets, imported BOM sources, and generated output. Keep the project folder together when moving, backing up, or archiving a guide.
+A SAGA project is a folder that keeps the editable project record and its related files together. Depending on the project, the folder may contain:
 
-SAGA does not upload the Fusion model or project content to a SAGA server. Project files remain in the location selected by the user.
+- Captured Fusion images
+- Editable markup records and rendered step images
+- Written instructions and notices
+- Imported BOM sources
+- Project logo and finished-product cover image
+- Generated PDF output
+- Local diagnostic and recovery information
+
+SAGA does not upload the Fusion model or project content to a SAGA-operated server. Keep the complete project folder together when moving, backing up, or archiving a guide.
 
 ### Create a project
 
@@ -42,24 +69,22 @@ On **Project**:
 
 The product revision identifies the physical design. The manual revision identifies the instruction document. They may change independently.
 
-![Project identity, local folder, and cover setup](assets/project-setup.webp)
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/project-setup.webp" alt="Project identity, revisions, author, and local project location in SAGA">
+  <figcaption>Project identity and local storage settings.</figcaption>
+</figure>
 
 ### Open and save
 
 Use **Open** to select an existing SAGA project folder. Use **Save** after meaningful work and before closing Fusion.
 
-Generating a PDF does not lock the project. The project remains editable, and a later successful publication replaces the prior PDF with the current version.
+Generating a PDF does not lock the project. A later successful publication replaces the prior PDF with the current version.
 
-## Project setup
+## Project settings
 
 ### Cover assets
 
-A project may include:
-
-- One project or company logo
-- One finished-product image for the cover
-
-SAGA copies selected images into the project's `assets` folder. The project does not depend on the original file location after the copy is complete.
+A project may include one logo and one finished-product image. SAGA copies selected images into the project's `assets` folder so the project does not depend on the original file locations.
 
 ### Capture settings
 
@@ -72,11 +97,11 @@ Capture settings apply to new Fusion viewport captures:
 
 The default 2560 × 1440 capture is suitable for most manuals. Higher resolutions increase project size and PDF-generation time.
 
-When **Transparent background** is enabled, SAGA asks Fusion for an alpha-capable PNG and verifies that the result supports transparency. The setting is saved with the project and may be changed later. Existing captures do not change automatically; recapture a step when a different background treatment is required.
+When **Transparent background** is enabled, SAGA asks Fusion for an alpha-capable PNG and verifies that the result supports transparency. The setting is saved with the project and can be changed later. Existing captures do not change automatically; recapture a step when a different background treatment is required.
 
 ## Parts, hardware, tools, and consumables
 
-The **Parts** tab is a practical item catalog and BOM. It is not limited to manufactured parts. Use it for anything the reader needs, including:
+The **Parts** tab is both an item catalog and a practical bill of materials. Use it for:
 
 - Printed or fabricated parts
 - Purchased hardware
@@ -91,32 +116,34 @@ A clear item name is the only essential identifier. Part number, supplier, descr
 2. Select **Add Item**.
 3. Choose the category.
 4. Enter the name and unit.
-5. Add a part number or fixed total quantity when the assembly requires it.
+5. Add a part number or fixed total quantity when needed.
 6. Choose a default visual marker when useful.
 7. Save the item.
 
 ### Import a BOM
 
-SAGA imports CSV and XLSX sources and copies the imported file into the project. The source must contain a recognized name column, such as `Name`, `Item Name`, or `Part Name`.
+SAGA imports CSV and XLSX sources and copies the imported file into the project. The source must contain a recognized name column such as `Name`, `Item Name`, or `Part Name`.
 
-The import may also use columns for category, quantity, unit, part number, description, supplier, notes, and visual marker. Review imported items before assigning them to steps.
+The import may also use columns for category, quantity, unit, item number, description, supplier, notes, and visual marker.
+
+[Download the SAGA BOM import template](assets/SAGA-BOM-Import-Template.csv).
 
 ### Quantity behavior
 
 A fixed project quantity enables allocation checks. Step assignments and BOM-linked callouts may either:
 
 - **Install or use quantity** — counts against the planned total
-- **Reference only** — identifies an item without consuming additional quantity
+- **Reference only** — identifies an item without consuming another unit
 
 Use reference-only callouts when the same installed item must be identified again later or along an alternate configuration path.
 
-## Steps
+## Steps, captures, and markup
 
 Open **Steps** and select **New Step**. Each step has three work areas: **Details**, **Image**, and **Markup**.
 
-### Step sequence and details
+### Step details
 
-Give each step a short operation title, such as “Install the hinge rod” rather than “Step 2.” Add the instruction in direct, actionable language.
+Give each step a short operation title, such as “Install the hinge rod,” and write the instruction in direct, actionable language.
 
 A step can also contain:
 
@@ -135,7 +162,7 @@ Before selecting **Capture View**:
 4. Confirm the active step.
 5. Capture the view.
 
-Replacing a capture moves the previous source image to the project's trash folder and clears markup tied to that old image.
+Replacing a capture moves the previous source image to the project's trash folder and clears markup tied to the old image.
 
 ### Markup tools
 
@@ -161,15 +188,11 @@ When leaving Markup with unapplied changes, SAGA offers:
 - **Discard Changes**
 - **Cancel**
 
-Discard returns to the last applied markup. It does not delete the original Fusion capture.
+Discard returns to the last applied markup; it does not delete the original Fusion capture.
 
 ## Configuration paths
 
-Configurations are optional. Use them when the guide has:
-
-- A shared opening sequence
-- One set of alternative assembly paths
-- An optional shared finish
+Configurations are optional. Use them when the guide has a shared opening sequence followed by alternate assembly choices and, optionally, a shared finish.
 
 SAGA 1.0 supports one split and up to five paths. Nested splits are not supported.
 
@@ -181,7 +204,7 @@ To create a split:
 4. Add more paths when needed.
 5. Select a path while creating its branch steps.
 
-SAGA calculates path-specific printed step numbers and adds links to the PDF so readers can move from the shared sequence to the appropriate branch.
+SAGA calculates path-specific printed step numbers and adds PDF links so readers can move from the shared sequence to the correct branch.
 
 ## Check Project
 
@@ -206,23 +229,41 @@ SAGA creates one complete PDF directly in the project folder. The PDF may contai
 
 Large, high-resolution guides may take about a minute to compile. If Windows reports that the output is in use, close the PDF in its viewer and generate it again.
 
-### Sample output
+<figure class="guide-shot guide-shot--pdf">
+  <img src="assets/sample-output.jpg" alt="Example SAGA assembly guide output">
+  <figcaption>Example SAGA output. The full demonstration guide is included with the Autodesk Marketplace listing.</figcaption>
+</figure>
 
-The approved demonstration guide shows transparent captures, notices, a BOM-linked callout, a configuration branch, and a total BOM. A preview is available on the [SAGA Support home page](index.md); the complete sample is also used in the Autodesk Marketplace listing.
+## Marketplace access
 
-## Trial and purchased access
+SAGA is a paid, one-time-purchase Marketplace application. The Autodesk listing offers Autodesk's optional 30-day trial.
 
-SAGA is a paid, one-time-purchase Marketplace application. The Autodesk listing includes Autodesk's optional 30-day trial. Trial output is not watermarked, and customer branding remains available.
+- Autodesk controls both trial and purchased access.
+- SAGA does not run a separate local trial clock.
+- Trial output is not watermarked, and customer branding remains enabled.
+- The palette reports only whether Marketplace access is active; Autodesk does not provide SAGA with the entitlement type or remaining trial time.
 
-Autodesk controls both trial and purchased access. SAGA does not run a separate local trial clock and does not receive the entitlement type or remaining trial time. The palette therefore reports only whether Marketplace access is active.
-
-SAGA checks the signed-in Fusion account through Autodesk's Entitlement API. A successful check may be used for up to 24 hours if Autodesk's service is temporarily unavailable. A completed negative Autodesk response takes effect immediately.
+SAGA checks the signed-in Fusion account through Autodesk's Entitlement API. A successful result may be used for up to 24 hours if Autodesk's service is temporarily unavailable. A completed negative Autodesk result takes effect immediately.
 
 When access ends, authoring and PDF publication are disabled until Autodesk reports valid access again. Existing projects and previously generated PDFs are not deleted or altered.
 
-## Logs and support
+When the palette shows **Access required**:
 
-SAGA writes local diagnostic logs under the current user's local application-data area. When requesting support, include:
+1. Confirm that Fusion is signed in with the Autodesk account used for the trial or purchase.
+2. Complete the Marketplace trial or purchase using that account.
+3. Return to SAGA and select **Check again**.
+
+## Logs, help, and support
+
+Select **Help** in the palette or press **F1 while the SAGA palette has keyboard focus**. Fusion routes F1 to the active pane, so SAGA help does not open while the Fusion canvas has focus.
+
+SAGA writes local diagnostic logs under:
+
+```text
+%LOCALAPPDATA%\SAGA\logs
+```
+
+When requesting support, include:
 
 - SAGA version
 - Fusion version
