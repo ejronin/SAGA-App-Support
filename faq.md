@@ -15,7 +15,7 @@ SAGA is intended for makers, independent product designers, 3D-printable product
 
 ## Does SAGA upload my Fusion model or project files?
 
-No. SAGA projects, captures, instructions, BOM information, and generated PDFs stay in the local folders chosen by the user. SAGA may contact Autodesk only to verify Marketplace entitlement.
+No. SAGA projects, captures, instructions, BOM information, and generated PDFs stay in the local folders chosen by the user. SAGA may contact Autodesk only to verify Marketplace access.
 
 ## Is SAGA a subscription?
 
@@ -23,7 +23,9 @@ No. SAGA is sold as a one-time purchase.
 
 ## Can I try SAGA before buying it?
 
-SAGA includes a fully functional evaluation period. The evaluation does not watermark exported PDFs or disable customer branding. After the evaluation expires, continued use requires a valid Autodesk Marketplace entitlement.
+Yes. The paid Marketplace listing includes Autodesk's optional 30-day trial. The trial is fully functional and does not watermark PDFs or disable customer branding.
+
+Autodesk controls the trial and purchase entitlement. SAGA does not run a separate local trial clock. When Autodesk reports that access is no longer valid, continued authoring and publication require a purchase. Existing projects and previously generated PDFs are not deleted or altered.
 
 ## Can I use SAGA for commercial work?
 
