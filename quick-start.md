@@ -3,78 +3,82 @@ layout: page
 title: Quick Start
 ---
 
-<p align="center">
-  <img src="assets/saga-app-icon.webp" alt="SAGA app icon" width="96">
-</p>
-
 # SAGA Quick Start
 
-## 1. Install SAGA
+This walkthrough creates a basic assembly guide from an open Fusion design. The [User Guide](user-guide.md) covers the complete workflow.
 
-1. Sign in to the Autodesk Design and Make Marketplace using the Autodesk account used with Fusion.
-2. Open the SAGA product listing and follow the listing instructions for purchase or evaluation.
-3. Close Autodesk Fusion.
-4. Download and run the Autodesk-provided SAGA installer.
-5. Restart Fusion.
+## 1. Install and start SAGA
 
-SAGA 1.0 supports Windows only.
+Install SAGA through the Autodesk Design and Make Marketplace. Close Fusion before installing, updating, or removing the add-in.
 
-## 2. Start the add-in
+SAGA does not start automatically by default. In Fusion:
 
-SAGA does not automatically load when Fusion starts.
+1. Open **Utilities > Scripts and Add-Ins**.
+2. Select **Add-Ins**.
+3. Select **SAGA** and run it.
+4. Use the SAGA command in the toolbar to open the palette.
 
-1. In Fusion, open **Utilities > Scripts and Add-Ins**.
-2. Select the **Add-Ins** tab.
-3. Select **SAGA**.
-4. Select **Run**.
+![SAGA selected in Scripts and Add-Ins](assets/scripts-addins.webp)
 
-Fusion may provide an option to run the add-in automatically at startup. That choice belongs to the user and is not enabled by default.
+## 2. Create a project
 
-## 3. Create a project
+On **Project**:
 
-1. Open SAGA from the Fusion toolbar.
-2. On **Project**, enter the product name, revision information, manual title, and author.
-3. Choose a parent folder.
-4. Select **New Project**.
+1. Enter the product name, product revision, manual revision, title, and author.
+2. Choose the parent folder for new projects.
+3. Select **New Project**.
+4. Add a logo and finished-product image when wanted.
+5. Review the capture settings.
 
-SAGA creates an editable local project folder. Keep the entire folder together when moving or backing up a project.
+SAGA creates a local project folder and keeps the editable project, captures, assets, imported BOM files, and PDF together.
+
+![Project setup](assets/project-setup.webp)
+
+## 3. Add parts when useful
+
+Open **Parts** to add printed parts, hardware, tools, and consumables. A part number is optional unless the assembly depends on an exact component.
+
+Use **Import CSV/XLSX** to import an existing BOM, or [download the SAGA BOM template](assets/SAGA-BOM-Import-Template.csv).
+
+![Parts and BOM catalog](assets/parts-bom.webp)
 
 ## 4. Add the first step
 
 1. Open **Steps**.
 2. Select **New Step**.
-3. Enter a short step title.
-4. Position the Fusion model exactly as the reader should see it.
-5. Open the step's **Image** section and select **Capture View**.
-6. Open **Markup**, write the instruction, and add arrows, labels, or part callouts when needed.
-7. Select **Apply Markup to Step** after changing image markup.
-8. Select **Save** on the Project tab.
+3. Enter a short operation title and the instruction.
+4. Assign any parts used at the step.
+5. In Fusion, position the model exactly as the reader should see it.
+6. Open the step's **Image** area and select **Capture View**.
 
-Applying markup updates the image used in the published manual. Saving the project keeps its editable information available after Fusion is closed.
+## 5. Add markup
 
-## 5. Add parts when useful
+Open **Markup** and add only the visual guidance the reader needs. SAGA provides arrows, leaders, alignment lines, labels, visual markers, and BOM-linked part callouts.
 
-Open **Parts** to add printed parts, hardware, tools, or consumables. A part number is optional. Use one when an exact component matters; otherwise a clear name and quantity are sufficient.
+Select **Apply Markup to Step** after making image changes. Then save the project so the markup remains editable after Fusion closes.
 
-Part callouts can either:
+![BOM-linked part callout](assets/bom-callout.webp)
 
-- **Install or use quantity:** count against the BOM total.
-- **Reference only:** identify an item without consuming quantity.
+## 6. Check the project
 
-## 6. Check and create the PDF
+Open **Check Project** and select **Check Project**.
 
-1. Open **Check Project** and select **Check Project**.
-2. Correct every reported error. Review warnings and leave them only when intentional.
-3. Open **PDF**.
-4. Choose page size, orientation, and optional sections.
-5. Select **Generate PDF**.
+- Fix every error.
+- Review warnings and leave them only when intentional.
 
-SAGA creates one compiled PDF in the project folder. Large projects or high-resolution captures can require additional processing time.
+## 7. Generate the PDF
 
-## Evaluation and purchased access
+1. Open **PDF**.
+2. Choose page size and orientation.
+3. Choose the optional cover, contents, links, and BOM sections.
+4. Select **Generate PDF**.
 
-The evaluation is intended to let users verify SAGA's complete workflow before purchase. SAGA does not add a trial watermark or disable customer branding. After the evaluation expires, continued use requires a valid Autodesk Marketplace entitlement. Existing projects and previously generated files are not deleted.
+The complete PDF is written directly into the project folder.
 
-## Help
+![PDF publication settings](assets/pdf-generation.webp)
 
-See [Troubleshooting](troubleshooting.md), the [Support Policy](support.md), and the [Privacy Policy](privacy.md), or email **sagaappsupport@gmail.com**.
+[Download the SAGA demonstration assembly guide](assets/SAGA-Demo-Assembly-Guide.pdf)
+
+## Next steps
+
+Continue with the [User Guide](user-guide.md) for transparent captures, BOM allocation, notices, configuration paths, validation rules, licensing, logs, and support.
