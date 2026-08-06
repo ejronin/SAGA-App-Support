@@ -5,11 +5,11 @@ title: Refund Policy
 
 # SAGA Refund Policy
 
-**Effective date: August 5, 2026**
+**Effective date: August 6, 2026**
 
 SAGA is sold as a one-time software purchase through the Autodesk Design and Make Marketplace.
 
-A fully functional evaluation period is provided so users can confirm that SAGA works with their Fusion setup and fits their workflow before buying it. Because of that evaluation period, completed purchases are generally final.
+Autodesk's optional 30-day Marketplace trial provides full functionality so users can confirm that SAGA works with their Fusion setup and fits their workflow before buying it. Trial output is not watermarked, and customer branding remains available. Because that evaluation is available before purchase, completed purchases are generally final.
 
 A refund may still be considered when:
 
