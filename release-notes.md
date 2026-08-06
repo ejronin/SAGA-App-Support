@@ -26,8 +26,9 @@ SAGA 1.0.0 is the first public release of Shawn's Assembly Guide Authoring for A
 - Project validation before publication
 - One compiled PDF publication output
 - Customer branding, including a project logo and finished-product cover image
-- A seven-day, fully functional evaluation period
-- Autodesk Marketplace purchase-entitlement verification
+- Autodesk-managed 30-day Marketplace trial with full functionality
+- Autodesk Marketplace entitlement verification for trial and purchased access
+- Brief 24-hour access allowance after a successful check when Autodesk's entitlement service is temporarily unavailable
 
 ### Release limits
 
