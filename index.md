@@ -19,12 +19,15 @@ SAGA helps makers, independent product designers, and small hardware developers 
 
 ## Example output
 
-The approved demonstration guide includes transparent Fusion captures, notices, BOM-linked callouts, a configuration branch, and a total bill of materials.
+The approved demonstration guide includes:
 
-<figure class="guide-shot guide-shot--pdf">
-  <img src="assets/sample-output.jpg" alt="Example assembly guide produced with SAGA">
-  <figcaption>Example assembly guide produced with SAGA. The complete demonstration guide is included with the Autodesk Marketplace listing.</figcaption>
-</figure>
+- Transparent Fusion captures
+- Information, caution, and inspection notices
+- BOM-linked part callouts
+- An alternate configuration path
+- A total bill of materials
+
+The complete demonstration guide and listing screenshots are included with the Autodesk Marketplace submission materials. They will be added here as downloadable public assets after the Marketplace listing is approved.
 
 ## Trial and purchase
 
