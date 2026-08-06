@@ -69,11 +69,6 @@ On **Project**:
 
 The product revision identifies the physical design. The manual revision identifies the instruction document. They may change independently.
 
-<figure class="guide-shot guide-shot--compact">
-  <img src="assets/project-setup.webp" alt="Project identity, revisions, author, and local project location in SAGA">
-  <figcaption>Project identity and local storage settings.</figcaption>
-</figure>
-
 ### Open and save
 
 Use **Open** to select an existing SAGA project folder. Use **Save** after meaningful work and before closing Fusion.
@@ -229,10 +224,7 @@ SAGA creates one complete PDF directly in the project folder. The PDF may contai
 
 Large, high-resolution guides may take about a minute to compile. If Windows reports that the output is in use, close the PDF in its viewer and generate it again.
 
-<figure class="guide-shot guide-shot--pdf">
-  <img src="assets/sample-output.jpg" alt="Example SAGA assembly guide output">
-  <figcaption>Example SAGA output. The full demonstration guide is included with the Autodesk Marketplace listing.</figcaption>
-</figure>
+The approved demonstration guide and Marketplace screenshots will be added to this support site after the listing is approved.
 
 ## Marketplace access
 
