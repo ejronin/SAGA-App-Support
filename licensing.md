@@ -11,6 +11,14 @@ Copyright © 2026 Shawn Gordon. All rights reserved.
 
 Unless a different agreement is shown during purchase or installation, SAGA is licensed under the Autodesk Marketplace standard end-user agreement that applies to the transaction.
 
+## Trial and purchased access
+
+SAGA is listed as a paid, one-time-purchase application with Autodesk's optional 30-day Marketplace trial enabled. The trial is fully functional: output is not watermarked, and customer logos and cover images remain available.
+
+Autodesk is the sole authority for both trial and purchased access. SAGA does not run a second local trial clock and cannot display whether an active entitlement is a trial or purchase. It asks Autodesk only whether the signed-in account currently has valid Marketplace access.
+
+A successful Autodesk result may be cached for up to 24 hours if Autodesk's entitlement service is temporarily unavailable. A completed negative result from Autodesk takes effect immediately. Expiration or loss of access does not delete or alter existing SAGA projects or previously generated PDFs.
+
 ## What the licence allows
 
 A valid licence allows the purchaser to install and use SAGA with Autodesk Fusion under the terms shown by Autodesk at purchase or installation.
