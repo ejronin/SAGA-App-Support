@@ -9,26 +9,32 @@ title: SAGA Support
 
 # SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion
 
-SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion viewport captures while keeping project and publication files local.
+SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion while keeping editable project and publication files local.
+
+## Get started
+
+- [Quick Start](quick-start.md) — create a project, capture a step, add markup, and generate the PDF
+- [User Guide](user-guide.md) — full instructions for projects, captures, BOMs, steps, configurations, publication, and licensing
+- [Troubleshooting](troubleshooting.md) — common problems and the information to include with a support request
 
 ## Example output
 
+The demonstration guide includes transparent Fusion captures, safety and inspection notices, BOM-linked callouts, a configuration branch, and a total bill of materials.
+
 <p align="center">
-  <a href="assets/sample-output.jpg"><img src="assets/sample-output.jpg" alt="Example assembly guide produced with SAGA" width="300"></a>
+  <a href="assets/SAGA-Demo-Assembly-Guide.pdf"><img src="assets/sample-pdf-cover.webp" alt="Cover of the SAGA demonstration assembly guide" width="300"></a>
 </p>
 
-The example above shows a compiled assembly guide created from the included SAGA demonstration project.
+[Download the SAGA demonstration assembly guide](assets/SAGA-Demo-Assembly-Guide.pdf)
 
 ## Support
 
 Email **sagaappsupport@gmail.com**.
 
-Support is provided by email only, Monday through Friday, 10:00 a.m. to 5:00 p.m. Eastern Time, excluding holidays. The target initial response time is two business days.
+Support is provided by email Monday through Friday, 10:00 a.m. to 5:00 p.m. Eastern Time, excluding holidays. The target initial response time is two business days.
 
-## Documentation
+## Policies and release information
 
-- [Quick Start](quick-start.md)
-- [Troubleshooting](troubleshooting.md)
 - [Frequently Asked Questions](faq.md)
 - [Support Policy](support.md)
 - [Privacy Policy](privacy.md)
