@@ -212,11 +212,13 @@ The approved demonstration guide shows transparent captures, notices, a BOM-link
 
 ## Trial and purchased access
 
-SAGA includes a seven-day, fully functional evaluation period. Evaluation output is not watermarked, and customer branding remains available.
+SAGA is a paid, one-time-purchase Marketplace application. The Autodesk listing includes Autodesk's optional 30-day trial. Trial output is not watermarked, and customer branding remains available.
 
-After the evaluation expires, continued authoring and publication require a valid Autodesk Marketplace entitlement. Existing projects and PDFs are not deleted or altered.
+Autodesk controls both trial and purchased access. SAGA does not run a separate local trial clock and does not receive the entitlement type or remaining trial time. The palette therefore reports only whether Marketplace access is active.
 
-SAGA checks purchased entitlement through Autodesk. A recently confirmed purchase may continue offline for a limited grace period. Project content is not included in the entitlement request.
+SAGA checks the signed-in Fusion account through Autodesk's Entitlement API. A successful check may be used for up to 24 hours if Autodesk's service is temporarily unavailable. A completed negative Autodesk response takes effect immediately.
+
+When access ends, authoring and PDF publication are disabled until Autodesk reports valid access again. Existing projects and previously generated PDFs are not deleted or altered.
 
 ## Logs and support
 
