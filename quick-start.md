@@ -38,9 +38,7 @@ SAGA creates a local project folder and keeps the editable project, captures, as
 
 Open **Parts** to add printed parts, hardware, tools, and consumables. A part number is optional unless the assembly depends on an exact component.
 
-Use **Import CSV/XLSX** to import an existing BOM, or [download the SAGA BOM template](assets/SAGA-BOM-Import-Template.csv).
-
-![Parts and BOM catalog](assets/parts-bom.webp)
+Use **Import CSV/XLSX** to import an existing BOM. The source needs a recognized name column, such as `Name`, `Item Name`, or `Part Name`.
 
 ## 4. Add the first step
 
@@ -57,8 +55,6 @@ Open **Markup** and add only the visual guidance the reader needs. SAGA provides
 
 Select **Apply Markup to Step** after making image changes. Then save the project so the markup remains editable after Fusion closes.
 
-![BOM-linked part callout](assets/bom-callout.webp)
-
 ## 6. Check the project
 
 Open **Check Project** and select **Check Project**.
@@ -73,11 +69,7 @@ Open **Check Project** and select **Check Project**.
 3. Choose the optional cover, contents, links, and BOM sections.
 4. Select **Generate PDF**.
 
-The complete PDF is written directly into the project folder.
-
-![PDF publication settings](assets/pdf-generation.webp)
-
-[Download the SAGA demonstration assembly guide](assets/SAGA-Demo-Assembly-Guide.pdf)
+The complete PDF is written directly into the project folder. A preview of the approved demonstration output is shown on the [SAGA Support home page](index.md).
 
 ## Next steps
 
