@@ -17,20 +17,24 @@ SAGA 1.0.0 is the first public release of Shawn's Assembly Guide Authoring for A
 
 - Local, editable SAGA project folders
 - Assembly-step capture from the active Fusion view
-- Written step instructions
-- Arrows, labels, and part callouts
+- Opaque and verified transparent-background PNG captures
+- Written instructions and structured notices
+- Arrows, leaders, alignment lines, labels, markers, and BOM-linked part callouts
 - Step ordering and revision information
+- Optional configuration paths with linked branch instructions
 - Parts, hardware, tools, consumables, and bill-of-materials support
 - Project validation before publication
 - One compiled PDF publication output
-- Customer branding, including product logos and cover images
-- A fully functional evaluation period
+- Customer branding, including a project logo and finished-product cover image
+- A seven-day, fully functional evaluation period
 - Autodesk Marketplace purchase-entitlement verification
 
 ### Release limits
 
 - Windows only
 - Manual add-in startup by default
+- One configuration split with up to five paths
+- No nested configuration splits
 - No SAGA cloud account or cloud project storage
 - No analytics or automatic crash reporting
 - No macOS support in version 1.0.0
