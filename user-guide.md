@@ -22,8 +22,6 @@ SAGA does not start automatically by default. In Fusion:
 
 ![SAGA selected in Scripts and Add-Ins](assets/scripts-addins.webp)
 
-![SAGA command in the Fusion toolbar](assets/toolbar-location.webp)
-
 Fusion allows users to enable automatic startup later. Leaving it disabled keeps SAGA out of Fusion's normal startup path until it is needed.
 
 ## Projects and local storage
@@ -76,8 +74,6 @@ The default 2560 × 1440 capture is suitable for most manuals. Higher resolution
 
 When **Transparent background** is enabled, SAGA asks Fusion for an alpha-capable PNG and verifies that the result supports transparency. The setting is saved with the project and may be changed later. Existing captures do not change automatically; recapture a step when a different background treatment is required.
 
-![Transparent capture displayed over a checkerboard](assets/transparent-capture.webp)
-
 ## Parts, hardware, tools, and consumables
 
 The **Parts** tab is a practical item catalog and BOM. It is not limited to manufactured parts. Use it for anything the reader needs, including:
@@ -88,8 +84,6 @@ The **Parts** tab is a practical item catalog and BOM. It is not limited to manu
 - Adhesives, lubricant, and other consumables
 
 A clear item name is the only essential identifier. Part number, supplier, description, notes, marker type, and fixed project quantity are optional.
-
-![Imported parts and hardware in the SAGA catalog](assets/parts-bom.webp)
 
 ### Add an item manually
 
@@ -104,8 +98,6 @@ A clear item name is the only essential identifier. Part number, supplier, descr
 ### Import a BOM
 
 SAGA imports CSV and XLSX sources and copies the imported file into the project. The source must contain a recognized name column, such as `Name`, `Item Name`, or `Part Name`.
-
-Download the [SAGA BOM import template](assets/SAGA-BOM-Import-Template.csv).
 
 The import may also use columns for category, quantity, unit, part number, description, supplier, notes, and visual marker. Review imported items before assigning them to steps.
 
@@ -145,8 +137,6 @@ Before selecting **Capture View**:
 
 Replacing a capture moves the previous source image to the project's trash folder and clears markup tied to that old image.
 
-![SAGA alongside the active Fusion model](assets/fusion-workspace.webp)
-
 ### Markup tools
 
 SAGA markup remains editable after the project is saved. Available tools include:
@@ -162,8 +152,6 @@ Use markup only where it improves understanding. The Fusion capture should remai
 ### BOM-linked part callouts
 
 A part callout can pull its label and marker from the project catalog. Set the quantity shown and choose whether the callout installs or uses that quantity, or is reference-only.
-
-![A BOM-linked hardware callout in the markup editor](assets/bom-callout.webp)
 
 Select **Apply Markup to Step** after changing image markup. SAGA retains both the editable markup records and the rendered image used in the PDF. Save the project before closing Fusion.
 
@@ -216,17 +204,11 @@ On **PDF**:
 
 SAGA creates one complete PDF directly in the project folder. The PDF may contain the cover, linked contents, bookmarks, configuration links, step notices, marked-up images, step-specific item lists, and total BOM.
 
-![PDF publication settings and successful output](assets/pdf-generation.webp)
-
 Large, high-resolution guides may take about a minute to compile. If Windows reports that the output is in use, close the PDF in its viewer and generate it again.
 
 ### Sample output
 
-The approved demonstration guide shows transparent captures, notices, a BOM-linked callout, a configuration branch, and a total BOM.
-
-[Download the SAGA demonstration assembly guide](assets/SAGA-Demo-Assembly-Guide.pdf)
-
-[![Example page from the SAGA demonstration PDF](assets/sample-pdf-step.webp)](assets/SAGA-Demo-Assembly-Guide.pdf)
+The approved demonstration guide shows transparent captures, notices, a BOM-linked callout, a configuration branch, and a total BOM. A preview is available on the [SAGA Support home page](index.md); the complete sample is also used in the Autodesk Marketplace listing.
 
 ## Trial and purchased access
 
