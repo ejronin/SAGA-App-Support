@@ -46,11 +46,6 @@ On **Project**:
 
 Use **Open** to continue an existing SAGA project folder.
 
-<figure class="guide-shot guide-shot--compact">
-  <img src="assets/project-setup.webp" alt="SAGA project identity and local folder controls">
-  <figcaption>Project identity, local storage, and the create/open controls.</figcaption>
-</figure>
-
 SAGA keeps the editable project, captures, imported BOM files, cover assets, and generated PDF together in the local project folder.
 
 ## 4. Add parts, hardware, tools, and consumables
@@ -90,12 +85,7 @@ Open **Check Project** and run the check.
 3. Choose the optional cover, contents, links, and total BOM.
 4. Select **Generate PDF**.
 
-The complete PDF is written directly into the project folder.
-
-<figure class="guide-shot guide-shot--pdf">
-  <img src="assets/sample-output.jpg" alt="Example SAGA assembly guide output">
-  <figcaption>Example SAGA output. The full demonstration guide is included with the Autodesk Marketplace listing.</figcaption>
-</figure>
+The complete PDF is written directly into the project folder. The approved demonstration guide and Marketplace screenshots will be added to this support site after the listing is approved.
 
 ## Help while you work
 
