@@ -3,7 +3,7 @@ layout: page
 title: Quick Start
 ---
 
-This walkthrough takes you from first launch to a finished PDF. For every control and workflow option, continue with the [User Guide](user-guide.md).
+This walkthrough takes you from first launch to a finished PDF. For additional workflow detail, continue with the [User Guide](user-guide.md). The expanded control-by-control reference is being finalized for release.
 
 <div class="notice-box">
 <strong>Before you begin:</strong> open the Fusion design you want to document and sign in to Fusion with the same Autodesk account used for the SAGA trial or purchase.
@@ -27,7 +27,7 @@ SAGA does not start automatically by default. In Fusion:
 
 ## 2. Confirm Marketplace access
 
-SAGA uses Autodesk Marketplace entitlement for both the optional 30-day trial and purchased access.
+SAGA uses Autodesk Marketplace entitlement verification for both the Free 30-Day Trial and purchased access.
 
 - **Access active** means the signed-in Autodesk account can use SAGA.
 - **Access required** means the account does not currently have an active trial or purchase entitlement.
@@ -85,10 +85,10 @@ Open **Check Project** and run the check.
 3. Choose the optional cover, contents, links, and total BOM.
 4. Select **Generate PDF**.
 
-The complete PDF is written directly into the project folder. The approved demonstration guide and Marketplace screenshots will be added to this support site after the listing is approved.
+The complete PDF is written directly into the project folder. The demonstration guide and listing screenshots are part of the Marketplace submission materials. Public downloads will be added after Marketplace review is complete.
 
 ## Help while you work
 
 Select **Help** in the SAGA palette or press **F1 while the palette has keyboard focus**. F1 is handled by the active Fusion pane, so it will not open SAGA help while the Fusion canvas has focus.
 
-Continue with the [User Guide](user-guide.md) for capture settings, BOM allocation, notices, configuration paths, validation rules, entitlement behavior, logs, and support.
+Continue with the [User Guide](user-guide.md) for additional detail on capture settings, BOM allocation, notices, configuration paths, validation rules, entitlement behavior, logs, and support.
