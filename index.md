@@ -14,10 +14,10 @@ SAGA helps makers, independent product designers, and small hardware developers 
 ## Get started
 
 - [Quick Start](quick-start.md) — install SAGA, verify Marketplace access, create a project, capture a step, add markup, and generate the PDF
-- [User Guide](user-guide.md) — current reference for projects, captures, BOMs, steps, configurations, publication, access, and support
+- [User Guide](user-guide.md) — expanded control-by-control reference for projects, captures, BOMs, steps, configurations, publication, access, and support
 - [Troubleshooting](troubleshooting.md) — common problems and the information to include with a support request
 
-The expanded control-by-control User Guide is being finalized for release. The current guide documents the supported release-candidate workflows while that reference is completed.
+The User Guide documents the supported SAGA 1.0 release-candidate controls, workflows, consequences, and recovery behavior in greater detail than the Quick Start.
 
 ## Example output
 
