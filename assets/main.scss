@@ -3,7 +3,7 @@
 
 @import "minima";
 
-/* SAGA charcoal theme */
+/* SAGA charcoal theme and documentation layout */
 :root {
   color-scheme: dark;
 }
@@ -21,8 +21,10 @@ body,
   background: #24272b;
 }
 
+/* Keep Minima's gutters inside the viewport instead of adding them to it. */
 .wrapper {
-  width: calc(100% - 40px);
+  box-sizing: border-box;
+  width: 100%;
   max-width: 1080px;
 }
 
@@ -68,6 +70,25 @@ a:focus {
   text-decoration-thickness: 2px;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+label:focus-visible {
+  outline: 3px solid #7ddfed;
+  outline-offset: 3px;
+}
+
+/* Content links should not rely on cyan alone to look actionable. */
+.post-content p a,
+.post-content li a,
+.post-content dd a,
+.post-content td a,
+.page-toc a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
 hr {
   border-color: #4a4f55;
 }
@@ -85,6 +106,7 @@ blockquote {
 
 table {
   color: #e8eaed;
+  background: #24272b;
   border-color: #4a4f55;
 }
 
@@ -92,7 +114,13 @@ table tr:nth-child(even) {
   background: #2d3136;
 }
 
-table th,
+table th {
+  background: #30353b;
+  color: #f5f7fa;
+  border-color: #5b626a;
+  border-bottom-color: #6b737c;
+}
+
 table td {
   border-color: #4a4f55;
 }
@@ -109,9 +137,30 @@ table td {
   white-space: nowrap;
 }
 
+/* Visually hidden text remains available to assistive technology. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .post-content {
   font-size: 17px;
   line-height: 1.65;
+}
+
+/* Keep prose comfortable to scan while allowing tables and figures to use the page width. */
+.post-content > p,
+.post-content > ul,
+.post-content > ol,
+.post-content > blockquote {
+  max-width: 78ch;
 }
 
 .post-content h2 {
@@ -127,11 +176,54 @@ table td {
 .brand-mark {
   text-align: center;
   margin: 0 0 1.5rem;
+  max-width: none !important;
 }
 
 .brand-mark img {
+  display: inline-block;
+  width: auto;
+  max-width: 320px;
+  height: auto;
   border: 0;
   box-shadow: none;
+}
+
+.start-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1rem 0 1.8rem;
+}
+
+.start-card,
+.start-card:visited {
+  display: block;
+  padding: 1rem 1.05rem;
+  color: #e8eaed;
+  background: #1d2024;
+  border: 1px solid #4a4f55;
+  border-radius: 7px;
+  text-decoration: none;
+}
+
+.start-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #7ddfed;
+  font-size: 1.05rem;
+}
+
+.start-card span {
+  display: block;
+  color: #d4d8dd;
+  line-height: 1.5;
+}
+
+.start-card:hover,
+.start-card:focus-visible {
+  border-color: #0ea5b7;
+  background: #24292e;
+  text-decoration: none;
 }
 
 .guide-shot {
@@ -150,18 +242,18 @@ table td {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
-.guide-shot--compact img {
-  width: 100%;
-  max-height: 620px;
-  object-fit: cover;
-  object-position: top;
-}
-
+/* Instructional screenshots may shrink, but are never stretched past native width. */
+.guide-shot--compact img,
 .guide-shot--wide img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .guide-shot--pdf img {
+  width: auto;
+  max-width: 100%;
   max-height: 720px;
 }
 
@@ -181,19 +273,49 @@ table td {
   border-radius: 6px;
 }
 
+.notice-box > :last-child,
+.page-toc > :last-child {
+  margin-bottom: 0;
+}
+
 .page-toc ul {
   columns: 2;
   column-gap: 2rem;
   margin: 0.6rem 0 0;
 }
 
-@media screen and (max-width: 780px) {
-  .wrapper {
-    width: calc(100% - 28px);
-  }
+.footer-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  margin-top: 0.8rem;
+  padding-top: 1rem;
+  border-top: 1px solid #42474d;
+  font-size: 0.94rem;
+}
 
+.footer-secondary strong {
+  color: #f5f7fa;
+  margin-right: 0.2rem;
+}
+
+.footer-secondary a {
+  white-space: nowrap;
+}
+
+/* Make the important Discard Changes consequence easier to spot in the reference table. */
+#leaving-markup-with-unapplied-changes + p + table tbody tr:nth-child(2) td {
+  background: #332d22;
+}
+
+@media screen and (max-width: 780px) {
   .page-toc ul {
     columns: 1;
+  }
+
+  .start-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -203,11 +325,52 @@ table td {
     border-color: #4a4f55;
   }
 
+  /* Minima hides this checkbox completely; keep it keyboard-focusable instead. */
+  .site-nav .nav-trigger {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .site-nav .nav-trigger:focus-visible + label {
+    outline: 3px solid #7ddfed;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
   .site-nav .menu-icon > svg {
     fill: #e8eaed;
   }
 
   .post-content {
     font-size: 16px;
+  }
+
+  /* Preserve readable reference columns; only the table region scrolls when needed. */
+  .post-content table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-color: #6b737c #1d2024;
+  }
+
+  .post-content table th,
+  .post-content table td {
+    min-width: 8.5rem;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .brand-mark img {
+    max-width: min(320px, 100%);
   }
 }
