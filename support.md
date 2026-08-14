@@ -3,13 +3,13 @@ layout: page
 title: Support Policy
 ---
 
-# SAGA Support Policy
-
 **Effective date: August 5, 2026**
 
 SAGA support is handled by email at **sagaappsupport@gmail.com**.
 
 Support hours are Monday through Friday, 10:00 a.m. to 5:00 p.m. Eastern Time, excluding holidays. The goal is to send an initial reply within two business days. Some issues will take longer to investigate or resolve.
+
+Before contacting support, check the [Quick Start](quick-start.md), [Troubleshooting](troubleshooting.md), [User Guide](user-guide.md), and [Frequently Asked Questions](faq.md) for installation, workflow, Marketplace-access, and recovery guidance.
 
 ## What support covers
 
