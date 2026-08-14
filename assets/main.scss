@@ -182,7 +182,7 @@ table td {
 .brand-mark img {
   display: inline-block;
   width: auto;
-  max-width: 320px;
+  max-width: 520px;
   height: auto;
   border: 0;
   box-shadow: none;
@@ -371,6 +371,6 @@ table td {
   }
 
   .brand-mark img {
-    max-width: min(320px, 100%);
+    max-width: min(520px, 100%);
   }
 }
