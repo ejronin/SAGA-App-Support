@@ -4,7 +4,7 @@ title: SAGA Support
 ---
 
 <p class="brand-mark">
-  <img src="assets/saga-logo.webp" alt="SAGA logo" width="220">
+  <img src="assets/saga-for-fusion.svg" alt="SAGA for Fusion" width="520">
 </p>
 
 # SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion
