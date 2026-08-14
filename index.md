@@ -1,21 +1,34 @@
 ---
-layout: home
-title: SAGA Support
+layout: page
+title: SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion
 ---
 
-<p class="brand-mark">
-  <img src="assets/saga-for-fusion.svg" alt="SAGA for Fusion" width="520">
-</p>
+<div class="notice-box">
+<strong>Release status:</strong> SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. The documentation below describes the intended Marketplace release workflow; public Marketplace availability has not yet been confirmed.
+</div>
 
-# SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion
+<p class="brand-mark">
+  <img src="assets/saga-for-fusion.svg" alt="SAGA for Fusion" width="320">
+</p>
 
 SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion while keeping editable project and publication files local.
 
 ## Get started
 
-- [Quick Start](quick-start.md) — install SAGA, verify Marketplace access, create a project, capture a step, add markup, and generate the PDF
-- [User Guide](user-guide.md) — expanded control-by-control reference for projects, captures, BOMs, steps, configurations, publication, access, and support
-- [Troubleshooting](troubleshooting.md) — common problems and the information to include with a support request
+<div class="start-grid">
+  <a class="start-card" href="{{ '/quick-start.html' | relative_url }}">
+    <strong>Quick Start</strong>
+    <span>Install SAGA, verify Marketplace access, create a project, capture a step, add markup, and generate the PDF.</span>
+  </a>
+  <a class="start-card" href="{{ '/user-guide.html' | relative_url }}">
+    <strong>User Guide</strong>
+    <span>Use the expanded control-by-control reference for projects, captures, BOMs, steps, configurations, publication, access, and support.</span>
+  </a>
+  <a class="start-card" href="{{ '/troubleshooting.html' | relative_url }}">
+    <strong>Troubleshooting</strong>
+    <span>Recover from common problems and see what information to include with a support request.</span>
+  </a>
+</div>
 
 The User Guide documents the supported SAGA 1.0 release-candidate controls, workflows, consequences, and recovery behavior in greater detail than the Quick Start.
 
