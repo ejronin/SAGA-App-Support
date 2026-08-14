@@ -3,7 +3,7 @@ layout: page
 title: Quick Start
 ---
 
-This walkthrough takes you from first launch to a finished PDF. For additional workflow detail, continue with the [User Guide](user-guide.md). The expanded control-by-control reference is being finalized for release.
+This walkthrough takes you from first launch to a finished PDF. For expanded control-by-control workflow detail, continue with the [User Guide](user-guide.md).
 
 <div class="notice-box">
 <strong>Before you begin:</strong> open the Fusion design you want to document and sign in to Fusion with the same Autodesk account used for the SAGA trial or purchase.
