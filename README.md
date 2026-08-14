@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/saga-for-fusion.svg" alt="SAGA for Fusion" width="320">
+  <img src="assets/saga-for-fusion.png" alt="SAGA for Fusion" width="520">
 </p>
 
 # SAGA App Support
