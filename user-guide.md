@@ -3,9 +3,9 @@ layout: page
 title: User Guide
 ---
 
-SAGA — Shawn's Assembly Guide Authoring — is an Autodesk Fusion add-in for creating illustrated assembly guides from the model and view already open in Fusion. Projects remain editable and are stored in a normal local folder. When the guide is ready, SAGA creates one complete PDF in that project folder.
+SAGA — Shawn's Assembly Guide Authoring — is an Autodesk Fusion add-in for creating illustrated assembly guides from the model and view already open in Fusion. SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. Projects remain editable in normal local folders, and SAGA creates one complete PDF in the project folder when the guide is ready.
 
-For a shorter first-use walkthrough, start with the [Quick Start](quick-start.md).
+For a shorter first-use walkthrough, start with the [Quick Start](quick-start.md). Use [Troubleshooting](troubleshooting.md) when something appears broken, access is not recognized, or publication fails.
 
 <div class="page-toc">
 <strong>In this guide</strong>
@@ -25,9 +25,9 @@ For a shorter first-use walkthrough, start with the [Quick Start](quick-start.md
 
 ## Access, installation, and startup
 
-SAGA is distributed through the Autodesk Design and Make Marketplace for 64-bit Windows.
+SAGA 1.0 is submitted for distribution through the Autodesk Design and Make Marketplace for 64-bit Windows. Close Fusion before installing, updating, or removing SAGA.
 
-Close Fusion before installing, updating, or removing SAGA. After installation:
+After installation:
 
 1. Open **Utilities > Scripts and Add-Ins**.
 2. Select **Add-Ins**.
@@ -41,58 +41,82 @@ SAGA does not start automatically by default. Fusion may allow you to enable aut
   <figcaption>SAGA appears as an add-in; automatic startup is intentionally off by default.</figcaption>
 </figure>
 
-At launch, SAGA checks the signed-in Fusion account through Autodesk Marketplace. See [Marketplace access](#marketplace-access) for trial, purchase, and offline behavior.
+### Startup and access controls
+
+| Control or status | What it does | When to use it |
+|---|---|---|
+| **Run** in Scripts and Add-Ins | Starts the SAGA add-in for the current Fusion session. | Use it after Fusion opens when SAGA has not been configured to start automatically. |
+| SAGA toolbar command | Opens or reopens the SAGA palette after the add-in is running. | Use it when the palette has been closed or hidden during the current session. |
+| **Access active** | Indicates that Autodesk currently reports valid Marketplace access for the signed-in account. | No action is required; normal SAGA authoring can continue. |
+| **Access required** | Indicates that Autodesk does not currently report valid Marketplace access. | Confirm the Autodesk account and Marketplace access, then use **Check again**. |
+| **Check again** | Requests a new Marketplace-access check. | Use it after starting the Free 30-Day Trial, purchasing SAGA, changing the signed-in account, or recovering from a temporary access problem. |
+| **Help** | Opens SAGA help from the palette. | Use it for workflow guidance while authoring. |
+| **F1** | Opens SAGA help only while the SAGA palette has keyboard focus. | Use it as a keyboard shortcut while working in the palette. Fusion routes F1 according to the active pane, so SAGA help does not open while the Fusion canvas has focus. |
+
+At launch, SAGA checks the signed-in Fusion account through Autodesk Marketplace. See [Marketplace access](#marketplace-access) for trial, purchase, and temporary-offline behavior.
 
 ## Projects and local storage
 
-A SAGA project is a folder that keeps the editable project record and its related files together. Depending on the project, the folder may contain:
+A SAGA project is a folder that keeps the editable project record and its related files together. Depending on the project, that folder may contain:
 
 - Captured Fusion images
 - Editable markup records and rendered step images
 - Written instructions and notices
-- Imported BOM sources
-- Project logo and finished-product cover image
+- Imported BOM source files
+- A project logo and finished-product cover image
 - Generated PDF output
 - Local diagnostic and recovery information
 
-SAGA does not upload the Fusion model or project content to a SAGA-operated server. Keep the complete project folder together when moving, backing up, or archiving a guide.
+SAGA does not upload the Fusion model or project content to a SAGA-operated server. Keep the complete project folder together when moving, backing up, or archiving a guide. Do not rename individual internal files separately from the rest of the project structure.
 
 ### Create a project
 
-On **Project**:
+On **Project**, enter the project information before selecting **New Project**.
 
-1. Enter the product name.
-2. Enter the product and manual revisions.
-3. Enter the manual title and author.
-4. Choose the parent folder for new projects.
-5. Select **New Project**.
+| Project field or control | Purpose |
+|---|---|
+| Product name | Identifies the physical product being documented. |
+| Product revision | Identifies the revision of the physical design. |
+| Manual revision | Identifies the revision of the instruction document. It can change independently of the product revision. |
+| Manual title | Sets the title used for the guide. |
+| Author | Records the guide author. |
+| Parent folder | Chooses where the new SAGA project folder will be created. |
+| **New Project** | Creates the editable SAGA project in the selected parent folder using the entered project information. |
 
-The product revision identifies the physical design. The manual revision identifies the instruction document. They may change independently.
+The product revision and manual revision serve different purposes. For example, a wording correction may require a new manual revision without changing the physical product revision.
 
 ### Open and save
 
-Use **Open** to select an existing SAGA project folder. Use **Save** after meaningful work and before closing Fusion.
+| Control | What it does | Important consequence |
+|---|---|---|
+| **Open** | Opens an existing SAGA project folder. | Keep the complete project folder together so its captures, assets, markup, and imported sources remain available. |
+| **Save** | Writes current editable project changes to the local project. | Save after meaningful work and before closing Fusion. |
 
-Generating a PDF does not lock the project. A later successful publication replaces the prior PDF with the current version.
+Generating a PDF does not lock the project. The editable project remains available for later changes. A later successful publication replaces the prior PDF with the current generated version.
 
 ## Project settings
 
 ### Cover assets
 
-A project may include one logo and one finished-product image. SAGA copies selected images into the project's `assets` folder so the project does not depend on the original file locations.
+A project may include one customer logo and one finished-product image. SAGA copies selected cover assets into the project's `assets` folder so the project does not depend on the original image locations.
+
+Customer branding remains available during the Marketplace Free 30-Day Trial; trial output is not watermarked.
 
 ### Capture settings
 
-Capture settings apply to new Fusion viewport captures:
+Capture settings affect new or replacement Fusion viewport captures. They do not retroactively modify images that have already been captured.
 
-- Width and height
-- Delay before capture
-- Anti-aliasing
-- Transparent background
+| Capture setting | What it controls | Practical effect |
+|---|---|---|
+| Width | Pixel width of a new capture. | Higher values can preserve more detail but increase project size and publication work. |
+| Height | Pixel height of a new capture. | Use with width to choose the capture resolution. |
+| Delay | Time before SAGA captures the Fusion view. | Gives Fusion time to settle before the image is taken. |
+| Anti-aliasing | Requests smoother rendered edges for a new capture. | Useful when clean edge appearance matters in the manual. |
+| Transparent background | Requests an alpha-capable PNG and verifies that the result supports transparency. | Use when the model should be placed over the PDF/page background instead of retaining the Fusion viewport background. |
 
-The default 2560 × 1440 capture is suitable for most manuals. Higher resolutions increase project size and PDF-generation time.
+The default 2560 × 1440 capture is suitable for most manuals. Higher resolutions increase project size and can increase PDF-generation time.
 
-When **Transparent background** is enabled, SAGA asks Fusion for an alpha-capable PNG and verifies that the result supports transparency. The setting is saved with the project and can be changed later. Existing captures do not change automatically; recapture a step when a different background treatment is required.
+The **Transparent background** setting is saved with the project and can be changed later. Existing captures do not change automatically when the setting changes. Recapture a step when that step needs a different background treatment.
 
 ## Parts, hardware, tools, and consumables
 
@@ -103,7 +127,21 @@ The **Parts** tab is both an item catalog and a practical bill of materials. Use
 - Tools
 - Adhesives, lubricant, and other consumables
 
-A clear item name is the only essential identifier. Part number, supplier, description, notes, marker type, and fixed project quantity are optional.
+A clear item name is the essential identifier. Other documented fields are optional and should be used when they add useful assembly or purchasing information.
+
+### Item fields
+
+| Field | Purpose |
+|---|---|
+| Category | Classifies the item as a part, hardware item, tool, consumable, or other supported category. |
+| Name | Human-readable item name used throughout the project. |
+| Unit | Describes how the quantity is counted or measured. |
+| Part or item number | Optional identifier for an exact component or catalog item. |
+| Quantity | Optional fixed project total used for allocation checks. |
+| Description | Optional explanation of the item. |
+| Supplier | Optional sourcing information. |
+| Notes | Optional project or assembly notes. |
+| Visual marker | Optional default marker used when identifying the item in a step. |
 
 ### Add an item manually
 
@@ -111,8 +149,8 @@ A clear item name is the only essential identifier. Part number, supplier, descr
 2. Select **Add Item**.
 3. Choose the category.
 4. Enter the name and unit.
-5. Add a part number or fixed total quantity when needed.
-6. Choose a default visual marker when useful.
+5. Add a part or item number and fixed total quantity when needed.
+6. Add description, supplier, notes, or a default visual marker when useful.
 7. Save the item.
 
 ### Import a BOM
@@ -127,14 +165,24 @@ The import may also use columns for category, quantity, unit, item number, descr
 
 A fixed project quantity enables allocation checks. Step assignments and BOM-linked callouts may either:
 
-- **Install or use quantity** — counts against the planned total
-- **Reference only** — identifies an item without consuming another unit
+- **Install or use quantity** — counts against the planned project total.
+- **Reference only** — identifies an item without consuming another unit from the planned total.
 
-Use reference-only callouts when the same installed item must be identified again later or along an alternate configuration path.
+Use reference-only assignments when the same installed item must be identified again later or along an alternate configuration path.
 
 ## Steps, captures, and markup
 
-Open **Steps** and select **New Step**. Each step has three work areas: **Details**, **Image**, and **Markup**.
+Open **Steps** and select **New Step**. Each step has three documented work areas: **Details**, **Image**, and **Markup**.
+
+### Step workflow at a glance
+
+| Work area or control | Purpose | What to remember |
+|---|---|---|
+| **New Step** | Creates another assembly instruction step. | Add a concise operation title and direct instruction before publication. |
+| **Details** | Holds the written instruction, notices, item assignments, and step-related information. | Keep the instruction actionable and assign only the items needed for that step. |
+| **Image** | Holds the Fusion viewport capture used for the step. | Arrange Fusion first, then use **Capture View**. Replacing a capture affects markup tied to the old image. |
+| **Markup** | Adds editable visual guidance over the step image. | Apply markup before leaving when you want the current image/markup state retained for publication. |
+| **Apply Markup to Step** | Applies the current markup state to the step and updates the rendered image used in the PDF. | Use it after changing markup, then save the project. |
 
 ### Step details
 
@@ -147,6 +195,8 @@ A step can also contain:
 - An optional printed step number for linear projects
 - A configuration split point
 
+Use notices to separate important information from the ordinary instruction. Do not use a warning-style notice when ordinary instructional text is sufficient.
+
 ### Capture the Fusion view
 
 Before selecting **Capture View**:
@@ -154,52 +204,73 @@ Before selecting **Capture View**:
 1. Set the model position and camera in Fusion.
 2. Show or hide components as needed.
 3. Choose the visual style and background treatment.
-4. Confirm the active step.
-5. Capture the view.
+4. Confirm the active SAGA step.
+5. Select **Capture View**.
 
-Replacing a capture moves the previous source image to the project's trash folder and clears markup tied to the old image.
+The current capture settings apply to that new image. If you later change capture settings, recapture the step to use the new settings.
+
+Replacing a capture moves the previous source image to the project's trash folder and clears markup tied to the old image. Before replacing a capture, make sure you no longer need the old marked-up state. See [A captured image is wrong or outdated](troubleshooting.md#a-captured-image-is-wrong-or-outdated) for recovery guidance.
 
 ### Markup tools
 
-SAGA markup remains editable after the project is saved. Available tools include:
+SAGA markup remains editable after the project is saved. The documented tools are:
 
-- Arrow
-- Leader or alignment line
-- Text label
-- BOM-linked part callout
-- Visual marker
+| Markup tool | Typical use |
+|---|---|
+| Arrow | Point to a location or show direction. |
+| Leader or alignment line | Connect a label or indicate alignment/relationship. |
+| Text label | Add concise image-specific text. |
+| BOM-linked part callout | Identify a project-catalog item and optionally show/use its quantity. |
+| Visual marker | Place a visual symbol associated with the item or instruction. |
 
 Use markup only where it improves understanding. The Fusion capture should remain the main source of visual information.
 
 ### BOM-linked part callouts
 
-A part callout can pull its label and marker from the project catalog. Set the quantity shown and choose whether the callout installs or uses that quantity, or is reference-only.
+A part callout can pull its label and marker from the project catalog. Set the quantity shown and choose whether the callout installs or uses that quantity, or is reference-only. An install/use quantity participates in the planned-total allocation check; reference-only identifies the item without consuming another unit.
 
-Select **Apply Markup to Step** after changing image markup. SAGA retains both the editable markup records and the rendered image used in the PDF. Save the project before closing Fusion.
+Select **Apply Markup to Step** after changing image markup. SAGA retains the editable markup records and the rendered image used in the PDF. Save the project before closing Fusion.
 
-When leaving Markup with unapplied changes, SAGA offers:
+### Leaving Markup with unapplied changes
 
-- **Apply and Continue**
-- **Discard Changes**
-- **Cancel**
+When you try to leave **Markup** with unapplied work, SAGA offers three choices:
 
-Discard returns to the last applied markup; it does not delete the original Fusion capture.
+| Choice | Result |
+|---|---|
+| **Apply and Continue** | Applies/keeps the current markup work and continues to the destination you selected. Use this when you want the current image and markup changes retained. |
+| **Discard Changes** | Discards the current step-image state. The current step image can be moved to the project's trash. When you return, the image link can therefore appear broken even though existing markup records may still be visible. Markup cannot continue without an active step image. |
+| **Cancel** | Keeps you in Markup without making the navigation choice. |
+
+If **Discard Changes** leaves the step without an active image, recapture before continuing:
+
+1. Return to the affected step.
+2. Arrange the Fusion view as needed.
+3. Capture the step image again.
+4. Return to **Markup** and confirm that the new image loads.
+5. Continue or recreate the markup as needed.
+6. Select **Apply Markup to Step** and save the project.
+
+This behavior can look like a damaged image link, but the documented recovery is to recapture the step. See [After Discard Changes, the step image appears broken](troubleshooting.md#after-discard-changes-the-step-image-appears-broken).
 
 ## Configuration paths
 
 Configurations are optional. Use them when the guide has a shared opening sequence followed by alternate assembly choices and, optionally, a shared finish.
 
-SAGA 1.0 supports one split and up to five paths. Nested splits are not supported.
+SAGA 1.0 supports:
+
+- One configuration split
+- Up to five paths from that split
+- No nested configuration splits
 
 To create a split:
 
 1. Select the last shared step before the alternatives begin.
 2. Choose **Create Split Here**.
 3. Name the first two paths.
-4. Add more paths when needed.
-5. Select a path while creating its branch steps.
+4. Add more paths when needed, up to the supported total of five.
+5. Select the appropriate path while creating its branch steps.
 
-SAGA calculates path-specific printed step numbers and adds PDF links so readers can move from the shared sequence to the correct branch.
+SAGA calculates path-specific printed step numbers and adds PDF navigation so readers can move from the shared sequence to the correct branch. Keep shared finishing steps outside the alternate branch where the project structure calls for a common finish.
 
 ## Check Project
 
@@ -208,42 +279,76 @@ Open **Check Project** before publication.
 - **Errors** must be corrected before PDF generation.
 - **Warnings** should be reviewed but do not block publication.
 
-Checks cover required project information, step images and instructions, configuration consistency, BOM allocation, assets, and publication readiness. A step-related result opens the affected step.
+Checks cover documented publication-readiness areas including required project information, step images and instructions, configuration consistency, BOM allocation, assets, and publication readiness. A step-related result opens the affected step.
+
+Run the check again after correcting an error. Do not treat a warning as an error when the reported condition is intentional, but review it before publication.
+
+See [The project check reports an error](troubleshooting.md#the-project-check-reports-an-error) if a result is unclear or publication remains blocked.
 
 ## Create the PDF
 
-On **PDF**:
+On **PDF**, choose the publication options and then select **Generate PDF**.
 
-1. Choose the page size and orientation.
-2. Choose whether to include the cover page.
-3. Choose whether to include contents and links.
-4. Choose whether to include the bill of materials.
-5. Select **Generate PDF**.
+| PDF control | Purpose |
+|---|---|
+| Page size | Chooses the page dimensions for the generated guide. |
+| Orientation | Chooses the page orientation. |
+| Cover page | Includes or omits the project cover. |
+| Contents and links | Includes or omits the linked contents/navigation supported by the project. |
+| Bill of materials | Includes or omits the total BOM in the publication. |
+| **Generate PDF** | Compiles the current checked project into one PDF in the project folder. |
 
-SAGA creates one complete PDF directly in the project folder. The PDF may contain the cover, linked contents, bookmarks, configuration links, step notices, marked-up images, step-specific item lists, and total BOM.
+The generated PDF may contain the cover, linked contents, bookmarks, configuration links, step notices, marked-up images, step-specific item lists, and total BOM, according to the project and selected publication options.
 
-Large, high-resolution guides may take about a minute to compile. If Windows reports that the output is in use, close the PDF in its viewer and generate it again.
+Correct all **Check Project** errors before generating the PDF. Large projects and high-resolution images may take longer to compile. If Windows reports that the output is in use, close the existing PDF in its viewer and generate it again.
 
-The approved demonstration guide and Marketplace screenshots will be added to this support site after the listing is approved.
+The demonstration guide and Marketplace screenshots are submission materials. Public downloads are planned after Marketplace review is complete.
 
 ## Marketplace access
 
-SAGA is a paid, one-time-purchase Marketplace application. The Autodesk listing offers Autodesk's optional 30-day trial.
+SAGA is submitted to the Autodesk Design and Make Marketplace as a paid, one-time-purchase application with the Marketplace **Free 30-Day Trial** option enabled.
 
-- Autodesk controls both trial and purchased access.
+The trial uses the same documented authoring and publication features as purchased access:
+
+- Trial output is not watermarked.
+- Customer logo and cover-image branding remain enabled.
 - SAGA does not run a separate local trial clock.
-- Trial output is not watermarked, and customer branding remains enabled.
-- The palette reports only whether Marketplace access is active; Autodesk does not provide SAGA with the entitlement type or remaining trial time.
 
-SAGA checks the signed-in Fusion account through Autodesk's Entitlement API. A successful result may be used for up to 24 hours if Autodesk's service is temporarily unavailable. A completed negative Autodesk result takes effect immediately.
+SAGA asks Autodesk's Marketplace entitlement service whether the Autodesk account signed into Fusion currently has valid access. The entitlement response tells SAGA whether access is valid; it does not identify the valid access as specifically a trial or purchase. SAGA therefore reports an access state rather than maintaining its own independent trial status.
 
-When access ends, authoring and PDF publication are disabled until Autodesk reports valid access again. Existing projects and previously generated PDFs are not deleted or altered.
+### Access states
+
+| State or control | Meaning |
+|---|---|
+| **Access active** | Autodesk currently reports valid Marketplace access for the signed-in account. |
+| **Access required** | Autodesk does not currently report valid Marketplace access for the signed-in account. |
+| **Check again** | Requests another Autodesk Marketplace access check. |
 
 When the palette shows **Access required**:
 
 1. Confirm that Fusion is signed in with the Autodesk account used for the trial or purchase.
-2. Complete the Marketplace trial or purchase using that account.
+2. If needed, start the Marketplace Free 30-Day Trial or purchase SAGA using that same account.
 3. Return to SAGA and select **Check again**.
+
+### Temporary Autodesk-service or network failure
+
+After a successful Autodesk access result, SAGA may use that prior successful result for up to 24 hours if Autodesk's entitlement service is temporarily unavailable. **The 24-hour period is SAGA-specific cache behavior; Autodesk does not require that duration.**
+
+A completed negative response from Autodesk takes effect immediately and is not overridden by the earlier successful result. The cached result does not reset, extend, pause, or create a Marketplace trial.
+
+Do not delete SAGA's local entitlement data unless support asks you to do so. Removing it requires online re-verification and does not reset, extend, or cancel a trial or purchase held by Autodesk.
+
+### When Marketplace access ends
+
+When Autodesk no longer reports valid access, SAGA authoring and PDF publication remain unavailable until valid Marketplace access is reported again.
+
+Access ending does **not** delete or alter:
+
+- Existing SAGA project folders
+- Existing project content
+- Previously generated PDFs
+
+If access should still be active, follow [A trial or purchase is not recognized](troubleshooting.md#a-trial-or-purchase-is-not-recognized).
 
 ## Logs, help, and support
 
@@ -260,7 +365,7 @@ When requesting support, include:
 - SAGA version
 - Fusion version
 - Windows version
-- The exact error message
+- The exact error message, when one appears
 - Steps that reproduce the issue
 - A screenshot or local SAGA log when useful
 
@@ -268,4 +373,4 @@ Remove confidential project information before sending logs or screenshots unles
 
 Support: **sagaappsupport@gmail.com**
 
-See the [Support Policy](support.md), [Privacy Policy](privacy.md), and [Troubleshooting](troubleshooting.md) pages for more information.
+See the [Support Policy](support.md), [Privacy Policy](privacy.md), [Licensing](licensing.md), and [Troubleshooting](troubleshooting.md) pages for support scope, data handling, access terms, and recovery guidance.
