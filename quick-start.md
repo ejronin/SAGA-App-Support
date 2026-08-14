@@ -76,7 +76,7 @@ Open **Markup** and add only the visual guidance the reader needs. SAGA provides
 Select **Apply Markup to Step** after changing the image, then save the project.
 
 <div class="notice-box">
-<strong>Before leaving Markup:</strong> if SAGA asks what to do with unapplied changes, choose <strong>Apply and Continue</strong> when you want to keep the current image and markup. <strong>Discard Changes</strong> can move the active step image to the project's trash, which means you may need to recapture the step before markup can continue. See <a href="user-guide.md#leaving-markup-with-unapplied-changes">Leaving Markup with unapplied changes</a> for the exact behavior and recovery steps.
+<strong>Before leaving Markup:</strong> if SAGA asks what to do with unapplied changes, choose <strong>Apply and Continue</strong> when you want to keep the current image and markup. <strong>Discard Changes</strong> can move the active step image to the project's trash, which means you may need to recapture the step before markup can continue. See <a href="{{ '/user-guide.html#leaving-markup-with-unapplied-changes' | relative_url }}">Leaving Markup with unapplied changes</a> for the exact behavior and recovery steps.
 </div>
 
 ## 7. Check the project
