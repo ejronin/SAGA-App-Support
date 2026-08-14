@@ -7,7 +7,7 @@ title: Release and Update Policy
 
 SAGA is submitted to the Autodesk Design and Make Marketplace as a paid, one-time-purchase application. It is not a subscription.
 
-Under the current SAGA 1.0 licensing model, a purchase includes the version purchased and any 1.x maintenance updates that Shawn Gordon chooses to release. Maintenance updates may include defect fixes, compatibility corrections, security fixes, and small workflow improvements.
+Under the current SAGA 1.0 licensing model, a purchase includes the version purchased and any 1.x maintenance updates that Shawn Gordon chooses to release. Maintenance updates may include defect fixes, compatibility corrections, security fixes, and small workflow improvements. Maintenance updates are not promised on a fixed schedule.
 
 A purchase does not promise:
 
