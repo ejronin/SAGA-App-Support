@@ -6,6 +6,10 @@ title: Quick Start
 This walkthrough takes you from first launch to a finished PDF. For expanded control-by-control workflow detail, continue with the [User Guide](user-guide.md).
 
 <div class="notice-box">
+<strong>Release status:</strong> SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. These steps describe the intended Marketplace release workflow; public Marketplace availability has not yet been confirmed.
+</div>
+
+<div class="notice-box">
 <strong>Before you begin:</strong> open the Fusion design you want to document and sign in to Fusion with the same Autodesk account used for the SAGA trial or purchase.
 </div>
 
@@ -70,6 +74,10 @@ The import source needs a recognized name column such as `Name`, `Item Name`, or
 Open **Markup** and add only the visual guidance the reader needs. SAGA provides arrows, leaders, alignment lines, labels, visual markers, and BOM-linked part callouts.
 
 Select **Apply Markup to Step** after changing the image, then save the project.
+
+<div class="notice-box">
+<strong>Before leaving Markup:</strong> if SAGA asks what to do with unapplied changes, choose <strong>Apply and Continue</strong> when you want to keep the current image and markup. <strong>Discard Changes</strong> can move the active step image to the project's trash, which means you may need to recapture the step before markup can continue. See <a href="user-guide.md#leaving-markup-with-unapplied-changes">Leaving Markup with unapplied changes</a> for the exact behavior and recovery steps.
+</div>
 
 ## 7. Check the project
 
