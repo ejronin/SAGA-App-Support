@@ -47,6 +47,20 @@ Replacing a capture also clears markup tied to the old image. See [Steps, captur
 
 Return to the step, select **Apply Markup to Step**, save the project, and generate the PDF again.
 
+## Discarding markup leaves a broken step image
+
+**Known release-candidate issue:** if you leave **Markup** with unapplied changes and choose **Discard Changes**, the step image may be moved to the project's trash while the markup records remain. When you return to the step, the image link can appear broken and additional markup cannot be added.
+
+To recover:
+
+1. Return to the affected step.
+2. Arrange the Fusion view as needed.
+3. Capture the step image again.
+4. Return to **Markup** and confirm that the step image loads before continuing.
+5. Reapply or correct markup as needed, then select **Apply Markup to Step**.
+
+Until this issue is corrected, use **Apply and Continue** when you want to keep markup changes, or **Cancel** when you want to stay in Markup. Avoid **Discard Changes** when leaving Markup if you need to preserve the current step capture.
+
 ## The project check reports an error
 
 Correct errors before publishing. Common causes include missing step images, incomplete required project information, invalid quantities, or missing files. Review warnings and leave them only when the result is intentional.
