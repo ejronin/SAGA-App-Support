@@ -3,8 +3,6 @@ layout: page
 title: Privacy Policy
 ---
 
-# SAGA Privacy Policy
-
 **Effective date: August 6, 2026**
 
 SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion ("SAGA") is published by Shawn Gordon. Privacy questions and requests may be sent to **sagaappsupport@gmail.com**.
@@ -28,7 +26,7 @@ SAGA does not upload this project content to Shawn Gordon, a SAGA-operated serve
 
 ## 3. Marketplace-entitlement information
 
-SAGA uses Autodesk's Marketplace entitlement service to determine whether the Autodesk account signed into Fusion currently has access through Autodesk's Marketplace trial or a purchase. Autodesk is the sole authority for both types of access; SAGA does not run a separate local trial clock.
+SAGA uses Autodesk's Marketplace entitlement service to determine whether the Autodesk account signed into Fusion currently has Marketplace access through the Free 30-Day Trial or a purchase. Autodesk is the authority for both types of access; SAGA does not run a separate local trial clock.
 
 The request is limited to the identifiers needed for entitlement verification:
 
@@ -37,7 +35,7 @@ The request is limited to the identifiers needed for entitlement verification:
 
 Entitlement requests are sent to Autodesk over HTTPS. SAGA does not include Fusion models, captures, manual text, BOM data, project files, product logos, or payment credentials in an entitlement request. Autodesk returns whether the account has a valid entitlement; the response does not tell SAGA whether it is a trial or purchase.
 
-SAGA stores a limited local entitlement record containing the last check time, last successful entitlement time, returned status, Autodesk user identifier, and Marketplace App ID. A successful result may be used for up to 24 hours if Autodesk's entitlement service is temporarily unavailable. A completed negative response from Autodesk takes effect immediately.
+SAGA stores a limited local entitlement record containing the last check time, last successful entitlement time, returned status, Autodesk user identifier, and Marketplace App ID. A previously successful result may be used for up to 24 hours if Autodesk's entitlement service is temporarily unavailable. This 24-hour period is SAGA-specific cache behavior; it is not an Autodesk-required duration. A completed negative response from Autodesk takes effect immediately.
 
 ## 4. Information SAGA does not collect
 
