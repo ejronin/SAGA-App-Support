@@ -8,9 +8,12 @@ Official support and policy repository for **SAGA — Shawn’s Assembly Guide A
 
 SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion viewport captures while keeping project and publication files local.
 
+**Public support site:** [SAGA Support on GitHub Pages](https://ejronin.github.io/SAGA-App-Support/)
+
 ## Documentation
 
 - [Quick Start](quick-start.md)
+- [User Guide](user-guide.md)
 - [Troubleshooting](troubleshooting.md)
 - [Frequently Asked Questions](faq.md)
 - [Support Policy](support.md)
