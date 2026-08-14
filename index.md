@@ -14,24 +14,29 @@ SAGA helps makers, independent product designers, and small hardware developers 
 ## Get started
 
 - [Quick Start](quick-start.md) — install SAGA, verify Marketplace access, create a project, capture a step, add markup, and generate the PDF
-- [User Guide](user-guide.md) — complete instructions for projects, captures, BOMs, steps, configurations, publication, access, and support
+- [User Guide](user-guide.md) — current reference for projects, captures, BOMs, steps, configurations, publication, access, and support
 - [Troubleshooting](troubleshooting.md) — common problems and the information to include with a support request
+
+The expanded control-by-control User Guide is being finalized for release. The current guide documents the supported release-candidate workflows while that reference is completed.
 
 ## Example output
 
-The approved demonstration guide includes:
+The current demonstration guide produced with SAGA includes:
 
 - Transparent Fusion captures
-- Information, caution, and inspection notices
+- Information, caution, warning, do-not, inspect, and check notices
 - BOM-linked part callouts
-- An alternate configuration path
+- Alternate configuration paths with shared finishing steps
+- Step-specific parts and tools
 - A total bill of materials
 
-The complete demonstration guide and listing screenshots are included with the Autodesk Marketplace submission materials. They will be added here as downloadable public assets after the Marketplace listing is approved.
+The demonstration guide and listing screenshots are part of the Autodesk Marketplace submission materials. Public downloads will be added after Marketplace review is complete.
 
 ## Trial and purchase
 
-SAGA is sold as a one-time purchase through Autodesk Marketplace. Autodesk offers an optional 30-day trial. The trial is fully functional, does not watermark PDF output, and does not disable customer branding.
+SAGA is submitted as a paid, one-time-purchase application through the Autodesk Design and Make Marketplace with the Free 30-Day Trial option enabled. SAGA uses Autodesk Marketplace entitlement verification for both trial and purchased access.
+
+The trial is fully functional, does not watermark PDF output, and does not disable customer branding.
 
 ## Support
 
