@@ -57,42 +57,40 @@ SAGA checks Marketplace access for the Autodesk account signed into Fusion. If a
 
 ## Projects and local storage
 
-A SAGA project is a folder that keeps the editable project record and its related files together. Depending on the project, that folder may contain:
+A SAGA project stays in a normal local folder on your computer. That folder keeps the editable guide and its related files together, including captures, markup, imported BOM files, cover assets, and generated PDFs.
 
-- Captured Fusion images
-- Editable markup records and rendered step images
-- Written instructions and notices
-- Imported BOM source files
-- A project logo and finished-product cover image
-- Generated PDF output
-- Local diagnostic and recovery information
+Keep the complete SAGA project folder together when you move, back up, or archive a guide. Do not rename individual files inside the project folder.
 
-SAGA does not upload the Fusion model or project content to a SAGA-operated server. Keep the complete project folder together when moving, backing up, or archiving a guide. Do not rename individual internal files separately from the rest of the project structure.
+SAGA does not upload your Fusion model or guide content to a SAGA-operated server.
 
-### Create a project
+### Create a new project
 
-On **Project**, enter the project information before selecting **New Project**.
+On the **Project** tab:
 
-| Project field or control | Purpose |
-|---|---|
-| Product name | Identifies the physical product being documented. |
-| Product revision | Identifies the revision of the physical design. |
-| Manual revision | Identifies the revision of the instruction document. It can change independently of the product revision. |
-| Manual title | Sets the title used for the guide. |
-| Author | Records the guide author. |
-| Parent folder | Chooses where the new SAGA project folder will be created. |
-| **New Project** | Creates the editable SAGA project in the selected parent folder using the entered project information. |
+1. Enter the **Product name**.
+2. Enter the **Product revision** and **Manual revision**.
+3. Enter the **Manual title** and **Author**.
+4. Select **Browse** and choose the parent folder where the SAGA project should be created.
+5. Select **New Project**.
 
-The product revision and manual revision serve different purposes. For example, a wording correction may require a new manual revision without changing the physical product revision.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/04_project_setup.png" alt="SAGA Project tab with the new-project fields, Browse, New Project, Open, and Save controls">
+  <figcaption>Complete the project information, choose a location, then select New Project.</figcaption>
+</figure>
 
-### Open and save
+SAGA creates the project folder and opens **Steps** so you can begin the guide.
 
-| Control | What it does | Important consequence |
-|---|---|---|
-| **Open** | Opens an existing SAGA project folder. | Keep the complete project folder together so its captures, assets, markup, and imported sources remain available. |
-| **Save** | Writes current editable project changes to the local project. | Save after meaningful work and before closing Fusion. |
+**Product revision** tracks the physical design. **Manual revision** tracks the instruction document, so the manual can be revised without changing the product revision.
 
-Generating a PDF does not lock the project. The editable project remains available for later changes. A later successful publication replaces the prior PDF with the current generated version.
+### Open an existing project
+
+Select **Open** on the Project tab and choose the existing SAGA project folder. You do not need to complete the new-project fields first.
+
+### Save your SAGA project
+
+Use **Save** on the Project tab after meaningful changes and before closing Fusion. A green **Saved** message confirms that the SAGA project was written to disk.
+
+Generating a PDF does not lock the project. You can reopen the SAGA project later, make changes, and generate an updated guide.
 
 ## Project settings
 
