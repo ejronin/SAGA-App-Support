@@ -117,55 +117,59 @@ Capture settings affect new or replacement captures only. Changing a setting doe
 
 ## Parts, hardware, tools, and consumables
 
-The **Parts** tab is both an item catalog and a practical bill of materials. Use it for:
+The **Parts** tab is SAGA's project catalog and BOM workspace. Add the things a reader needs for the assembly: printed parts, purchased hardware, tools, and consumables such as glue.
 
-- Printed or fabricated parts
-- Purchased hardware
-- Tools
-- Adhesives, lubricant, and other consumables
+You can **Import CSV/XLSX**, **Add Item** manually, or **Export BOM** from the project.
 
-A clear item name is the essential identifier. Other documented fields are optional and should be used when they add useful assembly or purchasing information.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/06_parts_empty_catalog.png" alt="Empty SAGA Parts catalog with Import CSV/XLSX, Add Item, Export BOM, and BOM in the PDF controls">
+  <figcaption>The Parts tab starts as an empty catalog. Import a list or add items as you build the guide.</figcaption>
+</figure>
 
-### Item fields
+### Add an item
 
-| Field | Purpose |
-|---|---|
-| Category | Classifies the item as a part, hardware item, tool, consumable, or other supported category. |
-| Name | Human-readable item name used throughout the project. |
-| Unit | Describes how the quantity is counted or measured. |
-| Part or item number | Optional identifier for an exact component or catalog item. |
-| Quantity | Optional fixed project total used for allocation checks. |
-| Description | Optional explanation of the item. |
-| Supplier | Optional sourcing information. |
-| Notes | Optional project or assembly notes. |
-| Visual marker | Optional default marker used when identifying the item in a step. |
+1. Select **Add Item**.
+2. Choose the **Category**: **Part**, **Hardware**, **Tool**, or **Consumable**.
+3. Enter a clear **Name** and **Unit**.
+4. Add an item/part number, size or specification, project quantity, description, supplier, or notes when they are useful.
+5. Choose a **Default visual marker** when you want SAGA to suggest a symbol for that item in step markup.
+6. Select **Save Item**.
 
-### Add an item manually
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/07_parts_add_item.png" alt="SAGA Catalog item form with item number, category, name, specification, quantity, unit, description, supplier, visual marker, and notes fields">
+  <figcaption>Only add the detail that helps someone identify, obtain, or use the item.</figcaption>
+</figure>
 
-1. Open **Parts**.
-2. Select **Add Item**.
-3. Choose the category.
-4. Enter the name and unit.
-5. Add a part or item number and fixed total quantity when needed.
-6. Add description, supplier, notes, or a default visual marker when useful.
-7. Save the item.
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/fusion_user_guide/publication_images/08_parts_category_choices.png" alt="SAGA Category menu showing Part, Hardware, Tool, and Consumable">
+  <figcaption>Catalog categories are Part, Hardware, Tool, and Consumable.</figcaption>
+</figure>
+
+A default visual marker is separate from the category. For example, a Hardware item may use a **Screw / bolt**, **Nut**, or **Washer** marker; a consumable may use **Glue / adhesive**. The marker can be changed later when you mark up a step.
+
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/fusion_user_guide/publication_images/09_parts_visual_marker_choices.png" alt="SAGA Default visual marker menu with hardware, part, and process symbols">
+  <figcaption>Choose a marker only when it will make the assembly image easier to read.</figcaption>
+</figure>
+
+### Quantity and allocation
+
+**Total quantity** is optional. Leave it blank when you do not need a fixed project total. Enter a quantity when SAGA should check how many units are allocated across the guide.
+
+After an item is saved, its catalog card shows the total and current allocation. Step assignments and BOM-aware part callouts update that allocation as the guide is built.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/10_parts_saved_item.png" alt="Saved Example Screw catalog item showing its part number, category, size, total quantity, and allocation status">
+  <figcaption>A fixed total lets SAGA warn about over-allocation as items are assigned to steps.</figcaption>
+</figure>
 
 ### Import a BOM
 
-SAGA imports CSV and XLSX sources and copies the imported file into the project. The source must contain a recognized name column such as `Name`, `Item Name`, or `Part Name`.
-
-The import may also use columns for category, quantity, unit, item number, description, supplier, notes, and visual marker.
+SAGA can import CSV and XLSX files and copies the source file into the SAGA project. The import needs a recognized name column such as `Name`, `Item Name`, or `Part Name`; other supported fields can supply category, quantity, unit, item number, description, supplier, notes, and visual marker.
 
 [Download the SAGA BOM import template](assets/SAGA-BOM-Import-Template.csv).
 
-### Quantity behavior
-
-A fixed project quantity enables allocation checks. Step assignments and BOM-linked callouts may either:
-
-- **Install or use quantity** — counts against the planned project total.
-- **Reference only** — identifies an item without consuming another unit from the planned total.
-
-Use reference-only assignments when the same installed item must be identified again later or along an alternate configuration path.
+The **BOM in the PDF** control determines how the BOM is included when the guide is published. You can also use **Export BOM** when you need the project BOM as a separate file.
 
 ## Steps, captures, and markup
 
