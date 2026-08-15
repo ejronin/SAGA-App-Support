@@ -94,27 +94,26 @@ Generating a PDF does not lock the project. You can reopen the SAGA project late
 
 ## Project settings
 
-### Cover assets
+### Manual cover
 
-A project may include one customer logo and one finished-product image. SAGA copies selected cover assets into the project's `assets` folder so the project does not depend on the original image locations.
+The **Project** tab can include an optional company/project logo and one finished-product image for the manual cover. Select **Choose Logo** or **Choose Cover Image** to add them. SAGA copies both files into the project folder, so the guide does not depend on their original locations.
 
-Customer branding remains available during the Marketplace Free 30-Day Trial; trial output is not watermarked.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/05_manual_cover_capture_settings.png" alt="SAGA Manual cover and Capture settings with logo, cover image, resolution, anti-alias, transparent background, and Capture diagnostics controls">
+  <figcaption>Cover images are optional. Capture settings control new step images.</figcaption>
+</figure>
 
 ### Capture settings
 
-Capture settings affect new or replacement Fusion viewport captures. They do not retroactively modify images that have already been captured.
+The demonstrated defaults are **2560 × 1440**, a **100 ms** delay, and **Anti-alias** enabled. Adjust them when a project needs a different capture size or delay.
 
-| Capture setting | What it controls | Practical effect |
-|---|---|---|
-| Width | Pixel width of a new capture. | Higher values can preserve more detail but increase project size and publication work. |
-| Height | Pixel height of a new capture. | Use with width to choose the capture resolution. |
-| Delay | Time before SAGA captures the Fusion view. | Gives Fusion time to settle before the image is taken. |
-| Anti-aliasing | Requests smoother rendered edges for a new capture. | Useful when clean edge appearance matters in the manual. |
-| Transparent background | Requests an alpha-capable PNG and verifies that the result supports transparency. | Use when the model should be placed over the PDF/page background instead of retaining the Fusion viewport background. |
+**Transparent background is off the first time you use SAGA.** Turn it on before the first transparent capture you want to make. After you select it, SAGA remembers that choice for later runs. You can still turn it on or off for an individual capture.
 
-The default 2560 × 1440 capture is suitable for most manuals. Higher resolutions increase project size and can increase PDF-generation time.
+Capture settings affect new or replacement captures only. Changing a setting does not alter an image that has already been captured; recapture that step when you want the new setting applied.
 
-The **Transparent background** setting is saved with the project and can be changed later. Existing captures do not change automatically when the setting changes. Recapture a step when that step needs a different background treatment.
+### Capture diagnostics
+
+**Capture diagnostics** is for troubleshooting, not normal authoring. Use it only when captures appear not to be working correctly. It can capture one diagnostic image for inspection or a rapid set of 30 images for repeated-capture testing.
 
 ## Parts, hardware, tools, and consumables
 
