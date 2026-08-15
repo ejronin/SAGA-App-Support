@@ -25,35 +25,35 @@ For a shorter first-use walkthrough, start with the [Quick Start](quick-start.md
 
 ## Access, installation, and startup
 
-SAGA 1.0 is submitted for distribution through the Autodesk Design and Make Marketplace for 64-bit Windows. Close Fusion before installing, updating, or removing SAGA.
+SAGA is a Windows add-in for Autodesk Fusion. Close Fusion before installing, updating, or removing it.
 
-After installation:
+### Start SAGA in Fusion
 
-1. Open **Utilities > Scripts and Add-Ins**.
-2. Select **Add-Ins**.
-3. Select **SAGA** and choose **Run**.
-4. Use the SAGA toolbar command to reopen the palette during the same Fusion session.
+1. Open Fusion and go to **Utilities > Scripts and Add-Ins**.
+2. Open the **Add-Ins** list and find **SAGA**.
+3. Turn **Run** on to start SAGA for the current Fusion session.
+4. If you want Fusion to start SAGA automatically later, enable **Run on Startup**.
 
-SAGA does not start automatically by default. Fusion may allow you to enable automatic startup later.
-
-<figure class="guide-shot guide-shot--compact">
-  <img src="assets/scripts-addins.webp" alt="SAGA selected in Fusion Scripts and Add-Ins">
-  <figcaption>SAGA appears as an add-in; automatic startup is intentionally off by default.</figcaption>
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/01_scripts_addins_saga.png" alt="SAGA in Fusion Scripts and Add-Ins with Run and Run on Startup controls visible">
+  <figcaption>Start SAGA from Fusion's Scripts and Add-Ins window.</figcaption>
 </figure>
 
-### Startup and access controls
+Once the add-in is running, you do not need to return to Scripts and Add-Ins just to reopen the SAGA palette. Use Fusion's **Add-Ins** menu instead.
 
-| Control or status | What it does | When to use it |
-|---|---|---|
-| **Run** in Scripts and Add-Ins | Starts the SAGA add-in for the current Fusion session. | Use it after Fusion opens when SAGA has not been configured to start automatically. |
-| SAGA toolbar command | Opens or reopens the SAGA palette after the add-in is running. | Use it when the palette has been closed or hidden during the current session. |
-| **Access active** | Indicates that Autodesk currently reports valid Marketplace access for the signed-in account. | No action is required; normal SAGA authoring can continue. |
-| **Access required** | Indicates that Autodesk does not currently report valid Marketplace access. | Confirm the Autodesk account and Marketplace access, then use **Check again**. |
-| **Check again** | Requests a new Marketplace-access check. | Use it after starting the Free 30-Day Trial, purchasing SAGA, changing the signed-in account, or recovering from a temporary access problem. |
-| **Help** | Opens SAGA help from the palette. | Use it for workflow guidance while authoring. |
-| **F1** | Opens SAGA help only while the SAGA palette has keyboard focus. | Use it as a keyboard shortcut while working in the palette. Fusion routes F1 according to the active pane, so SAGA help does not open while the Fusion canvas has focus. |
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/fusion_user_guide/publication_images/02_fusion_addins_toolbar.png" alt="Add-Ins control in the Fusion toolbar">
+  <figcaption>Open the Add-Ins menu from the Fusion toolbar.</figcaption>
+</figure>
 
-At launch, SAGA checks the signed-in Fusion account through Autodesk Marketplace. See [Marketplace access](#marketplace-access) for trial, purchase, and temporary-offline behavior.
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/fusion_user_guide/publication_images/03_saga_addins_menu.png" alt="SAGA command in the Fusion Add-Ins menu">
+  <figcaption>Select SAGA to open or reopen its palette.</figcaption>
+</figure>
+
+SAGA checks Marketplace access for the Autodesk account signed into Fusion. If access is not recognized, see [Marketplace access](#marketplace-access).
+
+**Help:** use **Help** in the SAGA palette, or press **F1** while the SAGA palette has keyboard focus.
 
 ## Projects and local storage
 
