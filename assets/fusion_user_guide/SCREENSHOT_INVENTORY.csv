@@ -1,0 +1,25 @@
+publication_file,guide_section,purpose,status,notes
+01_scripts_addins_saga.png,Access / startup,"SAGA row, Run and Run on Startup",Ready,Correctly annotated owner screenshot; details pane is not exposing path.
+02_fusion_addins_toolbar.png,Access / startup,Where to open Add-Ins in Fusion,Ready,Cropped to instructional toolbar context.
+03_saga_addins_menu.png,Access / startup,SAGA command in Add-Ins menu,Ready,Private-build 'Owner' qualifier obscured; release entry is SAGA.
+04_project_setup.png,Projects,"Project fields, New Project/Open/Save",Ready,Windows paths blurred; generic Example Author retained.
+05_manual_cover_capture_settings.png,Project settings,Manual cover and default capture settings,Ready,Private owner title strip removed.
+06_parts_empty_catalog.png,Parts / BOM,"Empty catalog, import/add/export controls",Ready,Project path blurred.
+07_parts_add_item.png,Parts / BOM,Blank Add Item form,Ready,Private owner title strip removed.
+08_parts_category_choices.png,Parts / BOM,Category choices: Part/Hardware/Tool/Consumable,Ready,Private owner title strip removed.
+09_parts_visual_marker_choices.png,Parts / BOM,Default visual marker choices,Ready,Private owner title strip removed.
+10_parts_saved_item.png,Parts / BOM,Saved Example Screw and allocation state,Ready,Private owner title strip removed.
+11_step_details_new.png,Steps,New Step / Details initial state,Ready,Project path/header removed.
+12_step_assign_catalog_item.png,Steps,Saved catalog item available for step assignment,Ready,Owner header and local path removed.
+13_markup_combined_example.png,Steps / Markup,"Label, callout, marker, alignment and Apply Markup",Ready,Private owner title strip removed; exact duplicate of handoff screenshot 26.
+14_configuration_create_split.png,Configuration paths,Create Split Here on completed shared step,Ready,Owner header/path removed; existing instructional arrow retained.
+15_configuration_name_paths.png,Configuration paths,Primary and alternate path names before Create Split,Ready,Owner header/path removed.
+16_configuration_manage_paths.png,Configuration paths,Manage paths / View / default / add path,Ready,Owner header/path removed.
+17_configuration_branch_view.png,Configuration paths,Branch selected and branch-specific New Step control,Ready,Owner header/path removed; owner's red branch-selection callout retained.
+18_configuration_branch_numbering.png,Configuration paths,Automatic 1B.1 branch numbering,Ready,Owner header/path removed; owner's numbering callout retained.
+19_step_status_icons.png,Steps / status,"Ready, path-end and final indicators",Ready,Already tightly cropped.
+20_project_saved_confirmation.png,Projects / Save,Green Saved confirmation,Ready,Windows paths blurred; owner header removed.
+21_check_project_ready.png,Check Project,Project is ready / no errors or warnings,Ready,Cropped to result panel; owner header omitted.
+22_pdf_options.png,PDF,Page size/orientation and inclusion options,Ready,Owner header/path removed.
+23_pdf_generating.png,PDF,Checking project and generating PDF status,Ready,Owner header/path removed.
+24_pdf_created_confirmation.png,PDF,Successful PDF creation confirmation,Ready,Generated Windows path blurred; confirmation state retained.
