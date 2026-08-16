@@ -432,25 +432,26 @@ If you believe access should still be active, see [A trial or purchase is not re
 
 ## Logs, help, and support
 
-Select **Help** in the palette or press **F1 while the SAGA palette has keyboard focus**. Fusion routes F1 to the active pane, so SAGA help does not open while the Fusion canvas has focus.
+For built-in help, select **Help** in the SAGA palette. You can also press **F1** while the SAGA palette has focus. If the Fusion canvas has focus instead, Fusion handles the F1 key.
 
-SAGA writes local diagnostic logs under:
+### If you need support
+
+Email **sagaappsupport@gmail.com** and include the information that will help reproduce the problem:
+
+- your SAGA version;
+- your Fusion version;
+- your Windows version;
+- the exact error message, if one appears;
+- what you were doing when the problem happened.
+
+A screenshot or SAGA log can also help when the problem is difficult to reproduce.
+
+SAGA keeps diagnostic logs here:
 
 ```text
 %LOCALAPPDATA%\SAGA\logs
 ```
 
-When requesting support, include:
+Before sending a screenshot or log, check it for project names, file paths, customer information, or anything else you would rather keep private. Remove that information unless support needs it to understand the problem.
 
-- SAGA version
-- Fusion version
-- Windows version
-- The exact error message, when one appears
-- Steps that reproduce the issue
-- A screenshot or local SAGA log when useful
-
-Remove confidential project information before sending logs or screenshots unless it is necessary to diagnose the issue.
-
-Support: **sagaappsupport@gmail.com**
-
-See the [Support Policy](support.md), [Privacy Policy](privacy.md), [Licensing](licensing.md), and [Troubleshooting](troubleshooting.md) pages for support scope, data handling, access terms, and recovery guidance.
+For support scope, privacy, licensing, or common fixes, see the [Support Policy](support.md), [Privacy Policy](privacy.md), [Licensing](licensing.md), and [Troubleshooting](troubleshooting.md).
