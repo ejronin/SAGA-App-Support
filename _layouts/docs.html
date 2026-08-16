@@ -1,0 +1,23 @@
+---
+layout: default
+---
+
+<div class="docs-shell">
+  {%- include docs-sidebar.html -%}
+
+  <article class="docs-article">
+    <header class="docs-page-header">
+      {%- if page.section -%}
+      <p class="docs-page-section">{{ page.section }}</p>
+      {%- endif -%}
+      <h1 class="post-title">{{ page.title | escape }}</h1>
+      {%- if page.description -%}
+      <p class="docs-page-description">{{ page.description }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="post-content docs-content">
+      {{ content }}
+    </div>
+  </article>
+</div>
