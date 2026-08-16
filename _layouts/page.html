@@ -14,6 +14,34 @@ layout: default
   {%- assign docs_page = true -%}
   {%- assign docs_section = 'Help & reference' -%}
   {%- assign docs_description = 'Find the problem you are seeing, work through the recovery steps, and jump back to the full workflow when you need more context.' -%}
+{%- elsif page.url == '/faq.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Help & reference' -%}
+  {%- assign docs_description = 'Straight answers to common questions about SAGA, supported platforms, Marketplace access, licensing, privacy, and support.' -%}
+{%- elsif page.url == '/support.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Help & reference' -%}
+  {%- assign docs_description = 'Support hours, coverage, and the information that helps diagnose a SAGA problem quickly.' -%}
+{%- elsif page.url == '/release-notes.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Release' -%}
+  {%- assign docs_description = 'Current SAGA release information and documented changes.' -%}
+{%- elsif page.url == '/privacy.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Policies' -%}
+  {%- assign docs_description = 'How SAGA handles local project data, Marketplace entitlement checks, support communications, and third-party services.' -%}
+{%- elsif page.url == '/licensing.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Policies' -%}
+  {%- assign docs_description = 'A plain summary of the SAGA licensing model, trial and purchased access, commercial use, and ownership of user-created output.' -%}
+{%- elsif page.url == '/refunds.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Policies' -%}
+  {%- assign docs_description = 'Refund information for SAGA purchases made through the Autodesk Design and Make Marketplace.' -%}
+{%- elsif page.url == '/updates.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Policies' -%}
+  {%- assign docs_description = 'How SAGA maintenance updates, Fusion compatibility changes, feature requests, and future major versions are handled.' -%}
 {%- endif -%}
 
 {%- if docs_page -%}
