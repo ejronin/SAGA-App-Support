@@ -9,10 +9,10 @@ Use this page for common startup, project, publication, and Marketplace-access p
 
 1. Close and reopen Fusion after installation.
 2. Open **Utilities > Scripts and Add-Ins**.
-3. Select the **Add-Ins** tab and look for **SAGA**.
-4. Select SAGA and choose **Run**.
+3. Open the **Add-Ins** list and look for **SAGA**.
+4. Select SAGA and turn **Run** on.
 
-SAGA does not start automatically by default. Fusion may allow you to enable automatic startup later.
+If you want Fusion to start SAGA automatically later, enable **Run on Startup**.
 
 If SAGA is missing from the Add-Ins list, confirm that the Autodesk Marketplace installer completed successfully. Close Fusion and reinstall the current Marketplace package before trying again.
 
@@ -39,9 +39,11 @@ Confirm that the project folder is not read-only, Windows has not blocked access
 
 ## A captured image is wrong or outdated
 
-Arrange the Fusion model again and replace the step capture. After editing markup, select **Apply Markup to Step** so the image used for publication is updated.
+Arrange the Fusion model again and replace the step capture. SAGA moves the previous source image to the project's trash when a capture is replaced.
 
-Replacing a capture also clears markup tied to the old image. See [Steps, captures, and markup](user-guide.md#steps-captures-and-markup) before replacing a capture you may still need.
+After recapturing, review the step's existing markup against the new image. Adjust it as needed, then select **Apply Markup to Step** so the current instruction and markup are used for publication.
+
+See [Steps, captures, and markup](user-guide.md#steps-captures-and-markup) before replacing a capture you may still need.
 
 ## Markup appears in the editor but not in the PDF
 
