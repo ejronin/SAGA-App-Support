@@ -56,10 +56,10 @@
 
     <div class="docs-nav-group docs-nav-group--quiet">
       <p class="docs-nav-heading">Policies</p>
-      <a class="docs-nav-link" href="{{ '/privacy.html' | relative_url }}">Privacy</a>
-      <a class="docs-nav-link" href="{{ '/licensing.html' | relative_url }}">Licensing</a>
-      <a class="docs-nav-link" href="{{ '/refunds.html' | relative_url }}">Refunds</a>
-      <a class="docs-nav-link" href="{{ '/updates.html' | relative_url }}">Updates</a>
+      <a class="docs-nav-link{% if page.url == '/privacy.html' %} is-current{% endif %}" href="{{ '/privacy.html' | relative_url }}"{% if page.url == '/privacy.html' %} aria-current="page"{% endif %}>Privacy</a>
+      <a class="docs-nav-link{% if page.url == '/licensing.html' %} is-current{% endif %}" href="{{ '/licensing.html' | relative_url }}"{% if page.url == '/licensing.html' %} aria-current="page"{% endif %}>Licensing</a>
+      <a class="docs-nav-link{% if page.url == '/refunds.html' %} is-current{% endif %}" href="{{ '/refunds.html' | relative_url }}"{% if page.url == '/refunds.html' %} aria-current="page"{% endif %}>Refunds</a>
+      <a class="docs-nav-link{% if page.url == '/updates.html' %} is-current{% endif %}" href="{{ '/updates.html' | relative_url }}"{% if page.url == '/updates.html' %} aria-current="page"{% endif %}>Updates</a>
     </div>
   </nav>
 </aside>
