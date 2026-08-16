@@ -1,41 +1,72 @@
+<style>
+.site-footer {
+  margin-top: 2.5rem;
+  padding: 1.35rem 0 1.5rem;
+  background: #202327;
+  border-top: 1px solid #4a4f55;
+}
+
+.docs-footer-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.docs-footer-main strong {
+  color: #f5f7fa;
+}
+
+.docs-footer-support {
+  white-space: nowrap;
+}
+
+.docs-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin-top: 0.9rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #383d43;
+  font-size: 0.92rem;
+}
+
+.docs-footer-note {
+  margin: 0.8rem 0 0;
+  color: #929aa3;
+  font-size: 0.85rem;
+}
+
+@media screen and (max-width: 600px) {
+  .docs-footer-main {
+    display: block;
+  }
+
+  .docs-footer-support {
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+}
+</style>
+
 <footer class="site-footer h-card">
-  <data class="u-url" href="{{ "/" | relative_url }}"></data>
+  <data class="u-url" href="{{ '/' | relative_url }}"></data>
 
   <div class="wrapper">
-    <h2 class="footer-heading">{{ site.title | escape }}</h2>
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li class="p-name">
-            {%- if site.author -%}
-              {{ site.author | escape }}
-            {%- else -%}
-              {{ site.title | escape }}
-            {%- endif -%}
-          </li>
-          {%- if site.email -%}
-          <li><a class="u-email" href="mailto:{{ site.email }}">{{ site.email }}</a></li>
-          {%- endif -%}
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-2">
-        {%- include social.html -%}
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>{{- site.description | escape -}}</p>
-      </div>
+    <div class="docs-footer-main">
+      <strong>SAGA Documentation</strong>
+      <a class="docs-footer-support" href="mailto:sagaappsupport@gmail.com">sagaappsupport@gmail.com</a>
     </div>
 
-    <nav class="footer-secondary" aria-label="Policies and release information">
-      <strong>Policies &amp; release</strong>
+    <nav class="docs-footer-links" aria-label="Support, policies, and release information">
+      <a href="{{ '/support.html' | relative_url }}">Support</a>
       <a href="{{ '/privacy.html' | relative_url }}">Privacy</a>
-      <a href="{{ '/refunds.html' | relative_url }}">Refunds</a>
       <a href="{{ '/licensing.html' | relative_url }}">Licensing</a>
+      <a href="{{ '/refunds.html' | relative_url }}">Refunds</a>
       <a href="{{ '/updates.html' | relative_url }}">Updates</a>
       <a href="{{ '/release-notes.html' | relative_url }}">Release Notes</a>
     </nav>
+
+    <p class="docs-footer-note">Copyright © 2026 Shawn Gordon. SAGA is not an Autodesk product.</p>
   </div>
 </footer>
