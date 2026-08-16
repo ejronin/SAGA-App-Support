@@ -2,16 +2,30 @@
 layout: default
 ---
 
+{%- assign docs_page = false -%}
+{%- assign docs_section = '' -%}
+{%- assign docs_description = '' -%}
+
 {%- if page.url == '/user-guide.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Reference' -%}
+  {%- assign docs_description = 'The complete SAGA workflow reference, from startup and project setup through markup, configuration paths, validation, PDF publication, and support.' -%}
+{%- elsif page.url == '/troubleshooting.html' -%}
+  {%- assign docs_page = true -%}
+  {%- assign docs_section = 'Help & reference' -%}
+  {%- assign docs_description = 'Find the problem you are seeing, work through the recovery steps, and jump back to the full workflow when you need more context.' -%}
+{%- endif -%}
+
+{%- if docs_page -%}
   {%- include docs-shell-style.html -%}
   <div class="docs-shell">
     {%- include docs-sidebar.html -%}
 
     <article class="docs-article">
       <header class="docs-page-header">
-        <p class="docs-page-section">Reference</p>
+        <p class="docs-page-section">{{ docs_section }}</p>
         <h1 class="post-title">{{ page.title | escape }}</h1>
-        <p class="docs-page-description">The complete SAGA workflow reference, from startup and project setup through markup, configuration paths, validation, PDF publication, and support.</p>
+        <p class="docs-page-description">{{ docs_description }}</p>
       </header>
 
       <div class="post-content docs-content">
