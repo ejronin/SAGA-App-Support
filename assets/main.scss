@@ -278,10 +278,35 @@ table td {
   margin-bottom: 0;
 }
 
+.page-toc strong {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: #f5f7fa;
+  font-size: 1.02rem;
+}
+
 .page-toc ul {
-  columns: 2;
-  column-gap: 2rem;
-  margin: 0.6rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 1.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.page-toc li {
+  position: relative;
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.page-toc li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #48c7d8;
+  font-weight: 700;
 }
 
 .footer-secondary {
@@ -311,7 +336,7 @@ table td {
 
 @media screen and (max-width: 780px) {
   .page-toc ul {
-    columns: 1;
+    grid-template-columns: 1fr;
   }
 
   .start-grid {
