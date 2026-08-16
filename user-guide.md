@@ -398,49 +398,37 @@ Open the project folder to review or share the finished guide. If Windows report
 
 ## Marketplace access
 
-SAGA is submitted to the Autodesk Design and Make Marketplace as a paid, one-time-purchase application with the Marketplace **Free 30-Day Trial** option enabled.
+SAGA uses the Autodesk account signed into Fusion to check whether Marketplace access is active. The Marketplace listing is set up as a one-time purchase with Autodesk's **Free 30-Day Trial** option.
 
-The trial uses the same documented authoring and publication features as purchased access:
+The trial is the full SAGA experience: there is no trial watermark, and the project logo and cover image remain available. SAGA does not run a second, separate trial clock on your computer.
 
-- Trial output is not watermarked.
-- Customer logo and cover-image branding remain enabled.
-- SAGA does not run a separate local trial clock.
+### If SAGA says access is required
 
-SAGA asks Autodesk's Marketplace entitlement service whether the Autodesk account signed into Fusion currently has valid access. The entitlement response tells SAGA whether access is valid; it does not identify the valid access as specifically a trial or purchase. SAGA therefore reports an access state rather than maintaining its own independent trial status.
+SAGA only needs to know whether Autodesk currently reports valid access for the account signed into Fusion. Autodesk does not tell SAGA whether that access comes from a trial or a purchase.
 
-### Access states
+If the palette shows **Access required**:
 
-| State or control | Meaning |
-|---|---|
-| **Access active** | Autodesk currently reports valid Marketplace access for the signed-in account. |
-| **Access required** | Autodesk does not currently report valid Marketplace access for the signed-in account. |
-| **Check again** | Requests another Autodesk Marketplace access check. |
-
-When the palette shows **Access required**:
-
-1. Confirm that Fusion is signed in with the Autodesk account used for the trial or purchase.
-2. If needed, start the Marketplace Free 30-Day Trial or purchase SAGA using that same account.
+1. Check that Fusion is signed in with the Autodesk account you used for SAGA.
+2. If you have not started the trial or purchased SAGA yet, do that through the Autodesk Marketplace using the same account.
 3. Return to SAGA and select **Check again**.
 
-### Temporary Autodesk-service or network failure
+When access is valid, SAGA shows **Access active**.
 
-After a successful Autodesk access result, SAGA may use that prior successful result for up to 24 hours if Autodesk's entitlement service is temporarily unavailable. **The 24-hour period is SAGA-specific cache behavior; Autodesk does not require that duration.**
+### If Autodesk cannot be reached
 
-A completed negative response from Autodesk takes effect immediately and is not overridden by the earlier successful result. The cached result does not reset, extend, pause, or create a Marketplace trial.
+If SAGA has already received a successful access check, it can use that result for up to 24 hours during a temporary Autodesk-service or network problem. This keeps a brief outage from interrupting work you were already doing.
 
-Do not delete SAGA's local entitlement data unless support asks you to do so. Removing it requires online re-verification and does not reset, extend, or cancel a trial or purchase held by Autodesk.
+If Autodesk later returns a completed result showing that access is no longer valid, that result takes effect immediately. The 24-hour fallback does not change, pause, or extend an Autodesk trial.
 
-### When Marketplace access ends
+Do not delete SAGA's local access data unless support asks you to. Removing it simply means SAGA must verify access online again.
 
-When Autodesk no longer reports valid access, SAGA authoring and PDF publication remain unavailable until valid Marketplace access is reported again.
+### When access is no longer active
 
-Access ending does **not** delete or alter:
+If Autodesk no longer reports valid access, SAGA authoring and PDF generation are unavailable until access is active again.
 
-- Existing SAGA project folders
-- Existing project content
-- Previously generated PDFs
+Your existing work stays on your computer. SAGA does not delete or change existing project folders, project content, or PDFs you already created.
 
-If access should still be active, follow [A trial or purchase is not recognized](troubleshooting.md#a-trial-or-purchase-is-not-recognized).
+If you believe access should still be active, see [A trial or purchase is not recognized](troubleshooting.md#a-trial-or-purchase-is-not-recognized).
 
 ## Logs, help, and support
 
