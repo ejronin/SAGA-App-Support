@@ -3,7 +3,7 @@
 
 @import "minima";
 
-/* SAGA charcoal theme and documentation layout */
+/* SAGA documentation theme */
 :root {
   color-scheme: dark;
 }
@@ -21,23 +21,93 @@ body,
   background: #24272b;
 }
 
-/* Keep Minima's gutters inside the viewport instead of adding them to it. */
 .wrapper {
   box-sizing: border-box;
   width: 100%;
-  max-width: 1080px;
+  max-width: 1180px;
 }
 
+/* Header */
 .site-header {
-  border-top-color: #0ea5b7;
-  border-bottom-color: #4a4f55;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 0;
+  background: #202327;
+  border-top: 3px solid #0ea5b7;
+  border-bottom: 1px solid #4a4f55;
+}
+
+.site-header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 62px;
 }
 
 .site-title,
-.site-title:visited,
-.page-link,
-.page-link:visited,
-.footer-heading,
+.site-title:visited {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin: 0;
+  color: #f5f7fa;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-title-product {
+  color: #f5f7fa;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.site-title-section {
+  color: #aeb5bd;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.site-nav {
+  float: none;
+  line-height: 1;
+}
+
+.site-nav .trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.site-nav .page-link,
+.site-nav .page-link:visited {
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  color: #d9dde2;
+  border-radius: 5px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.site-nav .page-link:hover,
+.site-nav .page-link:focus-visible {
+  color: #f5f7fa;
+  background: #2d3238;
+  text-decoration: none;
+}
+
+.site-nav .page-link.is-current {
+  color: #f5f7fa;
+  background: #30363d;
+  box-shadow: inset 0 -2px 0 #0ea5b7;
+}
+
+/* Base type and links */
 .post-title,
 .post-content h1,
 .post-content h2,
@@ -54,8 +124,7 @@ li,
 dt,
 dd,
 blockquote,
-.post-meta,
-.footer-col-wrapper {
+.post-meta {
   color: #e0e3e7;
 }
 
@@ -73,12 +142,12 @@ a:focus {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-label:focus-visible {
+label:focus-visible,
+summary:focus-visible {
   outline: 3px solid #7ddfed;
   outline-offset: 3px;
 }
 
-/* Content links should not rely on cyan alone to look actionable. */
 .post-content p a,
 .post-content li a,
 .post-content dd a,
@@ -87,6 +156,28 @@ label:focus-visible {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.16em;
+}
+
+.post-content {
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.post-content > p,
+.post-content > ul,
+.post-content > ol,
+.post-content > blockquote {
+  max-width: 78ch;
+}
+
+.post-content h2 {
+  margin-top: 2.4rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid #42474d;
+}
+
+.post-content h3 {
+  margin-top: 1.8rem;
 }
 
 hr {
@@ -104,6 +195,7 @@ blockquote {
   border-left-color: #5b626a;
 }
 
+/* Tables */
 table {
   color: #e8eaed;
   background: #24272b;
@@ -125,18 +217,6 @@ table td {
   border-color: #4a4f55;
 }
 
-.site-footer {
-  border-top-color: #4a4f55;
-}
-
-.svg-icon {
-  fill: #c7cbd1;
-}
-
-.site-nav .page-link {
-  white-space: nowrap;
-}
-
 /* Visually hidden text remains available to assistive technology. */
 .sr-only {
   position: absolute;
@@ -150,29 +230,7 @@ table td {
   border: 0;
 }
 
-.post-content {
-  font-size: 17px;
-  line-height: 1.65;
-}
-
-/* Keep prose comfortable to scan while allowing tables and figures to use the page width. */
-.post-content > p,
-.post-content > ul,
-.post-content > ol,
-.post-content > blockquote {
-  max-width: 78ch;
-}
-
-.post-content h2 {
-  margin-top: 2.4rem;
-  padding-top: 0.35rem;
-  border-top: 1px solid #42474d;
-}
-
-.post-content h3 {
-  margin-top: 1.8rem;
-}
-
+/* Images */
 .brand-mark {
   text-align: center;
   margin: 0 0 1.5rem;
@@ -188,42 +246,13 @@ table td {
   box-shadow: none;
 }
 
-.start-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.85rem;
-  margin: 1rem 0 1.8rem;
+.docs-brand-mark {
+  margin-top: 0.4rem;
+  margin-bottom: 1rem;
 }
 
-.start-card,
-.start-card:visited {
-  display: block;
-  padding: 1rem 1.05rem;
-  color: #e8eaed;
-  background: #1d2024;
-  border: 1px solid #4a4f55;
-  border-radius: 7px;
-  text-decoration: none;
-}
-
-.start-card strong {
-  display: block;
-  margin-bottom: 0.35rem;
-  color: #7ddfed;
-  font-size: 1.05rem;
-}
-
-.start-card span {
-  display: block;
-  color: #d4d8dd;
-  line-height: 1.5;
-}
-
-.start-card:hover,
-.start-card:focus-visible {
-  border-color: #0ea5b7;
-  background: #24292e;
-  text-decoration: none;
+.docs-brand-mark img {
+  max-width: 420px;
 }
 
 .guide-shot {
@@ -242,7 +271,6 @@ table td {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
-/* Instructional screenshots may shrink, but are never stretched past native width. */
 .guide-shot--compact img,
 .guide-shot--wide img {
   width: auto;
@@ -263,6 +291,7 @@ table td {
   font-size: 0.92rem;
 }
 
+/* Notices and local page contents */
 .notice-box,
 .page-toc {
   margin: 1.25rem 0 1.75rem;
@@ -309,29 +338,305 @@ table td {
   font-weight: 700;
 }
 
+/* Documentation page shell */
+.docs-shell {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 2.4rem;
+  align-items: start;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 88px;
+  max-height: calc(100vh - 112px);
+  padding: 0.2rem 1.4rem 1rem 0;
+  overflow-y: auto;
+  border-right: 1px solid #42474d;
+}
+
+.docs-nav-group + .docs-nav-group {
+  margin-top: 1.5rem;
+}
+
+.docs-nav-heading {
+  margin: 0 0 0.4rem;
+  color: #8f98a3;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.docs-nav-link,
+.docs-nav-link:visited {
+  display: block;
+  margin: 0.08rem 0;
+  padding: 0.42rem 0.55rem;
+  color: #cfd4da;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.94rem;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.docs-nav-link:hover,
+.docs-nav-link:focus-visible {
+  color: #f5f7fa;
+  background: #2b3035;
+  text-decoration: none;
+}
+
+.docs-nav-link.is-current {
+  color: #f5f7fa;
+  background: #2b3035;
+  border-left-color: #0ea5b7;
+  font-weight: 600;
+}
+
+.docs-article {
+  min-width: 0;
+}
+
+.docs-page-header {
+  max-width: 78ch;
+  margin-bottom: 1.7rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid #42474d;
+}
+
+.docs-page-header .post-title {
+  margin-bottom: 0.4rem;
+}
+
+.docs-page-section {
+  margin: 0 0 0.35rem;
+  color: #7ddfed;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.docs-page-description {
+  margin: 0;
+  color: #bfc5cc;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+/* Documentation home */
+.docs-home-intro {
+  max-width: 72ch !important;
+  margin: 0 auto 1.25rem;
+  color: #cfd4da;
+  font-size: 1.08rem;
+  text-align: center;
+}
+
+.docs-status {
+  display: grid;
+  grid-template-columns: 125px minmax(0, 1fr);
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+  padding: 0.8rem 1rem;
+  background: #1d2024;
+  border: 1px solid #42474d;
+  border-left: 3px solid #0ea5b7;
+  border-radius: 5px;
+}
+
+.docs-status strong {
+  color: #f5f7fa;
+}
+
+.docs-status span {
+  color: #cbd1d7;
+}
+
+.docs-index-grid {
+  display: grid;
+  gap: 0.8rem;
+  margin: 1rem 0 2rem;
+}
+
+.docs-index-grid--primary,
+.docs-index-grid--secondary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.docs-index-card,
+.docs-index-card:visited {
+  display: block;
+  min-height: 100%;
+  padding: 1rem 1.05rem;
+  color: #dfe3e7;
+  background: #1d2024;
+  border: 1px solid #42474d;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.docs-index-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #f5f7fa;
+  font-size: 1.03rem;
+}
+
+.docs-index-card > span:last-child {
+  display: block;
+  color: #bbc2ca;
+  line-height: 1.45;
+}
+
+.docs-index-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: #7ddfed !important;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.docs-index-card:hover,
+.docs-index-card:focus-visible {
+  color: #f5f7fa;
+  background: #252a30;
+  border-color: #5b626a;
+  text-decoration: none;
+}
+
+.docs-facts {
+  margin: 0.8rem 0 2rem;
+  border-top: 1px solid #42474d;
+}
+
+.docs-fact {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #42474d;
+}
+
+.docs-fact strong {
+  color: #f5f7fa;
+}
+
+.docs-fact span {
+  color: #cbd1d7;
+}
+
+/* Legacy start cards remain available on pages that still use them. */
+.start-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1rem 0 1.8rem;
+}
+
+.start-card,
+.start-card:visited {
+  display: block;
+  padding: 1rem 1.05rem;
+  color: #e8eaed;
+  background: #1d2024;
+  border: 1px solid #4a4f55;
+  border-radius: 7px;
+  text-decoration: none;
+}
+
+.start-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #7ddfed;
+  font-size: 1.05rem;
+}
+
+.start-card span {
+  display: block;
+  color: #d4d8dd;
+  line-height: 1.5;
+}
+
+.start-card:hover,
+.start-card:focus-visible {
+  border-color: #0ea5b7;
+  background: #24292e;
+  text-decoration: none;
+}
+
+/* Footer */
+.site-footer {
+  margin-top: 2.5rem;
+  padding: 1.5rem 0;
+  background: #202327;
+  border-top: 1px solid #4a4f55;
+}
+
+.docs-footer-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.docs-footer-title {
+  color: #f5f7fa;
+}
+
+.docs-footer-main p {
+  margin: 0.2rem 0 0;
+  color: #aeb5bd;
+  font-size: 0.92rem;
+}
+
+.docs-footer-support {
+  white-space: nowrap;
+}
+
 .footer-secondary {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
   gap: 0.35rem 1rem;
-  margin-top: 0.8rem;
-  padding-top: 1rem;
-  border-top: 1px solid #42474d;
-  font-size: 0.94rem;
-}
-
-.footer-secondary strong {
-  color: #f5f7fa;
-  margin-right: 0.2rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid #383d43;
+  font-size: 0.9rem;
 }
 
 .footer-secondary a {
   white-space: nowrap;
 }
 
+.docs-footer-meta {
+  margin: 0.9rem 0 0;
+  color: #8f98a3;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
 /* Make the important Discard Changes consequence easier to spot in the reference table. */
 #leaving-markup-with-unapplied-changes + p + table tbody tr:nth-child(2) td {
   background: #332d22;
+}
+
+@media screen and (max-width: 900px) {
+  .docs-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-sidebar {
+    display: none;
+  }
+
+  .docs-index-grid--primary,
+  .docs-index-grid--secondary {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media screen and (max-width: 780px) {
@@ -342,12 +647,48 @@ table td {
   .start-grid {
     grid-template-columns: 1fr;
   }
+
+  .docs-status,
+  .docs-fact {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .docs-footer-main {
+    display: block;
+  }
+
+  .docs-footer-support {
+    margin-top: 0.8rem !important;
+    white-space: normal;
+  }
 }
 
 @media screen and (max-width: 600px) {
+  .site-header-inner {
+    display: block;
+    min-height: 56px;
+  }
+
+  .site-title,
+  .site-title:visited {
+    min-height: 56px;
+    align-items: center;
+  }
+
   .site-nav {
     background: #24272b;
     border-color: #4a4f55;
+  }
+
+  .site-nav .trigger {
+    display: block;
+  }
+
+  .site-nav .page-link,
+  .site-nav .page-link:visited {
+    display: block;
+    padding: 0.65rem 0.85rem;
   }
 
   /* Minima hides this checkbox completely; keep it keyboard-focusable instead. */
@@ -378,7 +719,6 @@ table td {
     font-size: 16px;
   }
 
-  /* Preserve readable reference columns; only the table region scrolls when needed. */
   .post-content table {
     display: block;
     width: 100%;
@@ -395,7 +735,12 @@ table td {
     padding: 0.55rem 0.7rem;
   }
 
-  .brand-mark img {
-    max-width: min(520px, 100%);
+  .brand-mark img,
+  .docs-brand-mark img {
+    max-width: min(420px, 100%);
+  }
+
+  .site-title-section {
+    display: none;
   }
 }
