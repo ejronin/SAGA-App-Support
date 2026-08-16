@@ -44,7 +44,11 @@ layout: default
   {%- assign docs_description = 'How SAGA maintenance updates, Fusion compatibility changes, feature requests, and future major versions are handled.' -%}
 {%- endif -%}
 
-{%- if docs_page -%}
+{%- if page.url == '/' -%}
+  <div class="post-content">
+    {{ content }}
+  </div>
+{%- elsif docs_page -%}
   {%- include docs-shell-style.html -%}
   <div class="docs-shell">
     {%- include docs-sidebar.html -%}
