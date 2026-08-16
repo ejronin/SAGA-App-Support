@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: docs
 title: Quick Start
+section: Getting started
+description: Go from first launch to a finished SAGA PDF, with the full User Guide available when you need more detail.
 ---
-
-This walkthrough takes you from first launch to a finished PDF. For expanded workflow detail, continue with the [User Guide](user-guide.md).
 
 <div class="notice-box">
 <strong>Release status:</strong> SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. These steps describe the intended Marketplace release workflow; public Marketplace availability has not yet been confirmed.
