@@ -173,85 +173,93 @@ The **BOM in the PDF** control determines how the BOM is included when the guide
 
 ## Steps, captures, and markup
 
-Open **Steps** and select **New Step**. Each step has three documented work areas: **Details**, **Image**, and **Markup**.
+A normal SAGA step follows the same three-part workflow every time: **Details → Image → Markup**.
 
-### Step workflow at a glance
+### 1. Set up the step
 
-| Work area or control | Purpose | What to remember |
-|---|---|---|
-| **New Step** | Creates another assembly instruction step. | Add a concise operation title and direct instruction before publication. |
-| **Details** | Holds the written instruction, notices, item assignments, and step-related information. | Keep the instruction actionable and assign only the items needed for that step. |
-| **Image** | Holds the Fusion viewport capture used for the step. | Arrange Fusion first, then use **Capture View**. Replacing a capture affects markup tied to the old image. |
-| **Markup** | Adds editable visual guidance over the step image. | Apply markup before leaving when you want the current image/markup state retained for publication. |
-| **Apply Markup to Step** | Applies the current markup state to the step and updates the rendered image used in the PDF. | Use it after changing markup, then save the project. |
+On **Steps**, select **+ New Step**. SAGA creates the step and opens **Details**.
 
-### Step details
+Use **Details** to:
 
-Give each step a short operation title, such as “Install the hinge rod,” and write the instruction in direct, actionable language.
+- give the step a short, useful title;
+- leave the printed step number blank for automatic numbering unless you need to override it;
+- assign the parts, hardware, tools, or consumables needed for this step;
+- create a configuration split later when this completed step is where alternate assembly paths begin.
 
-A step can also contain:
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/11_step_details_new.png" alt="New SAGA step on the Details tab with step title, optional printed number, configuration split, and item assignment controls">
+  <figcaption>Start with the step title and the items needed for this operation.</figcaption>
+</figure>
 
-- Parts, hardware, tools, and consumables used at that step
-- Information, caution, warning, do-not, inspect, and check notices
-- An optional printed step number for linear projects
-- A configuration split point
+To assign a catalog item, choose it from **Choose catalog item**, set the quantity, choose **Used** or **Introduced** as appropriate, and select **Add**.
 
-Use notices to separate important information from the ordinary instruction. Do not use a warning-style notice when ordinary instructional text is sufficient.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/12_step_assign_catalog_item.png" alt="SAGA step Details with Example Screw available in the catalog item assignment menu">
+  <figcaption>Items saved on the Parts tab become available for step assignments.</figcaption>
+</figure>
 
-### Capture the Fusion view
+### 2. Capture the Fusion view
 
-Before selecting **Capture View**:
+Open **Image**, then arrange the Fusion viewport exactly as you want the reader to see it. Rotate or zoom the model, change component visibility, highlight or ghost geometry, and prepare the assembly state for that instruction.
 
-1. Set the model position and camera in Fusion.
-2. Show or hide components as needed.
-3. Choose the visual style and background treatment.
-4. Confirm the active SAGA step.
-5. Select **Capture View**.
+Select **Capture View** when the viewport is ready. SAGA captures the current Fusion view and moves you to **Markup**.
 
-The current capture settings apply to that new image. If you later change capture settings, recapture the step to use the new settings.
+If you replace an existing capture, SAGA moves the previous source image to the project's trash. Any markup tied to the old image should be reviewed after recapture.
 
-Replacing a capture moves the previous source image to the project's trash folder and clears markup tied to the old image. Before replacing a capture, make sure you no longer need the old marked-up state. See [A captured image is wrong or outdated](troubleshooting.md#a-captured-image-is-wrong-or-outdated) for recovery guidance.
+### 3. Add the instruction and markup
 
-### Markup tools
+The written **Instruction**, notices, and image markup are added on **Markup**.
 
-SAGA markup remains editable after the project is saved. The documented tools are:
+Write one clear assembly instruction. Add notices only when they help the reader, and select **Add Notice** for each notice you want to keep.
 
-| Markup tool | Typical use |
+SAGA places notices automatically:
+
+- **Above the instruction:** Do not, Warning, Caution
+- **Below the instruction:** Information, Inspect, Check
+
+The markup tools are:
+
+| Tool | Use it for |
 |---|---|
-| Arrow | Point to a location or show direction. |
-| Leader or alignment line | Connect a label or indicate alignment/relationship. |
-| Text label | Add concise image-specific text. |
-| BOM-linked part callout | Identify a project-catalog item and optionally show/use its quantity. |
-| Visual marker | Place a visual symbol associated with the item or instruction. |
+| **Select** | Select, move, resize, restyle, duplicate, reorder, or delete existing markup. |
+| **Arrow** | Point to a location or show direction. |
+| **Leader** | Draw a connector line without an arrowhead. |
+| **Alignment** | Add a dashed visual alignment guide between parts or features. |
+| **Label** | Place short image-specific text. |
+| **Part Callout** | Identify a catalog item and, when needed, connect the callout to the part with a movable leader. |
+| **Marker** | Place a visual symbol for a part, process, or non-BOM action such as glue or cutting. |
 
-Use markup only where it improves understanding. The Fusion capture should remain the main source of visual information.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/13_markup_combined_example.png" alt="SAGA Markup tab showing a label, alignment guides, a part callout, a marker, styling controls, and Apply Markup to Step">
+  <figcaption>Use only the markup that makes the Fusion capture easier to understand.</figcaption>
+</figure>
 
-### BOM-linked part callouts
+### Part Callout and BOM quantity
 
-A part callout can pull its label and marker from the project catalog. Set the quantity shown and choose whether the callout installs or uses that quantity, or is reference-only. An install/use quantity participates in the planned-total allocation check; reference-only identifies the item without consuming another unit.
+A **Part Callout** can use a catalog item and its default visual marker.
 
-Select **Apply Markup to Step** after changing image markup. SAGA retains the editable markup records and the rendered image used in the PDF. Save the project before closing Fusion.
+- **Install or use quantity** counts the displayed quantity against the catalog total.
+- **Reference only** identifies the item without allocating another unit.
+
+Enable **Part callout leader** when you want the callout bubble connected to a specific location. Without it, the callout remains a standalone bubble.
+
+### Finish the step
+
+When the instruction and image markup are ready, select **Apply Markup to Step**. This applies the current instruction/markup state to the step for publication while keeping the markup editable in the SAGA project.
+
+That completes the normal step workflow. Repeat **Details → Image → Markup → Apply Markup to Step** for each ordinary or configuration-path step.
 
 ### Leaving Markup with unapplied changes
 
-When you try to leave **Markup** with unapplied work, SAGA offers three choices:
+If you leave **Markup** before applying your current work, SAGA asks what to do:
 
 | Choice | Result |
 |---|---|
-| **Apply and Continue** | Applies/keeps the current markup work and continues to the destination you selected. Use this when you want the current image and markup changes retained. |
-| **Discard Changes** | Discards the current step-image state. The current step image can be moved to the project's trash. When you return, the image link can therefore appear broken even though existing markup records may still be visible. Markup cannot continue without an active step image. |
-| **Cancel** | Keeps you in Markup without making the navigation choice. |
+| **Apply and Continue** | Applies the current instruction/markup and continues to the destination you selected. |
+| **Discard Changes** | Discards the unapplied instruction/markup state. The active step image can also be moved to project trash, so you may need to recapture before Markup can continue. |
+| **Cancel** | Stays in Markup without applying or discarding the work. |
 
-If **Discard Changes** leaves the step without an active image, recapture before continuing:
-
-1. Return to the affected step.
-2. Arrange the Fusion view as needed.
-3. Capture the step image again.
-4. Return to **Markup** and confirm that the new image loads.
-5. Continue or recreate the markup as needed.
-6. Select **Apply Markup to Step** and save the project.
-
-This behavior can look like a damaged image link, but the documented recovery is to recapture the step. See [After Discard Changes, the step image appears broken](troubleshooting.md#after-discard-changes-the-step-image-appears-broken).
+If Discard leaves the step without an active image, return to **Image**, arrange the Fusion viewport, capture the step again, then continue in **Markup**. See [After Discard Changes, the step image appears broken](troubleshooting.md#after-discard-changes-the-step-image-appears-broken).
 
 ## Configuration paths
 
