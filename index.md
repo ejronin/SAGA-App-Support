@@ -1,72 +1,81 @@
 ---
 layout: page
-title: SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion
+title: SAGA Documentation
 ---
 
-<div class="notice-box">
-<strong>Release status:</strong> SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. The documentation below describes the intended Marketplace release workflow; public Marketplace availability has not yet been confirmed.
-</div>
-
-<p class="brand-mark">
-  <img src="assets/saga-for-fusion.png" alt="SAGA for Fusion" width="520">
+<p class="brand-mark docs-brand-mark">
+  <img src="assets/saga-for-fusion.png" alt="SAGA for Fusion" width="420">
 </p>
 
-SAGA helps makers, independent product designers, and small hardware developers create illustrated assembly guides from Autodesk Fusion while keeping editable project and publication files local.
+<p class="docs-home-intro">Documentation and support for SAGA — Shawn's Assembly Guide Authoring for Autodesk Fusion.</p>
 
-## Get started
+<div class="docs-status" role="status">
+  <strong>Release status</strong>
+  <span>SAGA 1.0 is in Autodesk Design and Make Marketplace review and release qualification. Public Marketplace availability has not yet been confirmed.</span>
+</div>
 
-<div class="start-grid">
-  <a class="start-card" href="{{ '/quick-start.html' | relative_url }}">
+## Start here
+
+<div class="docs-index-grid docs-index-grid--primary">
+  <a class="docs-index-card" href="{{ '/quick-start.html' | relative_url }}">
+    <span class="docs-index-label">Getting started</span>
     <strong>Quick Start</strong>
-    <span>Install SAGA, verify Marketplace access, create a project, capture a step, add markup, and generate the PDF.</span>
+    <span>Go from first launch to a finished SAGA PDF.</span>
   </a>
-  <a class="start-card" href="{{ '/user-guide.html' | relative_url }}">
+
+  <a class="docs-index-card" href="{{ '/user-guide.html' | relative_url }}">
+    <span class="docs-index-label">Full reference</span>
     <strong>User Guide</strong>
-    <span>Use the expanded control-by-control reference for projects, captures, BOMs, steps, configurations, publication, access, and support.</span>
+    <span>Projects, captures, BOMs, steps, markup, configuration paths, publication, and access.</span>
   </a>
-  <a class="start-card" href="{{ '/troubleshooting.html' | relative_url }}">
+
+  <a class="docs-index-card" href="{{ '/troubleshooting.html' | relative_url }}">
+    <span class="docs-index-label">Recovery</span>
     <strong>Troubleshooting</strong>
-    <span>Recover from common problems and see what information to include with a support request.</span>
+    <span>Work through common startup, project, capture, publication, and Marketplace-access problems.</span>
   </a>
 </div>
 
-The User Guide documents the supported SAGA 1.0 release-candidate controls, workflows, consequences, and recovery behavior in greater detail than the Quick Start.
+## Help and reference
 
-## Example output
+<div class="docs-index-grid docs-index-grid--secondary">
+  <a class="docs-index-card" href="{{ '/faq.html' | relative_url }}">
+    <strong>FAQ</strong>
+    <span>Common product, platform, trial, licensing, and workflow questions.</span>
+  </a>
 
-The current demonstration guide produced with SAGA includes:
+  <a class="docs-index-card" href="{{ '/support.html' | relative_url }}">
+    <strong>Support</strong>
+    <span>Support hours, coverage, and what to include when reporting a problem.</span>
+  </a>
 
-- Transparent Fusion captures
-- Information, caution, warning, do-not, inspect, and check notices
-- BOM-linked part callouts
-- Alternate configuration paths with shared finishing steps
-- Step-specific parts and tools
-- A total bill of materials
+  <a class="docs-index-card" href="{{ '/release-notes.html' | relative_url }}">
+    <strong>Release Notes</strong>
+    <span>Current release information and documented changes.</span>
+  </a>
+</div>
 
-The demonstration guide and listing screenshots are part of the Autodesk Marketplace submission materials. Public downloads will be added after Marketplace review is complete.
+## Product information
 
-## Trial and purchase
+<div class="docs-facts" role="list">
+  <div class="docs-fact" role="listitem">
+    <strong>Platform</strong>
+    <span>Windows with Autodesk Fusion.</span>
+  </div>
+  <div class="docs-fact" role="listitem">
+    <strong>Project storage</strong>
+    <span>SAGA projects, captures, guide content, and generated PDFs stay in the local folders you choose.</span>
+  </div>
+  <div class="docs-fact" role="listitem">
+    <strong>Marketplace access</strong>
+    <span>One-time purchase with Autodesk's Free 30-Day Trial option enabled for the submitted release.</span>
+  </div>
+  <div class="docs-fact" role="listitem">
+    <strong>Support</strong>
+    <span>Email <a href="mailto:sagaappsupport@gmail.com">sagaappsupport@gmail.com</a>.</span>
+  </div>
+</div>
 
-SAGA is submitted as a paid, one-time-purchase application through the Autodesk Design and Make Marketplace with the Free 30-Day Trial option enabled. SAGA uses Autodesk Marketplace entitlement verification for both trial and purchased access.
+## Policies
 
-The trial is fully functional, does not watermark PDF output, and does not disable customer branding.
-
-## Support
-
-Email **sagaappsupport@gmail.com**.
-
-Support is provided by email Monday through Friday, 10:00 a.m. to 5:00 p.m. Eastern Time, excluding holidays. The target initial response time is two business days.
-
-## Policies and release information
-
-- [Frequently Asked Questions](faq.md)
-- [Support Policy](support.md)
-- [Privacy Policy](privacy.md)
-- [Refund Policy](refunds.md)
-- [Licensing](licensing.md)
-- [Release and Update Policy](updates.md)
-- [Release Notes](release-notes.md)
-
-SAGA is published by Shawn Gordon. SAGA is not an Autodesk product and is not endorsed, sponsored, or warranted by Autodesk.
-
-Copyright © 2026 Shawn Gordon. All rights reserved.
+[Privacy](privacy.md) · [Licensing](licensing.md) · [Refunds](refunds.md) · [Release and Update Policy](updates.md)
