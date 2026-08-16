@@ -362,22 +362,39 @@ See [The project check reports an error](troubleshooting.md#the-project-check-re
 
 ## Create the PDF
 
-On **PDF**, choose the publication options and then select **Generate PDF**.
+After Check Project is clear, open **PDF**.
 
-| PDF control | Purpose |
-|---|---|
-| Page size | Chooses the page dimensions for the generated guide. |
-| Orientation | Chooses the page orientation. |
-| Cover page | Includes or omits the project cover. |
-| Contents and links | Includes or omits the linked contents/navigation supported by the project. |
-| Bill of materials | Includes or omits the total BOM in the publication. |
-| **Generate PDF** | Compiles the current checked project into one PDF in the project folder. |
+1. Choose **Page size**: **US Letter** or **A4**.
+2. Choose **Orientation**: **Portrait** or **Landscape**.
+3. Choose whether to include the **Cover page**, **Contents and links**, and **Bill of materials**.
+4. Select **Generate PDF**.
 
-The generated PDF may contain the cover, linked contents, bookmarks, configuration links, step notices, marked-up images, step-specific item lists, and total BOM, according to the project and selected publication options.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/22_pdf_options.png" alt="SAGA PDF tab with page size, orientation, Cover page, Contents and links, Bill of materials, and Generate PDF controls">
+  <figcaption>Choose the publication format and the sections to include, then select Generate PDF.</figcaption>
+</figure>
 
-Correct all **Check Project** errors before generating the PDF. Large projects and high-resolution images may take longer to compile. If Windows reports that the output is in use, close the existing PDF in its viewer and generate it again.
+SAGA checks the project again before it creates the PDF. Errors must be fixed; warnings do not stop generation. All enabled configuration paths are included in the same PDF with their navigation links and bookmarks.
 
-The demonstration guide and Marketplace screenshots are submission materials. Public downloads are planned after Marketplace review is complete.
+The PDF is saved directly in the SAGA project folder. SAGA does not create a ZIP or separate PDF for each configuration path.
+
+While the guide is being built, SAGA shows the generation status. Large, high-resolution step images can take longer to process.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/23_pdf_generating.png" alt="SAGA PDF tab showing that the project is being checked and the PDF is being generated">
+  <figcaption>SAGA checks the project and prepares the PDF.</figcaption>
+</figure>
+
+When the PDF is complete, SAGA reports the created file and where it was saved.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/24_pdf_created_confirmation.png" alt="SAGA PDF tab showing a successful PDF-created confirmation">
+  <figcaption>The completion message confirms that the assembly guide was created.</figcaption>
+</figure>
+
+Open the project folder to review or share the finished guide. If Windows reports that the output PDF is already in use, close it in the PDF viewer and generate it again.
+
+**Congratulations — you have created your first assembly guide with SAGA.**
 
 ## Marketplace access
 
