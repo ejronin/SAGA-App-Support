@@ -231,7 +231,7 @@ The markup tools are:
 
 <figure class="guide-shot guide-shot--wide">
   <img src="assets/fusion_user_guide/publication_images/13_markup_combined_example.png" alt="SAGA Markup tab showing a label, alignment guides, a part callout, a marker, styling controls, and Apply Markup to Step">
-  <figcaption>Use only the markup that makes the Fusion capture easier to understand.</figcaption>
+  <figcaption>Markup adds visual instruction—direction, identification, alignment, callouts, and process cues—to the captured Fusion view.</figcaption>
 </figure>
 
 ### Part Callout and BOM quantity
