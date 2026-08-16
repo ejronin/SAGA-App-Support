@@ -159,7 +159,7 @@ title: SAGA Documentation
   <span>SAGA 1.0 is in Autodesk Design and Make Marketplace review and release qualification. Public Marketplace availability has not yet been confirmed.</span>
 </div>
 
-## Start here
+<h2>Start here</h2>
 
 <div class="docs-index-grid">
   <a class="docs-index-card" href="{{ '/quick-start.html' | relative_url }}">
@@ -181,7 +181,7 @@ title: SAGA Documentation
   </a>
 </div>
 
-## Help and reference
+<h2>Help and reference</h2>
 
 <div class="docs-index-grid">
   <a class="docs-index-card" href="{{ '/faq.html' | relative_url }}">
@@ -200,7 +200,7 @@ title: SAGA Documentation
   </a>
 </div>
 
-## Product information
+<h2>Product information</h2>
 
 <div class="docs-facts" role="list">
   <div class="docs-fact" role="listitem">
@@ -221,8 +221,8 @@ title: SAGA Documentation
   </div>
 </div>
 
-## Policies
+<h2>Policies</h2>
 
-<p class="docs-policy-links">[Privacy](privacy.md) · [Licensing](licensing.md) · [Refunds](refunds.md) · [Release and Update Policy](updates.md)</p>
+<p class="docs-policy-links"><a href="{{ '/privacy.html' | relative_url }}">Privacy</a> · <a href="{{ '/licensing.html' | relative_url }}">Licensing</a> · <a href="{{ '/refunds.html' | relative_url }}">Refunds</a> · <a href="{{ '/updates.html' | relative_url }}">Release and Update Policy</a></p>
 
 </div>
