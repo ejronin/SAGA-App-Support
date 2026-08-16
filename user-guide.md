@@ -263,23 +263,75 @@ If Discard leaves the step without an active image, return to **Image**, arrange
 
 ## Configuration paths
 
-Configurations are optional. Use them when the guide has a shared opening sequence followed by alternate assembly choices and, optionally, a shared finish.
+Use configuration paths when the assembly has one or more shared opening steps and then splits into alternate build choices.
 
-SAGA 1.0 supports:
+SAGA 1.0 supports one split with up to five paths. Nested configuration splits are not supported.
 
-- One configuration split
-- Up to five paths from that split
-- No nested configuration splits
+### Create the split
 
-To create a split:
+Complete the shared step first, including its capture and **Apply Markup to Step**. Then, on that step's **Details** tab:
 
-1. Select the last shared step before the alternatives begin.
-2. Choose **Create Split Here**.
-3. Name the first two paths.
-4. Add more paths when needed, up to the supported total of five.
-5. Select the appropriate path while creating its branch steps.
+1. Select **Create Split Here**.
+2. Name the **Primary path** and **Alternate path**.
+3. Select **Create Split**.
 
-SAGA calculates path-specific printed step numbers and adds PDF navigation so readers can move from the shared sequence to the correct branch. Keep shared finishing steps outside the alternate branch where the project structure calls for a common finish.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/14_configuration_create_split.png" alt="Completed SAGA step with Create Split Here highlighted on the Details tab">
+  <figcaption>Create the split on the last shared step before the assembly choices begin.</figcaption>
+</figure>
+
+On the main sequence, the primary path starts as **Standard**. If a split is being created from an existing path, the current path provides that path context. Give the alternate path a clear name that describes the assembly choice.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/15_configuration_name_paths.png" alt="SAGA configuration split controls with Standard as the primary path and Example Branch as the alternate path">
+  <figcaption>Name the paths, then select Create Split.</figcaption>
+</figure>
+
+Creating the split does not force you to build the alternate path immediately. You can keep working on the main path and return to the branch later.
+
+### Work on a branch
+
+To switch to a configuration path:
+
+1. In **Step view**, select **Manage**.
+2. Find the path you want in **Configuration paths** and select **View**.
+3. Confirm that **Step view** now shows that path.
+4. Select **+ New [Path name] Step**.
+5. Build the step normally: **Details → Image → Markup → Apply Markup to Step**.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/16_configuration_manage_paths.png" alt="SAGA Configuration paths manager with Standard and Example Branch paths and View controls">
+  <figcaption>Use Manage and View to switch between the main path and alternate paths.</figcaption>
+</figure>
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/17_configuration_branch_view.png" alt="SAGA Steps view with Example Branch selected and the New Example Branch Step control visible">
+  <figcaption>When the branch is active, the New Step button uses that path name.</figcaption>
+</figure>
+
+To return to the main path, open **Manage** again and **View** the main path.
+
+### Automatic numbering and final steps
+
+SAGA numbers configuration steps automatically from the step where the split begins. For a split after Step 1:
+
+- first step in the first alternate branch: **1B.1**;
+- next step in that branch: **1B.2**;
+- first step in another branch from Step 1: **1C.1**.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/18_configuration_branch_numbering.png" alt="SAGA branch step showing automatic configuration step number 1B.1">
+  <figcaption>Configuration step numbers are assigned automatically.</figcaption>
+</figure>
+
+The last step on the main path is the overall final step. The last step on each alternate path is that path's ending/final step. SAGA updates these from the step order; you do not manually mark a step as final.
+
+The icons at the right of each step show readiness and structure. A check indicates the minimum step requirements are met, while the path-end and final symbols show where that sequence ends.
+
+<figure class="guide-shot guide-shot--compact">
+  <img src="assets/fusion_user_guide/publication_images/19_step_status_icons.png" alt="SAGA Step sequence showing ready, path-end, and final status icons">
+  <figcaption>SAGA updates readiness, path-end, and final indicators as the guide changes.</figcaption>
+</figure>
 
 ## Check Project
 
