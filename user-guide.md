@@ -335,14 +335,28 @@ The icons at the right of each step show readiness and structure. A check indica
 
 ## Check Project
 
-Open **Check Project** before publication.
+Before the final check, return to **Project** and select **Save**. Confirm the green **Saved** message.
 
-- **Errors** must be corrected before PDF generation.
-- **Warnings** should be reviewed but do not block publication.
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/20_project_saved_confirmation.png" alt="SAGA Project tab showing the green Saved status after the project is saved">
+  <figcaption>Save the SAGA project before the final publication check.</figcaption>
+</figure>
 
-Checks cover documented publication-readiness areas including required project information, step images and instructions, configuration consistency, BOM allocation, assets, and publication readiness. A step-related result opens the affected step.
+After a save, later navigation in Fusion can make SAGA show **Unsaved** again because Fusion's view/timeline state has changed. The SAGA guide content that was successfully saved remains saved. SAGA does not save unrelated Fusion model or viewport changes.
 
-Run the check again after correcting an error. Do not treat a warning as an error when the reported condition is intentional, but review it before publication.
+Then open **Check Project**:
+
+1. Select **Check Project**.
+2. Fix any **errors**; errors block PDF generation.
+3. Review any **warnings**; warnings do not block PDF generation.
+4. Run the check again after making corrections.
+
+<figure class="guide-shot guide-shot--wide">
+  <img src="assets/fusion_user_guide/publication_images/21_check_project_ready.png" alt="SAGA Check Project result stating that the project is ready with no errors or warnings">
+  <figcaption>When the check is clear, SAGA reports that the project is ready.</figcaption>
+</figure>
+
+A clear project reports **Project is ready. No errors or warnings were found.** If a result points to a step, open that step, correct the problem, and run Check Project again.
 
 See [The project check reports an error](troubleshooting.md#the-project-check-reports-an-error) if a result is unclear or publication remains blocked.
 
