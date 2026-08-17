@@ -91,17 +91,28 @@
 }
 </style>
 
+{%- assign is_blender = false -%}
+{%- if page.url contains '/blender/' -%}
+  {%- assign is_blender = true -%}
+{%- endif -%}
+{%- assign is_platform_root = false -%}
+{%- if page.url == '/' -%}
+  {%- assign is_platform_root = true -%}
+{%- endif -%}
+
 <header class="site-header" role="banner">
   <div class="wrapper site-header-inner">
-    {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%}
-
-    <a class="site-title" rel="author" href="{{ '/' | relative_url }}" aria-label="SAGA Documentation home">
+    <a class="site-title" rel="author" href="{{ '/' | relative_url }}" aria-label="SAGA home">
       <span class="site-title-product">SAGA</span>
-      <span class="site-title-section">Documentation</span>
+      {%- if is_platform_root -%}
+        <span class="site-title-section">Platforms</span>
+      {%- elsif is_blender -%}
+        <span class="site-title-section">Blender · Coming Soon</span>
+      {%- else -%}
+        <span class="site-title-section">Fusion Documentation</span>
+      {%- endif -%}
     </a>
 
-    {%- if page_paths -%}
     <nav class="site-nav" aria-label="Primary">
       <input type="checkbox" id="nav-trigger" class="nav-trigger" aria-controls="primary-navigation" />
       <label for="nav-trigger">
@@ -114,18 +125,27 @@
       </label>
 
       <div class="trigger" id="primary-navigation">
-        {%- for path in page_paths -%}
-          {%- assign my_page = site.pages | where: "path", path | first -%}
-          {%- if my_page.title -%}
-            {%- assign nav_title = my_page.title -%}
-            {%- if path == 'faq.md' -%}
-              {%- assign nav_title = 'FAQ' -%}
-            {%- endif -%}
-            <a class="page-link{% if page.url == my_page.url %} is-current{% endif %}" href="{{ my_page.url | relative_url }}"{% if page.url == my_page.url %} aria-current="page"{% endif %}>{{ nav_title | escape }}</a>
+        {%- if is_platform_root or is_blender -%}
+          <a class="page-link{% if page.url == '/fusion/' %} is-current{% endif %}" href="{{ '/fusion/' | relative_url }}">Fusion Docs</a>
+          <a class="page-link{% if is_blender %} is-current{% endif %}" href="{{ '/blender/' | relative_url }}"{% if is_blender %} aria-current="page"{% endif %}>Blender · Coming Soon</a>
+          <a class="page-link" href="{{ '/support.html' | relative_url }}">Support</a>
+        {%- else -%}
+          {%- assign default_paths = site.pages | map: "path" -%}
+          {%- assign page_paths = site.header_pages | default: default_paths -%}
+          {%- if page_paths -%}
+            {%- for path in page_paths -%}
+              {%- assign my_page = site.pages | where: "path", path | first -%}
+              {%- if my_page.title -%}
+                {%- assign nav_title = my_page.title -%}
+                {%- if path == 'faq.md' -%}
+                  {%- assign nav_title = 'FAQ' -%}
+                {%- endif -%}
+                <a class="page-link{% if page.url == my_page.url %} is-current{% endif %}" href="{{ my_page.url | relative_url }}"{% if page.url == my_page.url %} aria-current="page"{% endif %}>{{ nav_title | escape }}</a>
+              {%- endif -%}
+            {%- endfor -%}
           {%- endif -%}
-        {%- endfor -%}
+        {%- endif -%}
       </div>
     </nav>
-    {%- endif -%}
   </div>
 </header>
