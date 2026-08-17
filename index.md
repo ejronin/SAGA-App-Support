@@ -108,6 +108,14 @@ title: SAGA
   border-color: #8c5320;
 }
 
+.saga-platform-home .platform-price {
+  display: block;
+  margin: -0.1rem 0 0.65rem;
+  color: #f5f7fa;
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
 .saga-platform-home .platform-card strong {
   margin-bottom: 0.45rem;
   color: #f5f7fa;
@@ -185,6 +193,9 @@ title: SAGA
 }
 </style>
 
+{% assign fusion_commerce = site.data.platforms.fusion %}
+{% assign blender_commerce = site.data.platforms.blender %}
+
 <div class="saga-platform-home">
 
 <div class="saga-master" aria-label="SAGA">
@@ -198,6 +209,7 @@ title: SAGA
   <a class="platform-card fusion" href="{{ '/fusion/' | relative_url }}">
     <img src="{{ '/assets/SAGA for Fusion.png' | relative_url }}" alt="SAGA for Fusion">
     <span class="platform-status">Documentation live</span>
+    {% if fusion_commerce.show_purchase and fusion_commerce.price != '' %}<span class="platform-price">{{ fusion_commerce.price | escape }}</span>{% endif %}
     <strong>For Autodesk Fusion workflows</strong>
     <span>Build illustrated guides around Fusion projects with SAGA projects, parts and BOMs, captured Steps, markup, configuration paths, validation, and PDF publication.</span>
     <span class="platform-action">Open Fusion documentation →</span>
@@ -206,6 +218,7 @@ title: SAGA
   <a class="platform-card blender" href="{{ '/blender/' | relative_url }}">
     <img src="{{ '/assets/SAGA for Blender.png' | relative_url }}" alt="SAGA for Blender">
     <span class="platform-status coming-soon">Coming Soon</span>
+    {% if blender_commerce.show_purchase and blender_commerce.price != '' %}<span class="platform-price">{{ blender_commerce.price | escape }}</span>{% endif %}
     <strong>For Blender-based maker projects</strong>
     <span>Bring SAGA's guide-authoring discipline to model kits, props, figures, articulated projects and other physical builds using Blender-native arrangements, visualization, capture, annotations and publication.</span>
     <span class="platform-action">Preview SAGA for Blender →</span>
