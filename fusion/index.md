@@ -59,6 +59,47 @@ permalink: /fusion/
   color: #cbd1d7;
 }
 
+.platform-doc-home .purchase-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+  padding: 1rem 1.1rem;
+  background: var(--docs-panel);
+  border: 1px solid var(--docs-border);
+  border-left: 3px solid #0ea5b7;
+  border-radius: 6px;
+}
+
+.platform-doc-home .purchase-copy strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #f5f7fa;
+  font-size: 1.08rem;
+}
+
+.platform-doc-home .purchase-copy span {
+  color: var(--docs-muted);
+}
+
+.platform-doc-home .purchase-link,
+.platform-doc-home .purchase-link:visited {
+  flex: 0 0 auto;
+  padding: 0.62rem 0.85rem;
+  color: #091316;
+  background: #7ddfed;
+  border-radius: 5px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.platform-doc-home .purchase-link:hover,
+.platform-doc-home .purchase-link:focus-visible {
+  background: #a5edf6;
+  text-decoration: none;
+}
+
 .platform-doc-home h2 {
   margin-top: 2.1rem;
   padding-top: 0.25rem;
@@ -122,7 +163,7 @@ permalink: /fusion/
 
 .platform-doc-home .docs-fact {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
+  grid-template-columns: 150px minmax(0, 1fr));
   gap: 1rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--docs-border);
@@ -150,8 +191,19 @@ permalink: /fusion/
     grid-template-columns: 1fr;
     gap: 0.25rem;
   }
+
+  .platform-doc-home .purchase-panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .platform-doc-home .purchase-link {
+    text-align: center;
+  }
 }
 </style>
+
+{% assign commerce = site.data.platforms.fusion %}
 
 <div class="platform-doc-home">
 
@@ -165,6 +217,16 @@ permalink: /fusion/
   <strong>Release status</strong>
   <span>SAGA 1.0 is in Autodesk Design and Make Marketplace review and release qualification. Public Marketplace availability has not yet been confirmed.</span>
 </div>
+
+{% if commerce.show_purchase and commerce.purchase_url != '' %}
+<div class="purchase-panel">
+  <div class="purchase-copy">
+    <strong>{{ commerce.price | escape }}</strong>
+    <span>Available from {{ commerce.store_name | escape }}.</span>
+  </div>
+  <a class="purchase-link" href="{{ commerce.purchase_url | escape }}">{{ commerce.purchase_label | escape }} →</a>
+</div>
+{% endif %}
 
 <h2>Start here</h2>
 
