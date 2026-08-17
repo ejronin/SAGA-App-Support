@@ -163,7 +163,7 @@ permalink: /fusion/
 
 .platform-doc-home .docs-fact {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr));
+  grid-template-columns: 150px minmax(0, 1fr);
   gap: 1rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--docs-border);
