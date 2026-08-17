@@ -52,6 +52,47 @@ permalink: /blender/
   text-align: center;
 }
 
+.blender-coming-soon .purchase-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+  padding: 1rem 1.1rem;
+  background: var(--docs-panel);
+  border: 1px solid var(--docs-border);
+  border-left: 3px solid var(--blender-accent);
+  border-radius: 6px;
+}
+
+.blender-coming-soon .purchase-copy strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #f5f7fa;
+  font-size: 1.08rem;
+}
+
+.blender-coming-soon .purchase-copy span {
+  color: var(--docs-muted);
+}
+
+.blender-coming-soon .purchase-link,
+.blender-coming-soon .purchase-link:visited {
+  flex: 0 0 auto;
+  padding: 0.62rem 0.85rem;
+  color: #17100a;
+  background: #f3a14c;
+  border-radius: 5px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.blender-coming-soon .purchase-link:hover,
+.blender-coming-soon .purchase-link:focus-visible {
+  background: #ffb96e;
+  text-decoration: none;
+}
+
 .blender-coming-soon .overview-panel {
   margin: 1.25rem 0 2rem;
   padding: 1.1rem 1.2rem;
@@ -141,8 +182,19 @@ permalink: /blender/
   .blender-coming-soon .docs-roadmap {
     grid-template-columns: 1fr;
   }
+
+  .blender-coming-soon .purchase-panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .blender-coming-soon .purchase-link {
+    text-align: center;
+  }
 }
 </style>
+
+{% assign commerce = site.data.platforms.blender %}
 
 <div class="blender-coming-soon">
 
@@ -153,6 +205,16 @@ permalink: /blender/
 <span class="coming-soon-badge">Coming Soon</span>
 
 <p class="platform-intro">SAGA for Blender brings structured assembly-guide authoring into Blender while leaving Blender's normal modeling and editing environment intact. It is being built for makers who need to turn complex 3D projects into clear, repeatable, publication-ready instructions.</p>
+
+{% if commerce.show_purchase and commerce.purchase_url != '' %}
+<div class="purchase-panel">
+  <div class="purchase-copy">
+    <strong>{{ commerce.price | escape }}</strong>
+    <span>Available from {{ commerce.store_name | escape }}.</span>
+  </div>
+  <a class="purchase-link" href="{{ commerce.purchase_url | escape }}">{{ commerce.purchase_label | escape }} →</a>
+</div>
+{% endif %}
 
 <div class="overview-panel">
   <strong>The same SAGA goal, adapted to Blender.</strong> Fusion and Blender solve different kinds of 3D work, so SAGA does not force them into the same interface. Both versions focus on clear parts, ordered Steps, useful visuals, validation, and professional guide output; each version uses the workflow that fits its host application.
