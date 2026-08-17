@@ -1,13 +1,13 @@
 fusion:
   show_purchase: false
-  price: ""
+  price: "$29.99"
   purchase_url: ""
   purchase_label: "Buy SAGA for Fusion"
   store_name: "Autodesk Design and Make Marketplace"
 
 blender:
   show_purchase: false
-  price: ""
+  price: "$39.99"
   purchase_url: ""
   purchase_label: "Buy SAGA for Blender"
-  store_name: ""
+  store_name: "Superhive"
