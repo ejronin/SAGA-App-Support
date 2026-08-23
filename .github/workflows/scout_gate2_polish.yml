@@ -1,11 +1,15 @@
-name: Scout Gate 2 Production Polish
+name: Scout Gate 2 Actual Blend Production Polish
 
 on:
   push:
     branches:
       - codex/scout-gate2-production-polish-20260823
-    paths-ignore:
-      - '.gate2_temp/run_info.txt'
+    paths:
+      - '.gate2_trigger_actual'
+
+concurrency:
+  group: scout-gate2-actual-blend
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -22,40 +26,25 @@ jobs:
       - name: Publish active run locator
         shell: bash
         run: |
-          printf 'run_id=%s\nstatus=running\nsource_sha=%s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > .gate2_temp/run_info.txt
+          printf 'run_id=%s\nstatus=running\nsource_sha=%s\ninput_sha256=eb4237027d0db43780ca5ae91bb7f935cf5f6a6badd3f2356a253b7570be13f7\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > .gate2_temp/run_info_actual.txt
           git config user.name 'Gate 2 Runtime'
           git config user.email 'actions@users.noreply.github.com'
-          git add .gate2_temp/run_info.txt
-          git commit -m "Record active Gate 2 runtime $GITHUB_RUN_ID"
+          git add .gate2_temp/run_info_actual.txt
+          git commit -m "Record active actual-blend Gate 2 runtime $GITHUB_RUN_ID" || true
           git push origin HEAD:codex/scout-gate2-production-polish-20260823
 
-      - name: Reassemble authoritative source and bounded polish scripts
+      - name: Reassemble bounded polish script
         shell: bash
         run: |
-          cat .gate2_temp/builder.part00 .gate2_temp/builder.part01 .gate2_temp/builder.part02 .gate2_temp/builder.part03 .gate2_temp/builder.part04 .gate2_temp/builder.part05 .gate2_temp/builder.part06 > build_workshop_scout_final.py
           cat .gate2_temp/polish.part00 .gate2_temp/polish.part01 .gate2_temp/polish.part02 .gate2_temp/polish.part03_v2 > gate2_production_polish.py
-          python -m py_compile build_workshop_scout_final.py gate2_production_polish.py
+          python -m py_compile gate2_production_polish.py
 
-      - name: Suppress redundant fallback preview renders
+      - name: Reassemble and verify authoritative uploaded blend
         shell: bash
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path('build_workshop_scout_final.py')
-          lines = path.read_text(encoding='utf-8').splitlines()
-          out = []
-          skipped = 0
-          for line in lines:
-              if line.lstrip().startswith("render(preview_dir,"):
-                  out.append(line[:len(line)-len(line.lstrip())] + "# Gate 2: pre-polish fallback preview render suppressed; geometry is unchanged.")
-                  skipped += 1
-              else:
-                  out.append(line)
-          if skipped != 8:
-              raise SystemExit(f'Expected 8 fallback preview render calls, found {skipped}')
-          path.write_text('\n'.join(out) + '\n', encoding='utf-8')
-          PY
-          python -m py_compile build_workshop_scout_final.py
+          cat .gate2_actual/blend.b64.part* | tr -d '\n\r' | base64 -d > SAGA_Demo_Workshop_Scout_Robot_FINAL.blend
+          printf '%s  %s\n' 'eb4237027d0db43780ca5ae91bb7f935cf5f6a6badd3f2356a253b7570be13f7' 'SAGA_Demo_Workshop_Scout_Robot_FINAL.blend' | sha256sum -c -
+          stat -c '%n %s bytes' SAGA_Demo_Workshop_Scout_Robot_FINAL.blend
 
       - name: Install headless display support
         shell: bash
@@ -74,27 +63,10 @@ jobs:
           "$BLENDER" --version | head -5
           echo "BLENDER=$BLENDER" >> "$GITHUB_ENV"
 
-      - name: Reconstruct approved final geometry from supplied fallback source
-        shell: bash
-        env:
-          LIBGL_ALWAYS_SOFTWARE: "1"
-        run: |
-          mkdir -p Approved_Rebuild_Previews
-          xvfb-run -a "$BLENDER" --background --factory-startup \
-            --python-exit-code 20 \
-            --python build_workshop_scout_final.py -- \
-            --output "$(pwd)/SAGA_Demo_Workshop_Scout_Robot_FINAL.blend" \
-            --previews "$(pwd)/Approved_Rebuild_Previews" \
-            | tee rebuild.log
-          grep -q 'SAGA_WORKSHOP_SCOUT_FINAL_BUILD_READY=YES' rebuild.log
-          grep -q 'SAGA_REFERENCE_IMAGES_EMBEDDED=0' rebuild.log
-          grep -q 'SAGA_BOOLEAN_CUTTERS_REMAINING=0' rebuild.log
-          grep -q 'SAGA_UNAPPLIED_BOOLEAN_MODIFIERS=0' rebuild.log
-
       - name: Runtime Gate 1 inventory, Gate 2 polish, and Gate 3 QA
         shell: bash
         env:
-          LIBGL_ALWAYS_SOFTWARE: "1"
+          LIBGL_ALWAYS_SOFTWARE: '1'
         run: |
           mkdir -p Final
           xvfb-run -a "$BLENDER" "$(pwd)/SAGA_Demo_Workshop_Scout_Robot_FINAL.blend" \
@@ -102,33 +74,33 @@ jobs:
             --python gate2_production_polish.py -- \
             --output-dir "$(pwd)/Final/SAGA_Workshop_Scout_Production_Polish_Output" \
             --static-audit "$(pwd)/.gate2_temp/SCOUT_POLISH_AUDIT.md" \
-            | tee gate2.log
-          grep -q 'SAGA_GATE2_PRODUCTION_POLISH=PASS' gate2.log
+            | tee gate2_actual.log
+          grep -q 'SAGA_GATE2_PRODUCTION_POLISH=PASS' gate2_actual.log
 
       - name: Verify required deliverables
         shell: bash
         run: |
-          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend
-          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_POLISH_AUDIT.md
-          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_POLISH_CHANGELOG.md
-          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_OBJECT_NAME_MAP.csv
-          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_FUNCTIONAL_QA.md
-          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/MANIFEST.sha256
-          test "$(find Final/SAGA_Workshop_Scout_Production_Polish_Output/Review_Images -maxdepth 1 -name '*.png' | wc -l)" -eq 10
-          test "$(find Final/SAGA_Workshop_Scout_Production_Polish_Output/Region_Reviews -maxdepth 1 -name '*.png' | wc -l)" -eq 7
-          test "$(find Final/SAGA_Workshop_Scout_Production_Polish_Output/Checkpoints -maxdepth 1 -name '*.blend' | wc -l)" -eq 7
-          sha256sum Final/SAGA_Workshop_Scout_Production_Polish_Output/SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend
+          ROOT=Final/SAGA_Workshop_Scout_Production_Polish_Output
+          test -f "$ROOT/SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend"
+          test -f "$ROOT/SCOUT_POLISH_AUDIT.md"
+          test -f "$ROOT/SCOUT_POLISH_CHANGELOG.md"
+          test -f "$ROOT/SCOUT_OBJECT_NAME_MAP.csv"
+          test -f "$ROOT/SCOUT_FUNCTIONAL_QA.md"
+          test -f "$ROOT/MANIFEST.sha256"
+          test "$(find "$ROOT/Review_Images" -maxdepth 1 -name '*.png' | wc -l)" -eq 10
+          test "$(find "$ROOT/Region_Reviews" -maxdepth 1 -name '*.png' | wc -l)" -eq 7
+          test "$(find "$ROOT/Checkpoints" -maxdepth 1 -name '*.blend' | wc -l)" -eq 7
+          sha256sum "$ROOT/SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend"
           sha256sum Final/SAGA_Workshop_Scout_Production_Polish_Output.zip
 
       - name: Upload production-polish handoff
         uses: actions/upload-artifact@v4
         with:
-          name: SAGA_Workshop_Scout_Production_Polish_Output
+          name: SAGA_Workshop_Scout_ActualBlend_Production_Polish_Output
           path: |
             Final/SAGA_Workshop_Scout_Production_Polish_Output
             Final/SAGA_Workshop_Scout_Production_Polish_Output.zip
-            gate2.log
-            rebuild.log
+            gate2_actual.log
           if-no-files-found: error
           compression-level: 0
           retention-days: 7
@@ -137,7 +109,7 @@ jobs:
         if: always()
         shell: bash
         run: |
-          printf 'run_id=%s\nstatus=%s\nsource_sha=%s\n' "$GITHUB_RUN_ID" "${{ job.status }}" "$GITHUB_SHA" > .gate2_temp/run_info.txt
-          git add .gate2_temp/run_info.txt
-          git commit -m "Record Gate 2 runtime $GITHUB_RUN_ID (${{ job.status }})" || exit 0
+          printf 'run_id=%s\nstatus=%s\nsource_sha=%s\ninput_sha256=eb4237027d0db43780ca5ae91bb7f935cf5f6a6badd3f2356a253b7570be13f7\n' "$GITHUB_RUN_ID" "${{ job.status }}" "$GITHUB_SHA" > .gate2_temp/run_info_actual.txt
+          git add .gate2_temp/run_info_actual.txt
+          git commit -m "Record actual-blend Gate 2 runtime $GITHUB_RUN_ID (${{ job.status }})" || exit 0
           git push origin HEAD:codex/scout-gate2-production-polish-20260823
