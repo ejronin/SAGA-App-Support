@@ -1,0 +1,92 @@
+        jaw_x = hand_center.x + sx*15
+        jaw_top = box(f'{tag} Clamp Jaw Top Slider', (27,12,7), (jaw_x,0,hand_center.z+12), frame_mat, arms_col, 1.0)
+        boolean_union(jaw_top, box(f'{tag} Clamp Jaw Top FingerTemp', (11,12,16), (jaw_x + sx*10,0,hand_center.z+10), frame_mat, arms_col, 1.0), 'Applied Top Jaw Union')
+        jaw_bottom = box(f'{tag} Clamp Jaw Bottom Slider', (27,12,7), (jaw_x,0,hand_center.z-12), frame_mat, arms_col, 1.0)
+        boolean_union(jaw_bottom, box(f'{tag} Clamp Jaw Bottom FingerTemp', (11,12,16), (jaw_x + sx*10,0,hand_center.z-10), frame_mat, arms_col, 1.0), 'Applied Bottom Jaw Union')
+        parent_all([jaw_top,jaw_bottom], wrist_pivot)
+        jaw_top['SAGA Motion'] = 'Translate +Z to open and -Z to close; gripping face remains aligned with lower jaw.'
+        jaw_bottom['SAGA Motion'] = 'Translate -Z to open and +Z to close; gripping face remains aligned with upper jaw.'
+
+        c = cable(f'{tag} Forearm Service Cable', [(elbow_center.x + sx*8,-13,elbow_center.z+5),(sx*148,-14,172),(wrist_center.x - sx*10,-12,wrist_center.z+4)], 1.8, pipe_mat, arms_col)
+        keep_parent(c, elbow_pivot)
+
+        frame_parts = [shoulder_yoke,shoulder_rotor,shoulder_axle,shoulder_spacer,shoulder_gusset,upper_spine,clevis_front,clevis_rear,elbow_bridge,elbow_pin,elbow_knuckle,forearm_spine,wrist_socket,wrist_spindle,wrist_ring,palm,c]
+        armor_parts = [upper_front,upper_rear,fore_front,fore_rear]
+        moving_parts = [jaw_top,jaw_bottom]
+        parts = frame_parts + armor_parts + moving_parts
+        arm_parts_by_side[tag] = parts
+        arm_frame_by_side[tag] = frame_parts + moving_parts
+        arm_armor_by_side[tag] = armor_parts
+        arm_pivots[tag] = (shoulder_pivot,elbow_pivot,wrist_pivot,jaw_top,jaw_bottom)
+
+        for i,obj in enumerate(parts, start=1):
+            if obj in armor_parts:
+                classification, stage = 'Part', 16
+                notes = 'Hollow snap-on shell half with real frame clearance and joint relief.'
+            elif obj in moving_parts:
+                classification, stage, notes = 'Part', 17, 'Opposed translating loader-clamp jaw.'
+            else:
+                classification, stage, notes = 'Frame', 15, ''
+            part_meta(obj, f'A-{tag}-{i:02d}', obj.name, stage, classification=classification, demo=('Jaw' in obj.name or 'Wrist' in obj.name), notes=notes)
+
+    build_arm(-1,'L')
+    build_arm(1,'R')
+
+    # ------------------------------------------------------------------
+    # Final production build intentionally contains no embedded reference images.
+    # ------------------------------------------------------------------
+
+    # ------------------------------------------------------------------
+    # Embedded SAGA documentation
+    # ------------------------------------------------------------------
+    assembly_md = """# SAGA Workshop Scout Robot — FINAL assembly sequence
+
+This is a documentation model, not a manufacturing model. Assembly order follows the actual modeled nesting and access paths: structural core first, enclosed detail before armor, moving joint hardware before the shells that surround it, and outer closures last.
+
+1. Hull core — Start with the Hull Structural Core, then seat the separate front and rear hull armor blocks. Keep all four suspension bores and fairing-key slots accessible.
+2. Suspension frames (x4) — Insert each suspension peg into its hull-side bore, then add its suspension arm and hub carrier. Repeat LF, RF, LR and RR.
+3. Wheel modules (x4) — Nest each rim into its modeled-tread tire, place the wheel module on the hub carrier, then add the outer axle retention plug. Confirm the wheel can rotate without the fairing installed.
+4. Wheel fairings (x4) — Align each fairing's two integrated keys with the matching hull slots and seat it over the suspension. Confirm tread and wheel rotation clear the fairing opening.
+5. Waist inner assembly — Insert the waist-to-hull peg into the hull receiver, then add the waist structural core and visual turntable.
+6. Waist armor — Fit the front and rear waist armor around the completed waist core without obstructing the turntable gap.
+7. Torso layer 1 — Seat the torso structural cage on the waist turntable. Add the fixed left/right shoulder bearing drums and axle bosses.
+8. Torso layer 2 / service bay — Before closing the torso, install exhaust blocks, power/control modules, braces, pipes, front armor fitment keys, and the complete rear service-bay bulkhead/floor/rack/modules/feed pipe.
+9. Front torso armor — Seat the left and right front plates onto the four keyed bosses. The receiver pockets in the armor face the frame.
+10. Side, collar and rear torso armor — Fit the left/right side armor and upper collar, then install the rear armor shell with its integrated hatch jamb. This closes the torso around the already-installed layer-2 detail.
+11. Rear entry hatch — Install the two fixed jamb knuckles/leaves, the moving hatch knuckle/leaf, hatch inner brace and hatch, then insert the hinge pin through the shared vertical axis. Test the hatch before moving on.
+12. Cockpit insert / neck — Build the cockpit tub with seat, console and display. Install the neck peg and place the cockpit insert in its final head position.
+13. Head shell — Bring the left and right hollow head-shell halves around the cockpit insert and close them. The cockpit must be inside before the shell halves close.
+14. Head access parts — Install the cockpit door bezel/glazing/hinge arm as one hinged front module, then add the antenna mast and tip. Verify the door opens without striking the shell.
+15. Arm inner frames (L/R) — For each side, build from torso outward: nested shoulder race/rotor/pivot pin/spacer/gusset, upper-arm structural spine, circular elbow clevis plates/bridge/hinge pin, forearm knuckle/spine, fixed wrist socket, rotating wrist spindle/ring, loader-hand guide body and service cable. Verify shoulder, elbow and wrist motion before armor.
+16. Arm armor shells (L/R) — Snap the front/rear upper-arm shells around the upper spine, then the front/rear forearm shells around the forearm spine. Circular elbow and wrist reliefs must remain centered on the joints and clear their motion.
+17. Clamp jaws (L/R) — Install the opposed top and bottom translating jaws into each loader-hand guide. Their gripping faces must oppose each other in the same plane; they widen/narrow rather than hinge.
+18. Final fit and articulation check — Confirm all four wheels rotate; fairings clear tread; waist turns visually; shoulder rotates; elbow bends; wrist rotates; jaws translate; rear hatch remains attached while open; cockpit door opens; no armor shell or service detail blocks the intended movement.
+"""
+    put_text('SAGA_ASSEMBLY_SEQUENCE.md', assembly_md)
+
+    articulation_md = """# SAGA Workshop Scout Robot — articulation map
+
+- Wheels: visual rotation about X-axis pivots; axle plug retains each wheel module.
+- Waist: visual turntable above hull.
+- Shoulder: rotation around Y-axis through a visible nested race/rotor/pivot-pin stack supported by the fixed torso drum.
+- Elbow: single-axis bend around Y through circular clevis plates/knuckle/pin, matching the round armor relief.
+- Wrist: rotation around the local arm/X axis.
+- Clamp jaws: translate apart/together across local Z in the same Y plane. Their gripping faces remain opposed and aligned; they do not hinge.
+- Rear entry hatch: opens about the left-side vertical barrel hinge; fixed torso knuckles remain on the jamb while the hatch-side knuckle rotates with the door.
+- Cockpit door: swings upward/outward from the front of the head to expose cockpit detail.
+
+Arm armor is hollowed and split into front/rear snap-on shells around the structural spines. Joint reliefs remain outside the hinge sweep, and the neutral pose is arranged so the documented assembly order does not intentionally collide.
+"""
+    put_text('SAGA_ARTICULATION_MAP.md', articulation_md)
+
+    boolean_md = """# Boolean cleanup contract
+
+All Boolean cutters are temporary construction geometry.
+
+Before the file is saved:
+- every Boolean modifier is applied;
+- every cutter object is deleted, not hidden;
+- no object whose name begins `_BOOL_` may remain;
+- no object carrying `SAGA Boolean Cutter` may remain;
+- visible cavities, slots, sockets, openings and reliefs are actual mesh geometry.
+
