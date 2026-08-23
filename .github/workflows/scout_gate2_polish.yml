@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - codex/scout-gate2-production-polish-20260823
+    paths-ignore:
+      - '.gate2_temp/run_info.txt'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   polish:
@@ -99,3 +101,14 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 7
+
+      - name: Publish run locator
+        if: always()
+        shell: bash
+        run: |
+          printf 'run_id=%s\nstatus=%s\nsource_sha=%s\n' "$GITHUB_RUN_ID" "${{ job.status }}" "$GITHUB_SHA" > .gate2_temp/run_info.txt
+          git config user.name 'Gate 2 Runtime'
+          git config user.email 'actions@users.noreply.github.com'
+          git add .gate2_temp/run_info.txt
+          git commit -m "Record Gate 2 runtime $GITHUB_RUN_ID (${{ job.status }})" || exit 0
+          git push origin HEAD:codex/scout-gate2-production-polish-20260823
