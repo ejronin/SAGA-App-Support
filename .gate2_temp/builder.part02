@@ -1,0 +1,130 @@
+                cut_box(hull, f'{prefix}_FairingSlot_{dz}', (12, 7, 8), (sx*70, y + 22, 47 + dz))
+
+            peg = cylinder(f'{prefix} Suspension Peg', 7.1, 29, (sx*82, y, 45), frame_mid, wheel_col, rotation=(0,math.pi/2,0), edge=0.7)
+            arm = beam_between(f'{prefix} Suspension Arm', (sx*85,y,45), (sx*108,y,31), 12, 13, frame_mat, wheel_col)
+            hub = cylinder(f'{prefix} Hub Carrier', 13, 14, (hub_x,y,hub_z), frame_mat, wheel_col, rotation=(0,math.pi/2,0), edge=1.0)
+            suspension_parts += [peg, arm, hub]
+            part_meta(peg, f'W-{prefix}-01', f'{prefix} suspension peg', 3, classification='Frame')
+            part_meta(arm, f'W-{prefix}-02', f'{prefix} suspension arm', 3, classification='Frame')
+            part_meta(hub, f'W-{prefix}-03', f'{prefix} hub carrier', 3, classification='Frame')
+
+            pivot = make_pivot(f'{prefix} Wheel Rotation Pivot', (hub_x, y, hub_z))
+            wheel_pivots.append(pivot)
+            tire_x = hub_x + sx*12
+            tire = cylinder(f'{prefix} Tire', 25, 15, (tire_x,y,hub_z), rubber, wheel_col, rotation=(0,math.pi/2,0), vertices=64, edge=1.5)
+            smooth(tire)
+
+            # Final modeled tread: two staggered rows of raised blocks around the
+            # circumference. These are actual mesh features and are joined into the
+            # documented tire object rather than faked with a render texture.
+            tread_blocks = []
+            tread_count = 14
+            for row, xoff in ((0,-4.2),(1,4.2)):
+                for idx in range(tread_count):
+                    theta = (2.0 * math.pi * idx / tread_count) + (row * math.pi / tread_count)
+                    radial = 25.9
+                    ty = y - radial * math.sin(theta)
+                    tz = hub_z + radial * math.cos(theta)
+                    lug = box(
+                        f'{prefix} Tire Tread {row+1}-{idx+1:02d}',
+                        (6.2, 7.0, 3.4),
+                        (tire_x + xoff, ty, tz),
+                        rubber,
+                        wheel_col,
+                        0.45,
+                        rotation=(theta,0,0),
+                    )
+                    tread_blocks.append(lug)
+            join_mesh_objects(tire, tread_blocks)
+            tire.name = f'{prefix} Tire'
+            smooth(tire)
+
+            rim = cylinder(f'{prefix} Rim', 15.8, 16, (tire_x,y,hub_z), frame_mid, wheel_col, rotation=(0,math.pi/2,0), vertices=56, edge=1.0)
+            smooth(rim)
+            cap = cylinder(f'{prefix} Axle Plug', 8.0, 5, (hub_x + sx*21,y,hub_z), orange, hardware_col, rotation=(0,math.pi/2,0), vertices=40, edge=0.8)
+            smooth(cap)
+            for obj in (tire, rim, cap):
+                keep_parent(obj, pivot)
+            wheel_modules += [tire, rim, cap]
+            part_meta(tire, f'W-{prefix}-04', f'{prefix} treaded tire on rim', 4, notes='Modeled raised tread blocks; rotates about the wheel pivot in the demonstration file.')
+            part_meta(rim, f'W-{prefix}-05', f'{prefix} wheel rim', 4)
+            part_meta(cap, f'W-{prefix}-06', f'{prefix} axle retention plug', 4)
+
+            # Fairing is a single shaped part with a real wheel clearance cut and two fitment keys.
+            fair = prism_x(
+                f'{prefix} Wheel Fairing',
+                [(-33,-4),(-31,26),(-20,43),(0,51),(20,43),(31,26),(33,-4)],
+                18,
+                (sx*91, y, 39),
+                teal,
+                wheel_col,
+                1.6,
+            )
+            wheel_cut = temp_cylinder(f'{prefix}_WheelClearance', 28.5, 30, (sx*91,y,hub_z), rotation=(0,math.pi/2,0), vertices=64)
+            boolean_difference(fair, wheel_cut, 'Applied Wheel Clearance')
+            # Pegs point inward toward hull slots.
+            for dz in (-10, 10):
+                key = box(f'{prefix} Fairing Key {dz}', (11,6,7), (sx*78,y+22,47+dz), teal, wheel_col, 0.8)
+                # One logical fairing part: actually union the keys into it.
+                boolean_union(fair, key, 'Applied Fairing Key Union')
+            fairings.append(fair)
+            part_meta(fair, f'W-{prefix}-07', f'{prefix} wheel fairing', 5, notes='Snap-on fairing with real wheel clearance and keyed hull fitment.')
+
+    # ------------------------------------------------------------------
+    # Waist
+    # ------------------------------------------------------------------
+    waist_peg = cylinder('Waist Hull Peg', 17.0, 27, (0,0,80), frame_mid, waist_col, edge=1.0)
+    waist_core = box('Waist Core', (92,76,34), (0,0,103), frame_mat, waist_col, 5)
+    waist_turn = cylinder('Waist Turntable', 34, 12, (0,0,126), frame_mid, waist_col, edge=1.2)
+    parent_all([waist_core, waist_turn], waist_peg)
+    part_meta(waist_peg, 'WA01', 'Waist-to-hull keyed peg', 6, classification='Frame')
+    part_meta(waist_core, 'WA02', 'Waist structural core', 6, classification='Frame')
+    part_meta(waist_turn, 'WA03', 'Waist rotation visual turntable', 6, classification='Frame')
+
+    waist_front = prism_y('Waist Front Armor', [(-43,-16),(43,-16),(50,-2),(43,17),(-43,17),(-50,-2)], 13, (0,-44,104), teal, waist_col, 1.6)
+    waist_rear = prism_y('Waist Rear Armor', [(-42,-15),(42,-15),(49,0),(42,15),(-42,15),(-49,0)], 12, (0,44,104), teal_dark, waist_col, 1.4)
+    part_meta(waist_front, 'WA04', 'Waist front armor', 7)
+    part_meta(waist_rear, 'WA05', 'Waist rear armor', 7)
+
+    # ------------------------------------------------------------------
+    # Torso frame layers + armor
+    # ------------------------------------------------------------------
+    torso = box('Torso Layer 1 Structural Cage', (116,82,92), (0,0,175), frame_mat, torso_frame, 6)
+    part_meta(torso, 'T01', 'Torso layer 1 structural cage', 8, classification='Frame', notes='Main shoulder and neck structure.')
+    # Hollow-looking service bay: real rear opening in the cage.
+    cut_box(torso, 'Torso_Rear_Service_Bay', (74,52,52), (0,28,176))
+    # Neck socket cut through top.
+    cut_cylinder(torso, 'Torso_Neck_Socket', 10.3, 26, (0,0,224), rotation=(0,0,0))
+
+    # Shoulder barrels are structural and mirrored.
+    shoulders = []
+    for sx, tag in ((-1,'L'), (1,'R')):
+        drum = cylinder(f'{tag} Shoulder Bearing Drum', 24, 18, (sx*67,0,191), frame_mid, torso_frame, rotation=(math.pi/2,0,0), edge=1.2)
+        boss = cylinder(f'{tag} Shoulder Axle Boss', 12, 24, (sx*74,0,191), frame_mat, torso_frame, rotation=(0,math.pi/2,0), edge=0.9)
+        shoulders += [drum,boss]
+        part_meta(drum, f'T-{tag}-02', f'{tag} shoulder bearing drum', 8, classification='Frame')
+        part_meta(boss, f'T-{tag}-03', f'{tag} shoulder axle boss', 8, classification='Frame')
+
+    # Layer 2 visible detail — deliberately covered by armor in the final view but usable for cutaway/maintenance documentation.
+    exhaust_l = box('Layer 2 Left Exhaust', (20,18,34), (-39,30,183), frame_mid, torso_detail, 2.0)
+    exhaust_r = box('Layer 2 Right Exhaust', (20,18,34), (39,30,183), frame_mid, torso_detail, 2.0)
+    for exhaust in (exhaust_l, exhaust_r):
+        for i in (-8,0,8):
+            cut_box(exhaust, 'ExhaustSlot', (11,5,3.5), (exhaust.location.x, exhaust.location.y+8.2, exhaust.location.z+i))
+    power_box = box('Layer 2 Power Module', (36,23,45), (31,-26,173), frame_mid, torso_detail, 2.0)
+    control_box = box('Layer 2 Control Module', (30,21,37), (-33,-27,171), frame_mid, torso_detail, 2.0)
+    pipe1 = cable('Layer 2 Orange Coolant Pipe', [(-40,18,153),(-49,4,168),(-49,-7,188),(-35,-18,198)], 2.6, pipe_mat, torso_detail)
+    pipe2 = cable('Layer 2 Return Pipe', [(40,18,153),(49,4,168),(49,-6,186),(35,-18,198)], 2.1, frame_mid, torso_detail)
+    brace1 = beam_between('Layer 2 Diagonal Brace L', (-42,-18,145),(-18,18,207), 8, 8, frame_mid, torso_detail)
+    brace2 = beam_between('Layer 2 Diagonal Brace R', (42,-18,145),(18,18,207), 8, 8, frame_mid, torso_detail)
+    for obj, item, disp in [
+        (exhaust_l,'T10','Left exhaust block'),(exhaust_r,'T11','Right exhaust block'),
+        (power_box,'T12','Power module'),(control_box,'T13','Control module'),
+        (pipe1,'T14','Coolant pipe'),(pipe2,'T15','Return pipe'),
+        (brace1,'T16','Left detail brace'),(brace2,'T17','Right detail brace')]:
+        part_meta(obj, item, disp, 9, classification='Detail')
+
+    # Torso armor receiver pegs on the frame.
+    armor_keys = []
+    for x,z in ((-38,154),(38,154),(-38,201),(38,201)):
+        key = box(f'Torso Armor Key {x}_{z}', (8,11,8), (x,-45,z), orange, torso_frame, 1.0)
