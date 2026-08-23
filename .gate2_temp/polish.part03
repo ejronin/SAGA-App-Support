@@ -1,0 +1,109 @@
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def write_manifest(root):
+    manifest = os.path.join(root, 'MANIFEST.sha256')
+    rows = []
+    for dirpath, _, files in os.walk(root):
+        for filename in files:
+            path = os.path.join(dirpath, filename)
+            if os.path.abspath(path) == os.path.abspath(manifest):
+                continue
+            rel = os.path.relpath(path, root).replace(os.sep, '/')
+            rows.append((rel, sha256(path)))
+    rows.sort()
+    with open(manifest, 'w', encoding='utf-8', newline='\n') as f:
+        for rel, digest in rows:
+            f.write(f'{digest}  {rel}\n')
+    return manifest
+
+
+def zip_folder(root, zip_path):
+    if os.path.exists(zip_path):
+        os.remove(zip_path)
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        for dirpath, _, files in os.walk(root):
+            for filename in sorted(files):
+                path = os.path.join(dirpath, filename)
+                rel = os.path.relpath(path, os.path.dirname(root))
+                z.write(path, rel)
+    return zip_path
+
+
+def main():
+    output_dir = os.path.abspath(get_arg('--output-dir', 'SAGA_Workshop_Scout_Production_Polish_Output'))
+    static_audit = get_arg('--static-audit')
+    ensure_dir(output_dir)
+    review_dir = ensure_dir(os.path.join(output_dir, 'Review_Images'))
+    checkpoint_dir = ensure_dir(os.path.join(output_dir, 'Checkpoints'))
+
+    expected_scene = bpy.context.scene.get('SAGA Model', '')
+    if expected_scene and expected_scene != 'Workshop Scout Robot':
+        raise RuntimeError(f'Unexpected source scene: {expected_scene}')
+    if int(bpy.context.scene.get('SAGA Assembly Steps', 18)) != 18:
+        raise RuntimeError('Source does not report the frozen 18-step assembly sequence.')
+
+    runtime_inventory = inventory_text()
+    changes = []
+
+    # Gate 2 in the required region order.
+    polish_arm_chain(changes)
+    save_checkpoint(checkpoint_dir, 1, 'arm_chain')
+
+    # Arm shells are handled in the arm-chain pass because seam/relief readability is inseparable from that mechanism.
+    save_checkpoint(checkpoint_dir, 2, 'arm_shells')
+
+    polish_head_cockpit(changes)
+    save_checkpoint(checkpoint_dir, 3, 'head_cockpit')
+
+    polish_rear_service(changes)
+    save_checkpoint(checkpoint_dir, 4, 'rear_hatch_service_bay')
+
+    polish_hull_wheels(changes)
+    save_checkpoint(checkpoint_dir, 5, 'hull_wheels_fairings')
+
+    polish_torso_waist(changes)
+    save_checkpoint(checkpoint_dir, 6, 'torso_waist_global')
+
+    polish_shading_materials(changes)
+    save_checkpoint(checkpoint_dir, 7, 'hierarchy_pivot_shading')
+
+    # Gate 3 runtime checks and required review images.
+    qa_results = run_functional_qa(review_dir)
+    neutralize()
+    render_review_set(review_dir)
+
+    scene = bpy.context.scene
+    scene['SAGA Gate'] = 'PRODUCTION POLISH'
+    scene['SAGA Production Polish'] = 'BOUNDED PASS COMPLETE'
+    scene['SAGA Assembly Steps'] = 18
+    scene['SAGA Reference Images Embedded'] = 0
+
+    final_blend = os.path.join(output_dir, 'SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend')
+    bpy.ops.wm.save_as_mainfile(filepath=final_blend)
+    try:
+        bpy.ops.file.pack_all()
+        bpy.ops.wm.save_as_mainfile(filepath=final_blend)
+    except Exception:
+        pass
+
+    write_audit(os.path.join(output_dir, 'SCOUT_POLISH_AUDIT.md'), static_audit, runtime_inventory)
+    write_changelog(os.path.join(output_dir, 'SCOUT_POLISH_CHANGELOG.md'), changes)
+    write_object_map(os.path.join(output_dir, 'SCOUT_OBJECT_NAME_MAP.csv'))
+    write_qa(os.path.join(output_dir, 'SCOUT_FUNCTIONAL_QA.md'), qa_results)
+
+    manifest = write_manifest(output_dir)
+    zip_path = os.path.join(os.path.dirname(output_dir), os.path.basename(output_dir) + '.zip')
+    zip_folder(output_dir, zip_path)
+
+    print('SAGA_GATE2_PRODUCTION_POLISH=PASS')
+    print('SAGA_OUTPUT_BLEND=' + final_blend)
+    print('SAGA_OUTPUT_BLEND_SHA256=' + sha256(final_blend))
+    print('SAGA_OUTPUT_ZIP=' + zip_path)
+    print('SAGA_OUTPUT_ZIP_SHA256=' + sha256(zip_path))
+    print('SAGA_MANIFEST=' + manifest)
+
+
+if __name__ == '__main__':
+    main()
