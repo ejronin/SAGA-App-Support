@@ -1,0 +1,220 @@
+    obj['SAGA Material'] = material_name
+    obj['SAGA Assembly Stage'] = stage
+    obj['SAGA Demo Zone'] = bool(demo)
+    if notes:
+        obj['SAGA Notes'] = notes
+
+
+def put_text(name, text):
+    datablock = bpy.data.texts.get(name) or bpy.data.texts.new(name)
+    datablock.clear()
+    datablock.write(text)
+
+
+# -----------------------------------------------------------------------------
+# Boolean construction helpers — cutters are always temporary and deleted
+# -----------------------------------------------------------------------------
+
+def _apply_boolean(target, cutter, operation, label):
+    cutter['SAGA Boolean Cutter'] = True
+    mod = target.modifiers.new(label, 'BOOLEAN')
+    mod.operation = operation
+    try:
+        mod.solver = 'EXACT'
+    except Exception:
+        pass
+    mod.object = cutter
+    bpy.context.view_layer.objects.active = target
+    target.select_set(True)
+    cutter.select_set(False)
+    try:
+        bpy.ops.object.modifier_apply(modifier=mod.name)
+    except Exception as exc:
+        raise RuntimeError(f'Boolean {operation} failed on {target.name} using {cutter.name}: {exc}')
+    bpy.data.objects.remove(cutter, do_unlink=True)
+
+
+def boolean_difference(target, cutter, label='Applied Difference'):
+    _apply_boolean(target, cutter, 'DIFFERENCE', label)
+
+
+def boolean_intersect(target, cutter, label='Applied Intersect'):
+    _apply_boolean(target, cutter, 'INTERSECT', label)
+
+
+def boolean_union(target, cutter, label='Applied Union'):
+    _apply_boolean(target, cutter, 'UNION', label)
+
+
+def temp_box(name, dims, loc, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cube_add(location=loc, rotation=rotation)
+    obj = bpy.context.object
+    obj.name = '_BOOL_' + name
+    obj.dimensions = dims
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    return obj
+
+
+def temp_cylinder(name, radius, depth, loc, rotation=(0, 0, 0), vertices=48):
+    bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=depth, location=loc, rotation=rotation)
+    obj = bpy.context.object
+    obj.name = '_BOOL_' + name
+    return obj
+
+
+def temp_sphere(name, radius, loc, scale=(1, 1, 1)):
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=48, ring_count=24, radius=radius, location=loc)
+    obj = bpy.context.object
+    obj.name = '_BOOL_' + name
+    obj.scale = scale
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    return obj
+
+
+def cut_box(target, name, dims, loc, rotation=(0, 0, 0)):
+    cutter = temp_box(name, dims, loc, rotation)
+    boolean_difference(target, cutter, 'Applied Slot/Recess')
+
+
+def cut_cylinder(target, name, radius, depth, loc, rotation=(0, 0, 0)):
+    cutter = temp_cylinder(name, radius, depth, loc, rotation)
+    boolean_difference(target, cutter, 'Applied Bore/Recess')
+
+
+# -----------------------------------------------------------------------------
+# Review rendering helpers
+# -----------------------------------------------------------------------------
+
+def add_area(name, loc, energy, size, color):
+    data = bpy.data.lights.new(name, 'AREA')
+    data.energy = energy
+    data.shape = 'DISK'
+    data.size = size
+    data.color = color
+    obj = bpy.data.objects.new(name, data)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.location = loc
+    return obj
+
+
+def add_sun(name, rot, energy, color):
+    data = bpy.data.lights.new(name, 'SUN')
+    data.energy = energy
+    data.color = color
+    obj = bpy.data.objects.new(name, data)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.rotation_euler = rot
+    return obj
+
+
+def point_at(obj, target):
+    direction = Vector(target) - obj.location
+    obj.rotation_euler = direction.to_track_quat('-Z', 'Y').to_euler()
+
+
+def create_camera():
+    data = bpy.data.cameras.new('Review Camera')
+    cam = bpy.data.objects.new('Review Camera', data)
+    bpy.context.scene.collection.objects.link(cam)
+    bpy.context.scene.camera = cam
+    data.lens = 55
+    return cam
+
+
+def render(preview_dir, filename, cam_loc, target=(0, 0, 125), lens=55):
+    scene = bpy.context.scene
+    cam = scene.camera
+    cam.location = cam_loc
+    cam.data.lens = lens
+    point_at(cam, target)
+    scene.render.filepath = os.path.join(preview_dir, filename)
+    bpy.ops.render.render(write_still=True)
+
+
+def snapshot_transforms(objs):
+    snap = {}
+    for obj in objs:
+        snap[obj.name] = (obj.location.copy(), obj.rotation_euler.copy(), obj.scale.copy())
+    return snap
+
+
+def restore_transforms(objs, snap):
+    for obj in objs:
+        if obj.name in snap:
+            loc, rot, scale = snap[obj.name]
+            obj.location = loc
+            obj.rotation_euler = rot
+            obj.scale = scale
+
+
+# -----------------------------------------------------------------------------
+# Build
+# -----------------------------------------------------------------------------
+
+def build(output, preview_dir):
+    reset_scene()
+    os.makedirs(preview_dir, exist_ok=True)
+
+    # Collections
+    review_col = ensure_collection('SAGA_REVIEW')
+    chassis_col = ensure_collection('SAGA_01_CHASSIS')
+    wheel_col = ensure_collection('SAGA_02_WHEELS')
+    waist_col = ensure_collection('SAGA_03_WAIST')
+    torso_frame = ensure_collection('SAGA_04_TORSO_FRAME')
+    torso_detail = ensure_collection('SAGA_05_TORSO_DETAIL')
+    torso_armor = ensure_collection('SAGA_06_TORSO_ARMOR')
+    head_col = ensure_collection('SAGA_07_HEAD')
+    arms_col = ensure_collection('SAGA_08_ARMS')
+    hardware_col = ensure_collection('SAGA_09_HARDWARE')
+
+    # Materials
+    teal = material('Armor Teal', (0.16, 0.32, 0.34), metallic=0.12, roughness=0.38)
+    teal_dark = material('Armor Teal Dark', (0.08, 0.19, 0.21), metallic=0.15, roughness=0.43)
+    frame_mat = material('Inner Frame', (0.035, 0.045, 0.052), metallic=0.65, roughness=0.32)
+    frame_mid = material('Frame Mid', (0.12, 0.14, 0.15), metallic=0.52, roughness=0.36)
+    orange = material('Service Orange', (0.9, 0.34, 0.035), metallic=0.2, roughness=0.32)
+    rubber = material('Tire Rubber', (0.025, 0.028, 0.03), metallic=0.0, roughness=0.68)
+    lens_mat = material('Cockpit Glass', (0.02, 0.56, 0.65), metallic=0.1, roughness=0.18)
+    seat_mat = material('Cockpit Seat', (0.18, 0.12, 0.09), metallic=0.0, roughness=0.58)
+    pipe_mat = material('Pipe Copper', (0.42, 0.13, 0.045), metallic=0.72, roughness=0.28)
+    ground_mat = material('Review Ground', (0.13, 0.14, 0.15), metallic=0.0, roughness=0.72)
+
+    # Review ground
+    ground = box('Review Ground', (520, 440, 8), (0, 10, -8), ground_mat, review_col, 2.5)
+    ground['SAGA Review Only'] = True
+
+    # ------------------------------------------------------------------
+    # Chassis / hull
+    # ------------------------------------------------------------------
+    hull = box('Hull Structural Core', (142, 176, 46), (0, 0, 48), frame_mat, chassis_col, 7)
+    part_meta(hull, 'C01', 'Hull structural core', 1, notes='Carries suspension sockets and waist receiver.')
+
+    # Chamfer-like nose and tail armor blocks, kept as armor parts rather than hidden intersections.
+    front_hull = prism_y('Hull Front Armor', [(-66,-19),(66,-19),(76,-4),(68,19),(-68,19),(-76,-4)], 20, (0,-88,49), teal_dark, chassis_col, 2)
+    rear_hull = prism_y('Hull Rear Armor', [(-68,-18),(68,-18),(76,0),(66,18),(-66,18),(-76,0)], 18, (0,88,49), teal_dark, chassis_col, 2)
+    part_meta(front_hull, 'C02', 'Hull front armor', 2)
+    part_meta(rear_hull, 'C03', 'Hull rear armor', 2)
+
+    # Real waist receiver in the hull.
+    cut_cylinder(hull, 'Hull_Waist_Receiver', 17.6, 30, (0, 0, 69), rotation=(0,0,0))
+
+    wheel_modules = []
+    fairings = []
+    wheel_pivots = []
+    suspension_parts = []
+
+    # Four mirrored wheel modules. Front/back values are intentionally identical mechanics.
+    for side in (-1, 1):
+        sx = 1 if side > 0 else -1
+        side_tag = 'R' if sx > 0 else 'L'
+        for front_sign, y in ((-1, -62), (1, 62)):
+            pos_tag = 'F' if front_sign < 0 else 'R'
+            prefix = f'{side_tag}{pos_tag}'
+            inner_x = sx * 70
+            hub_x = sx * 112
+            hub_z = 29
+
+            # True cylindrical socket through hull side; peg occupies the open bore rather than colliding with hull.
+            cut_cylinder(hull, f'{prefix}_SuspensionSocket', 7.6, 22, (sx*70, y, 45), rotation=(0, math.pi/2, 0))
+            # Two keyed fairing slots per corner.
+            for dz in (-10, 10):
