@@ -1,0 +1,173 @@
+        for zoff in (-12.5, 12.5):
+            add_box_join(
+                palm,
+                f'_POLISH_{tag}_GuideRail_{zoff}',
+                (14, 7, 4),
+                (hc.x + sx * 8.0, hc.y - 13.5, hc.z + zoff),
+                mat,
+                0.35,
+            )
+        changes.append(f'{tag} Loader Hand Guide Body: integrated two shallow guide-rail shoulders without adding a separate production part.')
+
+        # Slightly open the arm shell center seams; object names and parent architecture remain unchanged.
+        for front_name, rear_name in [
+            (f'{tag} Upper Arm Armor Front', f'{tag} Upper Arm Armor Rear'),
+            (f'{tag} Forearm Armor Front', f'{tag} Forearm Armor Rear'),
+        ]:
+            front = require(front_name)
+            rear = require(rear_name)
+            front.location.y -= 0.55
+            rear.location.y += 0.55
+            changes.append(f'{front_name}/{rear_name}: introduced a 1.1 mm readable split seam while preserving hollow-shell fit and relief geometry.')
+
+
+def polish_head_cockpit(changes):
+    # Readable shell seam and a wider neck shoulder, joined into the existing neck part.
+    left = require('Head Shell Left')
+    right = require('Head Shell Right')
+    left.location.x -= 0.35
+    right.location.x += 0.35
+    changes.append('Head Shell Left/Right: introduced a 0.7 mm center seam for close-up shell-half readability.')
+
+    neck = require('Head Neck Peg')
+    mat = neck.data.materials[0] if neck.data.materials else None
+    # Add a low-profile collar ring as geometry on the existing neck object.
+    make_torus_join(neck, '_POLISH_NeckCollar', 11.2, 1.5, (0, 0, 247.0), (0, 0, 0), mat)
+    changes.append('Head Neck Peg: integrated a low-profile collar ring to reduce the abrupt peg-to-head transition.')
+    for name in ('Cockpit Tub', 'Cockpit Console', 'Cockpit Seat'):
+        if safe_apply_bevel(require(name), 0.30, 2):
+            changes.append(f'{name}: normalized close-up edge treatment.')
+
+
+def polish_rear_service(changes):
+    hatch = require('Rear Entry Hatch')
+    # Slightly tighten proportions while increasing jamb breathing room; hinge axis is untouched.
+    old_dims = hatch.dimensions.copy()
+    hatch.dimensions.x = max(1.0, hatch.dimensions.x - 0.8)
+    hatch.dimensions.z = max(1.0, hatch.dimensions.z - 0.6)
+    bpy.context.view_layer.objects.active = hatch
+    hatch.select_set(True)
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    hatch.select_set(False)
+    changes.append(f'Rear Entry Hatch: reduced face dimensions from ({old_dims.x:.1f}, {old_dims.z:.1f}) mm to ({hatch.dimensions.x:.1f}, {hatch.dimensions.z:.1f}) mm for a clearer jamb gap; hinge axis unchanged.')
+
+    for name, width in [
+        ('Rear Hatch Inner Brace', 0.35),
+        ('Rear Service Rack Module A', 0.30),
+        ('Rear Service Rack Module B', 0.30),
+        ('Rear Service Bay Floor', 0.30),
+    ]:
+        if safe_apply_bevel(require(name), width, 2):
+            changes.append(f'{name}: normalized service-bay edge hierarchy.')
+
+    # Deliberate package staggering, still entirely inside the existing bay.
+    a = require('Rear Service Rack Module A')
+    b = require('Rear Service Rack Module B')
+    a.location.x -= 1.5
+    a.location.z += 1.0
+    b.location.x += 1.5
+    b.location.z -= 1.0
+    changes.append('Rear Service Rack Modules A/B: modest opposing offsets improve packaged-service-bay readability without changing access.')
+
+
+def polish_hull_wheels(changes):
+    # Preserve tread entirely. Only clean fairing/transition edges.
+    for prefix in ('LF', 'LR', 'RF', 'RR'):
+        fair = require(f'{prefix} Wheel Fairing')
+        if safe_apply_bevel(fair, 0.35, 2):
+            changes.append(f'{prefix} Wheel Fairing: added a conservative secondary edge cleanup; tire tread untouched.')
+        arm = require(f'{prefix} Suspension Arm')
+        if safe_apply_bevel(arm, 0.30, 2):
+            changes.append(f'{prefix} Suspension Arm: normalized transition bevel.')
+
+
+def polish_torso_waist(changes):
+    for name, width in [
+        ('Torso Front Armor L', 0.35),
+        ('Torso Front Armor R', 0.35),
+        ('Torso Side Armor L', 0.30),
+        ('Torso Side Armor R', 0.30),
+        ('Waist Front Armor', 0.30),
+        ('Waist Rear Armor', 0.30),
+    ]:
+        if safe_apply_bevel(require(name), width, 2):
+            changes.append(f'{name}: normalized neighboring armor edge treatment.')
+
+
+def polish_shading_materials(changes):
+    # Keep the approved palette; only increase mechanism/material separation for video close-ups.
+    for name, rough, metal in [
+        ('Armor Teal', 0.34, 0.12),
+        ('Armor Teal Dark', 0.39, 0.15),
+        ('Inner Frame', 0.28, 0.68),
+        ('Frame Mid', 0.33, 0.55),
+        ('Service Orange', 0.28, 0.20),
+        ('Cockpit Glass', 0.14, 0.10),
+    ]:
+        if set_mat(name, rough, metal):
+            changes.append(f'Material {name}: tuned roughness/metallic response for stronger close-up hierarchy.')
+    for obj in bpy.data.objects:
+        if obj.type == 'MESH':
+            recalc_normals(obj)
+
+
+def validate_no_booleans():
+    cutters = [o.name for o in bpy.data.objects if o.name.startswith('_BOOL_') or bool(o.get('SAGA Boolean Cutter', False))]
+    mods = []
+    for obj in bpy.data.objects:
+        for mod in obj.modifiers:
+            if mod.type == 'BOOLEAN':
+                mods.append(f'{obj.name}:{mod.name}')
+    return cutters, mods
+
+
+def validate_parent(child_name, parent_name):
+    child = require(child_name)
+    return child.parent is not None and child.parent.name == parent_name
+
+
+def neutralize():
+    for name in (
+        'L Shoulder Rotation Pivot', 'R Shoulder Rotation Pivot',
+        'L Elbow Bend Pivot', 'R Elbow Bend Pivot',
+        'L Wrist Rotation Pivot', 'R Wrist Rotation Pivot',
+        'Rear Hatch Pivot', 'Cockpit Door Pivot',
+    ):
+        obj = require(name)
+        obj.rotation_euler = (0.0, 0.0, 0.0)
+    # Restore documented neutral jaw centers if drifted by QA.
+    for tag in ('L', 'R'):
+        top = require(f'{tag} Clamp Jaw Top Slider')
+        bottom = require(f'{tag} Clamp Jaw Bottom Slider')
+        # Only restore local Z; X/Y remain the approved positions.
+        center = (top.location.z + bottom.location.z) / 2.0
+        top.location.z = center + 12.0
+        bottom.location.z = center - 12.0
+
+
+def run_functional_qa(review_dir):
+    results = []
+
+    def add(name, ok, note):
+        results.append((name, 'PASS' if ok else 'FAIL', note))
+        if not ok:
+            raise RuntimeError(f'Functional QA failed: {name}: {note}')
+
+    # Required runtime objects and parent/pivot architecture.
+    for prefix in ('LF', 'LR', 'RF', 'RR'):
+        add(f'{prefix} wheel pivot hierarchy', validate_parent(f'{prefix} Tire', f'{prefix} Wheel Rotation Pivot'), 'Tire remains parented to the documented wheel rotation pivot.')
+    add('Left shoulder hierarchy', validate_parent('L Upper Arm Structural Spine', 'L Shoulder Rotation Pivot'), 'Upper arm remains downstream of shoulder pivot.')
+    add('Right shoulder hierarchy', validate_parent('R Upper Arm Structural Spine', 'R Shoulder Rotation Pivot'), 'Upper arm remains downstream of shoulder pivot.')
+    add('Left elbow hierarchy', validate_parent('L Forearm Structural Spine', 'L Elbow Bend Pivot'), 'Forearm remains downstream of elbow pivot.')
+    add('Right elbow hierarchy', validate_parent('R Forearm Structural Spine', 'R Elbow Bend Pivot'), 'Forearm remains downstream of elbow pivot.')
+    add('Left wrist hierarchy', validate_parent('L Loader Hand Guide Body', 'L Wrist Rotation Pivot'), 'Loader guide remains downstream of wrist pivot.')
+    add('Right wrist hierarchy', validate_parent('R Loader Hand Guide Body', 'R Wrist Rotation Pivot'), 'Loader guide remains downstream of wrist pivot.')
+    add('Rear hatch attachment', validate_parent('Rear Entry Hatch', 'Rear Hatch Pivot'), 'Hatch remains attached to the vertical hinge pivot.')
+    add('Cockpit door attachment', validate_parent('Cockpit Door Bezel', 'Cockpit Door Pivot'), 'Door module remains parented to cockpit hinge pivot.')
+
+    cutters, bool_mods = validate_no_booleans()
+    add('Boolean cleanup', not cutters and not bool_mods, f'cutters={cutters}; unapplied modifiers={bool_mods}')
+
+    # Articulation state tests plus dedicated renders. These tests change only pivots/jaws, then restore neutral.
+    rshoulder = require('R Shoulder Rotation Pivot')
+    relbow = require('R Elbow Bend Pivot')
