@@ -1,0 +1,99 @@
+    part_meta(cockpit_seat, 'H05', 'Cockpit seat', 12, classification='Detail')
+    part_meta(cockpit_console, 'H06', 'Cockpit control console', 12, classification='Detail')
+    part_meta(cockpit_screen, 'H07', 'Cockpit display', 12, classification='Detail')
+
+    # Front cockpit door: bezel + lens are a nested functional-looking module.
+    cockpit_door_pivot = make_pivot('Cockpit Door Pivot', (-24,-35,278))
+    bezel = torus('Cockpit Door Bezel', 20.5, 3.0, (0,-36,265), orange, head_col, rotation=(math.pi/2,0,0))
+    lens = cylinder('Cockpit Door Lens', 17.4, 3.5, (0,-37,265), lens_mat, head_col, rotation=(math.pi/2,0,0), edge=0.5)
+    hinge_arm = beam_between('Cockpit Door Hinge Arm', (-22,-34,278),(-18,-35,267), 5, 5, frame_mid, head_col)
+    parent_all([bezel,lens,hinge_arm], cockpit_door_pivot)
+    part_meta(bezel, 'H08', 'Cockpit door bezel', 14, demo=True)
+    part_meta(lens, 'H09', 'Cockpit door glazing', 14, demo=True)
+    part_meta(hinge_arm, 'H10', 'Cockpit door hinge arm', 14, classification='Hardware', demo=True)
+
+    antenna = cylinder('Head Antenna Mast', 2.8, 24, (19,-1,303), orange, head_col, edge=0.4)
+    antenna_tip = sphere('Head Antenna Tip', 4.2, (19,-1,317), orange, head_col, scale=(1,1,1.2))
+    part_meta(antenna, 'H11', 'Antenna mast', 14)
+    part_meta(antenna_tip, 'H12', 'Antenna tip', 14)
+
+    # ------------------------------------------------------------------
+    # Arms: loader-style articulated subassemblies
+    # The final build separates frame, hinge hardware and snap-on armor so the
+    # documented order is believable under close assembly views.
+    # ------------------------------------------------------------------
+    arm_parts_by_side = {}
+    arm_pivots = {}
+    arm_armor_by_side = {}
+    arm_frame_by_side = {}
+
+    def build_arm(sx, tag):
+        shoulder_center = Vector((sx*78,0,191))
+        elbow_center = Vector((sx*129,0,176))
+        wrist_center = Vector((sx*176,0,163))
+
+        shoulder_pivot = make_pivot(f'{tag} Shoulder Rotation Pivot', shoulder_center)
+
+        # Nested shoulder bearing: a visible rotor/race/pin stack makes the
+        # single-axis rotation read as a deliberate mechanism instead of a
+        # vague ball-and-socket. The torso drum remains the fixed outer support.
+        shoulder_yoke = torus(f'{tag} Shoulder Rotating Race', 16.6, 4.1, shoulder_center, frame_mid, arms_col, rotation=(math.pi/2,0,0))
+        shoulder_rotor = cylinder(f'{tag} Shoulder Inner Rotor', 12.2, 11, shoulder_center, frame_mat, arms_col, rotation=(math.pi/2,0,0), edge=1.0)
+        shoulder_axle = cylinder(f'{tag} Shoulder Pivot Pin', 4.6, 28, shoulder_center, orange, arms_col, rotation=(math.pi/2,0,0), edge=0.5)
+        shoulder_spacer = cylinder(f'{tag} Shoulder Arm Spacer', 10.8, 10, (shoulder_center.x + sx*15,0,shoulder_center.z), frame_mid, arms_col, rotation=(0,math.pi/2,0), edge=0.9)
+        upper_spine = beam_between(f'{tag} Upper Arm Structural Spine', shoulder_center + Vector((sx*16,0,-1)), elbow_center + Vector((-sx*15,0,0)), 13, 15, frame_mat, arms_col)
+        shoulder_gusset = prism_x(f'{tag} Shoulder Spine Gusset', [(-12,-9),(10,-9),(14,0),(10,9),(-12,9)], 11, (shoulder_center.x + sx*19,0,shoulder_center.z), frame_mid, arms_col, 1.2)
+        parent_all([shoulder_yoke, shoulder_rotor, shoulder_axle, shoulder_spacer, shoulder_gusset, upper_spine], shoulder_pivot)
+
+        # Hollow front/rear upper-arm shells fit around the structural spine.
+        upper_master = prism_x(f'{tag} Upper Arm Armor Master', [(-22,-16),(17,-16),(24,-8),(24,7),(15,16),(-17,16),(-24,6),(-24,-7)], 38, (sx*107,0,184), teal, arms_col, 1.7)
+        cut_box(upper_master, f'{tag}_UpperArmorInnerVoid', (42,29,20), (sx*107,0,184))
+        cut_cylinder(upper_master, f'{tag}_UpperArmorShoulderRelief', 18.5, 50, (sx*88,0,191), rotation=(math.pi/2,0,0))
+        cut_cylinder(upper_master, f'{tag}_UpperArmorElbowRelief', 17.2, 50, elbow_center, rotation=(math.pi/2,0,0))
+        upper_front = duplicate_mesh(upper_master, f'{tag} Upper Arm Armor Front', arms_col)
+        upper_rear = duplicate_mesh(upper_master, f'{tag} Upper Arm Armor Rear', arms_col)
+        bpy.data.objects.remove(upper_master, do_unlink=True)
+        boolean_intersect(upper_front, temp_box(f'{tag}_UpperFrontHalf', (90,100,100), (sx*107,-50,184)), 'Applied Upper Front Armor Split')
+        boolean_intersect(upper_rear, temp_box(f'{tag}_UpperRearHalf', (90,100,100), (sx*107,50,184)), 'Applied Upper Rear Armor Split')
+        parent_all([upper_front, upper_rear], shoulder_pivot)
+
+        # Circular clevis plates match the circular armor relief. This removes
+        # the prior rectangle-in-a-round-cutout mismatch and makes the elbow
+        # look like one intentionally packaged hinge cassette.
+        clevis_front = cylinder(f'{tag} Elbow Clevis Plate Front', 15.0, 6.5, (elbow_center.x,-12.5,elbow_center.z), frame_mat, arms_col, rotation=(math.pi/2,0,0), edge=1.0)
+        cut_cylinder(clevis_front, f'{tag}_ElbowFrontPinBore', 5.7, 12, (elbow_center.x,-12.5,elbow_center.z), rotation=(math.pi/2,0,0))
+        clevis_rear = cylinder(f'{tag} Elbow Clevis Plate Rear', 15.0, 6.5, (elbow_center.x,12.5,elbow_center.z), frame_mat, arms_col, rotation=(math.pi/2,0,0), edge=1.0)
+        cut_cylinder(clevis_rear, f'{tag}_ElbowRearPinBore', 5.7, 12, (elbow_center.x,12.5,elbow_center.z), rotation=(math.pi/2,0,0))
+        elbow_bridge = box(f'{tag} Elbow Clevis Spine Bridge', (17,21,12), (elbow_center.x - sx*12,0,elbow_center.z), frame_mat, arms_col, 2.0)
+        elbow_pin = cylinder(f'{tag} Elbow Hinge Pin', 5.2, 32, elbow_center, orange, arms_col, rotation=(math.pi/2,0,0), edge=0.6)
+        parent_all([clevis_front, clevis_rear, elbow_bridge, elbow_pin], shoulder_pivot)
+
+        elbow_pivot = make_pivot(f'{tag} Elbow Bend Pivot', elbow_center, shoulder_pivot)
+        elbow_knuckle = cylinder(f'{tag} Forearm Elbow Knuckle', 11.1, 15, elbow_center, frame_mid, arms_col, rotation=(math.pi/2,0,0), edge=1.2)
+        smooth(elbow_knuckle)
+        forearm_spine = beam_between(f'{tag} Forearm Structural Spine', elbow_center + Vector((sx*12,0,-1)), wrist_center + Vector((-sx*14,0,0)), 13, 15, frame_mat, arms_col)
+        wrist_socket = cylinder(f'{tag} Forearm Wrist Socket', 12.5, 15, wrist_center, frame_mid, arms_col, rotation=(0,math.pi/2,0), edge=1.0)
+        parent_all([elbow_knuckle, forearm_spine, wrist_socket], elbow_pivot)
+
+        # Hollow front/rear forearm shells leave the hinge and wrist sweeps clear.
+        fore_master = prism_x(f'{tag} Forearm Armor Master', [(-21,-17),(19,-17),(25,-8),(25,7),(16,17),(-18,17),(-24,7),(-24,-7)], 39, (sx*153,0,169), teal_dark, arms_col, 1.7)
+        cut_box(fore_master, f'{tag}_ForearmArmorInnerVoid', (43,29,21), (sx*153,0,169))
+        cut_cylinder(fore_master, f'{tag}_ForearmArmorElbowRelief', 17.2, 50, elbow_center, rotation=(math.pi/2,0,0))
+        cut_cylinder(fore_master, f'{tag}_ForearmArmorWristRelief', 14.5, 50, wrist_center, rotation=(0,math.pi/2,0))
+        fore_front = duplicate_mesh(fore_master, f'{tag} Forearm Armor Front', arms_col)
+        fore_rear = duplicate_mesh(fore_master, f'{tag} Forearm Armor Rear', arms_col)
+        bpy.data.objects.remove(fore_master, do_unlink=True)
+        boolean_intersect(fore_front, temp_box(f'{tag}_ForeFrontHalf', (90,100,100), (sx*153,-50,169)), 'Applied Forearm Front Armor Split')
+        boolean_intersect(fore_rear, temp_box(f'{tag}_ForeRearHalf', (90,100,100), (sx*153,50,169)), 'Applied Forearm Rear Armor Split')
+        parent_all([fore_front, fore_rear], elbow_pivot)
+
+        # Fixed forearm socket; wrist/hand rotate downstream of it.
+        wrist_pivot = make_pivot(f'{tag} Wrist Rotation Pivot', wrist_center, elbow_pivot)
+        wrist_spindle = cylinder(f'{tag} Wrist Spindle', 7.4, 24, (wrist_center.x + sx*7,0,wrist_center.z), frame_mat, arms_col, rotation=(0,math.pi/2,0), edge=0.7)
+        wrist_ring = torus(f'{tag} Wrist Rotation Ring', 12.0, 2.6, (wrist_center.x + sx*10,0,wrist_center.z), orange, arms_col, rotation=(0,math.pi/2,0))
+        hand_center = Vector((wrist_center.x + sx*30,0,wrist_center.z))
+        palm = box(f'{tag} Loader Hand Guide Body', (31,32,36), hand_center, frame_mid, arms_col, 3.0)
+        cut_box(palm, f'{tag}_HandGuideCavity', (25,20,28), (hand_center.x + sx*8,0,hand_center.z))
+        parent_all([wrist_spindle,wrist_ring,palm], wrist_pivot)
+
+        # Opposed wrench jaws: same Y plane, mirrored on Z, aligned gripping faces.
