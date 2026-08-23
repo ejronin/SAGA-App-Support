@@ -1,0 +1,110 @@
+        armor_keys.append(key)
+        part_meta(key, 'T-K', 'Torso armor fitment key', 9, classification='Hardware')
+
+    # Two front armor plates — actual receiver slots are cut into them.
+    front_left = prism_y('Torso Front Armor L', [(-53,-42),(-5,-42),(-5,43),(-43,43),(-58,23),(-58,-20)], 11, (0,-51,178), teal, torso_armor, 1.8)
+    front_right = prism_y('Torso Front Armor R', [(5,-42),(53,-42),(58,-20),(58,23),(43,43),(5,43)], 11, (0,-51,178), teal, torso_armor, 1.8)
+    for plate, side_sign in ((front_left,-1),(front_right,1)):
+        for z in (154,201):
+            cut_box(plate, 'FrontArmorReceiver', (9.0,12,9.0), (side_sign*38,-51,z))
+    # service detail cut lines are real shallow recesses
+    cut_box(front_left, 'LeftArmorVent', (20,5,5), (-28,-57,177))
+    cut_box(front_right, 'RightArmorVent', (20,5,5), (28,-57,177))
+    part_meta(front_left, 'TA01', 'Torso front armor left', 10, notes='Seats onto keyed frame bosses.')
+    part_meta(front_right, 'TA02', 'Torso front armor right', 10, notes='Seats onto keyed frame bosses.')
+
+    # Side/top armor follows the frame rather than forming arbitrary overlays.
+    side_l = prism_x('Torso Side Armor L', [(-39,-33),(28,-33),(38,-12),(38,20),(18,34),(-27,34),(-42,12)], 10, (-62,0,177), teal_dark, torso_armor, 1.8)
+    side_r = prism_x('Torso Side Armor R', [(-39,-33),(28,-33),(38,-12),(38,20),(18,34),(-27,34),(-42,12)], 10, (62,0,177), teal_dark, torso_armor, 1.8)
+    part_meta(side_l, 'TA03', 'Torso side armor left', 10)
+    part_meta(side_r, 'TA04', 'Torso side armor right', 10)
+
+    collar = box('Upper Collar Armor', (92,55,15), (0,0,220), teal_dark, torso_armor, 4.0)
+    cut_cylinder(collar, 'Collar_Neck_Clearance', 13, 22, (0,0,220))
+    part_meta(collar, 'TA05', 'Upper collar armor', 10)
+
+    # Rear service bay: the opening resolves into an attached interior instead of empty space.
+    service_bulkhead = box('Rear Service Bay Bulkhead', (72,6,50), (0,23,176), frame_mid, torso_detail, 1.5)
+    service_floor = box('Rear Service Bay Floor', (68,24,6), (0,27,151), frame_mat, torso_detail, 1.3)
+    rack_l = box('Rear Service Rack Left Rail', (7,7,42), (-23,31,176), frame_mat, torso_detail, 1.0)
+    rack_r = box('Rear Service Rack Right Rail', (7,7,42), (23,31,176), frame_mat, torso_detail, 1.0)
+    rack_top = box('Rear Service Rack Top Crossbar', (53,7,7), (0,31,194), frame_mat, torso_detail, 1.0)
+    rack_mid = box('Rear Service Rack Mid Crossbar', (53,7,7), (0,31,176), frame_mat, torso_detail, 1.0)
+    rack_bot = box('Rear Service Rack Bottom Crossbar', (53,7,7), (0,31,158), frame_mat, torso_detail, 1.0)
+    rack_module_a = box('Rear Service Rack Module A', (20,11,14), (-13,36,185), frame_mid, torso_detail, 1.6)
+    rack_module_b = box('Rear Service Rack Module B', (20,11,14), (13,36,166), frame_mid, torso_detail, 1.6)
+    rack_module_c = cylinder('Rear Service Rack Service Canister', 6.2, 15, (0,36,175), frame_mid, torso_detail, rotation=(math.pi/2,0,0), edge=0.7)
+    rack_pipe = cable('Rear Service Rack Feed Pipe', [(-20,34,194),(-9,38,188),(6,38,180),(18,35,171)], 2.0, pipe_mat, torso_detail)
+    service_bay_parts = [service_bulkhead,service_floor,rack_l,rack_r,rack_top,rack_mid,rack_bot,rack_module_a,rack_module_b,rack_module_c,rack_pipe]
+    for i,obj in enumerate(service_bay_parts, start=18):
+        part_meta(obj, f'T{i:02d}', obj.name, 9, classification='Detail')
+
+    # Rear armor has a true opening. Its jamb is unioned into the shell instead of floating behind it.
+    rear_shell = box('Torso Rear Armor Shell', (94,13,75), (0,47,179), teal_dark, torso_armor, 3.0)
+    cut_box(rear_shell, 'RearHatchOpening', (58,20,49), (0,47,178))
+    for name, dims, loc in [
+        ('RearJambLeft',(6,10,50),(-31,43,178)),
+        ('RearJambRight',(6,10,50),(31,43,178)),
+        ('RearJambTop',(58,10,6),(0,43,203)),
+        ('RearJambBottom',(58,10,6),(0,43,153)),
+    ]:
+        jamb = box(name, dims, loc, teal_dark, torso_armor, 0.8)
+        boolean_union(rear_shell, jamb, 'Applied Rear Hatch Jamb Union')
+
+    hatch = box('Rear Entry Hatch', (55,8,46), (0,50,178), teal, torso_armor, 2.5)
+    hatch_inner = box('Rear Hatch Inner Brace', (43,4,32), (0,46,178), frame_mid, torso_detail, 1.5)
+    cut_box(hatch_inner, 'RearHatchBraceCenter', (32,8,21), (0,46,178))
+
+    # The final build uses a readable three-knuckle barrel hinge on the left jamb.
+    # Two knuckles stay fixed to the torso shell; the middle knuckle and leaf
+    # move with the hatch around the same Z-axis pivot.
+    hinge_x, hinge_y = -31.5, 47.5
+    fixed_hinge_top = cylinder('Rear Hatch Fixed Hinge Top', 4.2, 13, (hinge_x,hinge_y,195), frame_mid, hardware_col, rotation=(0,0,0), edge=0.55)
+    fixed_hinge_bottom = cylinder('Rear Hatch Fixed Hinge Bottom', 4.2, 13, (hinge_x,hinge_y,161), frame_mid, hardware_col, rotation=(0,0,0), edge=0.55)
+    fixed_leaf_top = box('Rear Hatch Fixed Leaf Top', (9,5,12), (-27.8,45.5,195), frame_mid, hardware_col, 0.7)
+    fixed_leaf_bottom = box('Rear Hatch Fixed Leaf Bottom', (9,5,12), (-27.8,45.5,161), frame_mid, hardware_col, 0.7)
+
+    hatch_pivot = make_pivot('Rear Hatch Pivot', (hinge_x,hinge_y,178))
+    moving_hinge = cylinder('Rear Hatch Moving Hinge Knuckle', 4.0, 18, (hinge_x,hinge_y,178), frame_mid, hardware_col, rotation=(0,0,0), edge=0.5)
+    moving_leaf = box('Rear Hatch Moving Hinge Leaf', (10,5,22), (-26.8,49.2,178), frame_mid, hardware_col, 0.7)
+    hinge_pin = cylinder('Rear Hatch Hinge Pin', 2.2, 51, (hinge_x,hinge_y,178), orange, hardware_col, rotation=(0,0,0), edge=0.35)
+    parent_all([hatch, hatch_inner, moving_hinge, moving_leaf, hinge_pin], hatch_pivot)
+
+    part_meta(rear_shell, 'TA06', 'Torso rear armor shell with integrated jamb', 10)
+    part_meta(hatch, 'TA07', 'Rear entry hatch', 11, demo=True, notes='Attached left-side barrel hinge opens onto visible service-bay equipment.')
+    part_meta(hatch_inner, 'T28', 'Rear hatch inner brace', 11, classification='Detail')
+    part_meta(fixed_hinge_top, 'T29', 'Rear hatch fixed hinge knuckle upper', 11, classification='Hardware')
+    part_meta(fixed_hinge_bottom, 'T30', 'Rear hatch fixed hinge knuckle lower', 11, classification='Hardware')
+    part_meta(moving_hinge, 'T31', 'Rear hatch moving hinge knuckle', 11, classification='Hardware')
+    part_meta(hinge_pin, 'T32', 'Rear hatch hinge pin', 11, classification='Hardware')
+
+    # ------------------------------------------------------------------
+    # Head shell halves around cockpit insert
+    # ------------------------------------------------------------------
+    neck = cylinder('Head Neck Peg', 9.6, 28, (0,0,236), frame_mid, head_col, edge=1.0)
+    part_meta(neck, 'H01', 'Head neck peg', 12, classification='Frame')
+
+    head_center = (0,-2,265)
+    outer = sphere('Head Shell Master', 37, head_center, teal, head_col, scale=(1.12,1.0,0.78))
+    inner_cut = temp_sphere('HeadInnerVoid', 31.5, head_center, scale=(1.12,1.0,0.78))
+    boolean_difference(outer, inner_cut, 'Applied Head Hollow')
+    # Cut cockpit aperture through the front (-Y).
+    cockpit_cut = temp_cylinder('HeadCockpitOpening', 18.5, 34, (0,-32,265), rotation=(math.pi/2,0,0), vertices=56)
+    boolean_difference(outer, cockpit_cut, 'Applied Cockpit Opening')
+
+    head_l = duplicate_mesh(outer, 'Head Shell Left', head_col)
+    head_r = duplicate_mesh(outer, 'Head Shell Right', head_col)
+    bpy.data.objects.remove(outer, do_unlink=True)
+    left_half = temp_box('HeadLeftHalfSpace', (100,100,100), (-50,-2,265))
+    right_half = temp_box('HeadRightHalfSpace', (100,100,100), (50,-2,265))
+    boolean_intersect(head_l, left_half, 'Applied Left Head Split')
+    boolean_intersect(head_r, right_half, 'Applied Right Head Split')
+    part_meta(head_l, 'H02', 'Head shell left half', 13)
+    part_meta(head_r, 'H03', 'Head shell right half', 13)
+
+    # Cockpit insert is a nested subassembly and remains visible when the front door is open.
+    cockpit_tub = prism_y('Cockpit Tub', [(-20,-13),(20,-13),(23,0),(18,17),(-18,17),(-23,0)], 32, (0,-4,263), frame_mid, head_col, 1.4)
+    cockpit_seat = box('Cockpit Seat', (18,14,22), (0,3,259), seat_mat, head_col, 2.0)
+    cockpit_console = prism_y('Cockpit Console', [(-16,-5),(16,-5),(13,6),(-13,6)], 8, (0,-16,259), frame_mat, head_col, 1.0)
+    cockpit_screen = box('Cockpit Screen', (14,2.5,7), (0,-20,264), lens_mat, head_col, 0.8, rotation=(math.radians(-10),0,0))
+    part_meta(cockpit_tub, 'H04', 'Cockpit tub insert', 12, classification='Frame')
