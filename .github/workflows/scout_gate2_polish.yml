@@ -1,0 +1,101 @@
+name: Scout Gate 2 Production Polish
+
+on:
+  push:
+    branches:
+      - codex/scout-gate2-production-polish-20260823
+
+permissions:
+  contents: read
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout isolated Gate 2 branch
+        uses: actions/checkout@v4
+
+      - name: Reassemble authoritative source and bounded polish scripts
+        shell: bash
+        run: |
+          cat .gate2_temp/builder.part00 .gate2_temp/builder.part01 .gate2_temp/builder.part02 .gate2_temp/builder.part03 .gate2_temp/builder.part04 .gate2_temp/builder.part05 .gate2_temp/builder.part06 > build_workshop_scout_final.py
+          cat .gate2_temp/polish.part00 .gate2_temp/polish.part01 .gate2_temp/polish.part02 .gate2_temp/polish.part03_v2 > gate2_production_polish.py
+          python -m py_compile build_workshop_scout_final.py gate2_production_polish.py
+
+      - name: Install headless display support
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri
+
+      - name: Download official Blender 5.2.0 LTS
+        shell: bash
+        run: |
+          curl -fL --retry 5 --retry-delay 5 \
+            https://download.blender.org/release/Blender5.2/blender-5.2.0-linux-x64.tar.xz \
+            -o blender.tar.xz
+          tar -xf blender.tar.xz
+          BLENDER="$(pwd)/blender-5.2.0-linux-x64/blender"
+          "$BLENDER" --version | head -5
+          echo "BLENDER=$BLENDER" >> "$GITHUB_ENV"
+
+      - name: Reconstruct approved final geometry from supplied fallback source
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: |
+          mkdir -p Approved_Rebuild_Previews
+          xvfb-run -a "$BLENDER" --background --factory-startup \
+            --python-exit-code 20 \
+            --python build_workshop_scout_final.py -- \
+            --output "$(pwd)/SAGA_Demo_Workshop_Scout_Robot_FINAL.blend" \
+            --previews "$(pwd)/Approved_Rebuild_Previews" \
+            | tee rebuild.log
+          grep -q 'SAGA_WORKSHOP_SCOUT_FINAL_BUILD_READY=YES' rebuild.log
+          grep -q 'SAGA_REFERENCE_IMAGES_EMBEDDED=0' rebuild.log
+          grep -q 'SAGA_BOOLEAN_CUTTERS_REMAINING=0' rebuild.log
+          grep -q 'SAGA_UNAPPLIED_BOOLEAN_MODIFIERS=0' rebuild.log
+
+      - name: Runtime Gate 1 inventory, Gate 2 polish, and Gate 3 QA
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: |
+          mkdir -p Final
+          xvfb-run -a "$BLENDER" "$(pwd)/SAGA_Demo_Workshop_Scout_Robot_FINAL.blend" \
+            --background --python-exit-code 20 \
+            --python gate2_production_polish.py -- \
+            --output-dir "$(pwd)/Final/SAGA_Workshop_Scout_Production_Polish_Output" \
+            --static-audit "$(pwd)/.gate2_temp/SCOUT_POLISH_AUDIT.md" \
+            | tee gate2.log
+          grep -q 'SAGA_GATE2_PRODUCTION_POLISH=PASS' gate2.log
+
+      - name: Verify required deliverables
+        shell: bash
+        run: |
+          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend
+          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_POLISH_AUDIT.md
+          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_POLISH_CHANGELOG.md
+          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_OBJECT_NAME_MAP.csv
+          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/SCOUT_FUNCTIONAL_QA.md
+          test -f Final/SAGA_Workshop_Scout_Production_Polish_Output/MANIFEST.sha256
+          test "$(find Final/SAGA_Workshop_Scout_Production_Polish_Output/Review_Images -maxdepth 1 -name '*.png' | wc -l)" -eq 10
+          test "$(find Final/SAGA_Workshop_Scout_Production_Polish_Output/Region_Reviews -maxdepth 1 -name '*.png' | wc -l)" -eq 7
+          test "$(find Final/SAGA_Workshop_Scout_Production_Polish_Output/Checkpoints -maxdepth 1 -name '*.blend' | wc -l)" -eq 7
+          sha256sum Final/SAGA_Workshop_Scout_Production_Polish_Output/SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend
+          sha256sum Final/SAGA_Workshop_Scout_Production_Polish_Output.zip
+
+      - name: Upload production-polish handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: SAGA_Workshop_Scout_Production_Polish_Output
+          path: |
+            Final/SAGA_Workshop_Scout_Production_Polish_Output
+            Final/SAGA_Workshop_Scout_Production_Polish_Output.zip
+            gate2.log
+            rebuild.log
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
