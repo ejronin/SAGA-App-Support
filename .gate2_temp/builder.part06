@@ -1,0 +1,143 @@
+The final build intentionally uses this rule for hull suspension sockets, fairing slots, waist receiver, exhaust vents, torso service bay, neck clearance, torso armor receivers, rear hatch opening, head hollowing/splitting, cockpit opening, elbow pin bores and arm articulation reliefs. Tire tread is direct modeled geometry joined into each tire object, not a texture or Boolean cutter.
+"""
+    put_text('SAGA_BOOLEAN_CLEANUP.md', boolean_md)
+
+    parts_csv_lines = ['item,display_name,classification,assembly_stage,material,demo_zone,notes']
+    for obj in bpy.data.objects:
+        if 'SAGA Item' in obj:
+            fields = [
+                str(obj.get('SAGA Item','')),
+                str(obj.get('SAGA Display Name',obj.name)).replace(',',';'),
+                str(obj.get('SAGA Classification','Part')),
+                str(obj.get('SAGA Assembly Stage','')),
+                str(obj.get('SAGA Material','')),
+                str(bool(obj.get('SAGA Demo Zone',False))),
+                str(obj.get('SAGA Notes','')).replace(',',';').replace('\n',' '),
+            ]
+            parts_csv_lines.append(','.join(fields))
+    put_text('SAGA_PARTS_LIST.csv', '\n'.join(parts_csv_lines))
+
+    scene = bpy.context.scene
+    scene['SAGA Model'] = 'Workshop Scout Robot'
+    scene['SAGA Gate'] = 'FINAL'
+    scene['SAGA Intent'] = 'Wheeled articulated model-kit documentation demo'
+    scene['SAGA Reference Images Embedded'] = 0
+    scene['SAGA Boolean Rule'] = 'Apply all booleans and delete cutter geometry before save.'
+    scene['SAGA Assembly Steps'] = 18
+    scene['SAGA Gimmicks'] = 'Attached rear service hatch; cockpit door; opposed loader clamp translation; wheel/waist/shoulder/elbow/wrist articulation'
+
+    # ------------------------------------------------------------------
+    # Cleanup/audit before review rendering
+    # ------------------------------------------------------------------
+    leftovers = [o.name for o in bpy.data.objects if o.name.startswith('_BOOL_') or bool(o.get('SAGA Boolean Cutter', False))]
+    if leftovers:
+        raise RuntimeError('Temporary Boolean cutters remain: ' + ', '.join(leftovers))
+    unapplied = []
+    for obj in bpy.data.objects:
+        for mod in obj.modifiers:
+            if mod.type == 'BOOLEAN':
+                unapplied.append(f'{obj.name}:{mod.name}')
+    if unapplied:
+        raise RuntimeError('Unapplied Boolean modifiers remain: ' + ', '.join(unapplied))
+    scene['SAGA Boolean Cutters Remaining'] = 0
+    scene['SAGA Unapplied Boolean Modifiers'] = 0
+    image_refs = [o.name for o in bpy.data.objects if o.type == 'EMPTY' and getattr(o, 'empty_display_type', '') == 'IMAGE']
+    if image_refs:
+        raise RuntimeError('Embedded image reference objects remain: ' + ', '.join(image_refs))
+    scene['SAGA Embedded Image Reference Objects'] = 0
+
+    # ------------------------------------------------------------------
+    # Lighting/camera — final approved review set
+    # ------------------------------------------------------------------
+    add_area('Key', (-260,-280,360), 1900, 200, (1.0,0.93,0.83))
+    add_area('Fill', (260,-160,260), 1250, 180, (0.72,0.86,1.0))
+    add_area('Rim', (0,260,330), 1450, 170, (0.82,0.92,1.0))
+    add_sun('Soft Sun', (math.radians(28),math.radians(-18),math.radians(32)), 1.2, (1.0,0.96,0.9))
+    create_camera()
+
+    bpy.ops.wm.save_as_mainfile(filepath=output)
+
+    render(preview_dir, '01_complete_neutral_three_quarter.png', (310,-390,300), (0,0,150), 58)
+
+    # 02 — modeled tire tread and wheel retention detail.
+    render(preview_dir, '02_modeled_tire_tread_closeup.png', (260,-235,110), (112,-62,29), 72)
+
+    # 03 — nested shoulder race/rotor/pin mechanism.
+    render(preview_dir, '03_right_shoulder_nested_bearing.png', (300,-260,235), (82,0,191), 72)
+
+    # 04 — round elbow hardware inside matching circular armor relief.
+    rarmor = arm_armor_by_side['R']
+    snap = snapshot_transforms(rarmor)
+    for obj in rarmor:
+        obj.location.y += 28 if 'Rear' in obj.name else -28
+    render(preview_dir, '04_right_elbow_round_interface.png', (330,-265,215), (130,0,176), 74)
+    restore_transforms(rarmor, snap)
+
+    # 05 — elbow movement with the circular clevis fixed to upper arm.
+    shoulder_p, elbow_p, wrist_p, jaw_top, jaw_bottom = arm_pivots['R']
+    shoulder_p.rotation_euler.y = math.radians(-8)
+    elbow_p.rotation_euler.y = math.radians(62)
+    render(preview_dir, '05_right_elbow_bent_clearance.png', (340,-300,220), (139,0,174), 69)
+    shoulder_p.rotation_euler.y = 0
+    elbow_p.rotation_euler.y = 0
+
+    # 06 — rear hatch attached to the jamb by the barrel hinge.
+    hatch_pivot.rotation_euler.z = math.radians(-58)
+    render(preview_dir, '06_rear_hatch_attached_hinge.png', (-245,315,225), (-6,36,178), 64)
+
+    # 07 — service-bay equipment is deliberately placed close enough to the
+    # opening to read in an assembly/documentation closeup.
+    render(preview_dir, '07_rear_service_bay_visible.png', (-205,285,205), (0,30,177), 70)
+    hatch_pivot.rotation_euler.z = 0
+
+    # 08 — compact final documentation exploded overview.
+    overview = fairings + [front_left,front_right,side_l,side_r,collar,rear_shell,hatch,head_l,head_r] + arm_armor_by_side['L'] + arm_armor_by_side['R']
+    snap = snapshot_transforms(overview)
+    for obj in fairings:
+        sx2 = 1 if obj.location.x >= 0 else -1
+        obj.location.x += sx2*55
+    front_left.location += Vector((-38,-48,4))
+    front_right.location += Vector((38,-48,4))
+    side_l.location.x -= 38
+    side_r.location.x += 38
+    collar.location.z += 30
+    rear_shell.location.y += 45
+    hatch.location += Vector((-12,66,0))
+    head_l.location.x -= 34
+    head_r.location.x += 34
+    for tag in ('L','R'):
+        for obj in arm_armor_by_side[tag]:
+            obj.location.y += 34 if 'Rear' in obj.name else -34
+    render(preview_dir, '08_documentation_exploded_overview.png', (360,-430,330), (0,0,165), 56)
+    restore_transforms(overview, snap)
+
+    # Re-save neutral baseline after all review transforms are restored.
+    bpy.ops.wm.save_as_mainfile(filepath=output)
+    try:
+        bpy.ops.file.pack_all()
+        bpy.ops.wm.save_as_mainfile(filepath=output)
+    except Exception:
+        pass
+
+    print('SAGA_WORKSHOP_SCOUT_FINAL_BUILD_READY=YES')
+    print('SAGA_BOOLEAN_CUTTERS_REMAINING=0')
+    print('SAGA_UNAPPLIED_BOOLEAN_MODIFIERS=0')
+    print('SAGA_ARM_CLEVIS_PARENTING=UPPER_ARM')
+    print('SAGA_ELBOW_ROUND_INTERFACE=YES')
+    print('SAGA_SHOULDER_NESTED_BEARING=YES')
+    print('SAGA_TIRE_TREAD_MODELED=YES')
+    print('SAGA_REAR_HATCH_ATTACHED_HINGE=YES')
+    print('SAGA_ARM_ARMOR_HOLLOW_SHELLS=YES')
+    print('SAGA_CLAMP_JAWS_OPPOSED_Z=YES')
+    print('SAGA_REAR_SERVICE_BAY_POPULATED=YES')
+    print('SAGA_REFERENCE_IMAGES_EMBEDDED=0')
+    print('SAGA_PREVIEW_COUNT=8')
+    print('SAGA_OUTPUT=' + output)
+
+
+if __name__ == '__main__':
+    output = get_arg('--output')
+    preview_dir = get_arg('--previews')
+    if not output or not preview_dir:
+        raise RuntimeError('Expected --output and --previews arguments.')
+    build(output, preview_dir)
