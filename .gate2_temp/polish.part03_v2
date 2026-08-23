@@ -1,0 +1,140 @@
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def write_manifest(root):
+    manifest = os.path.join(root, 'MANIFEST.sha256')
+    rows = []
+    for dirpath, _, files in os.walk(root):
+        for filename in files:
+            path = os.path.join(dirpath, filename)
+            if os.path.abspath(path) == os.path.abspath(manifest):
+                continue
+            rel = os.path.relpath(path, root).replace(os.sep, '/')
+            rows.append((rel, sha256(path)))
+    rows.sort()
+    with open(manifest, 'w', encoding='utf-8', newline='\n') as f:
+        for rel, digest in rows:
+            f.write(f'{digest}  {rel}\n')
+    return manifest
+
+
+def zip_folder(root, zip_path):
+    if os.path.exists(zip_path):
+        os.remove(zip_path)
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+        for dirpath, _, files in os.walk(root):
+            for filename in sorted(files):
+                path = os.path.join(dirpath, filename)
+                rel = os.path.relpath(path, os.path.dirname(root))
+                z.write(path, rel)
+    return zip_path
+
+
+def main():
+    output_dir = os.path.abspath(get_arg('--output-dir', 'SAGA_Workshop_Scout_Production_Polish_Output'))
+    static_audit = get_arg('--static-audit')
+    ensure_dir(output_dir)
+    review_dir = ensure_dir(os.path.join(output_dir, 'Review_Images'))
+    checkpoint_dir = ensure_dir(os.path.join(output_dir, 'Checkpoints'))
+    region_review_dir = ensure_dir(os.path.join(output_dir, 'Region_Reviews'))
+
+    expected_scene = bpy.context.scene.get('SAGA Model', '')
+    if expected_scene and expected_scene != 'Workshop Scout Robot':
+        raise RuntimeError(f'Unexpected source scene: {expected_scene}')
+    if int(bpy.context.scene.get('SAGA Assembly Steps', 18)) != 18:
+        raise RuntimeError('Source does not report the frozen 18-step assembly sequence.')
+
+    runtime_inventory = inventory_text()
+    changes = []
+
+    # Gate 2 in the required region order. Each region gets a checkpoint,
+    # a dedicated review render, and an immediate runtime safeguard before moving on.
+    polish_arm_chain(changes)
+    if not (validate_parent('R Upper Arm Structural Spine', 'R Shoulder Rotation Pivot') and validate_parent('R Forearm Structural Spine', 'R Elbow Bend Pivot') and validate_parent('R Loader Hand Guide Body', 'R Wrist Rotation Pivot')):
+        raise RuntimeError('Arm-chain runtime safeguard failed after polish.')
+    save_checkpoint(checkpoint_dir, 1, 'arm_chain')
+    render(os.path.join(region_review_dir, '01_arm_chain.png'), (335, -285, 220), (150, 0, 176), 72)
+
+    # Arm shells are handled in the arm-chain pass because seam/relief readability is inseparable from that mechanism.
+    for tag in ('L', 'R'):
+        if require(f'{tag} Upper Arm Armor Front').location.y >= require(f'{tag} Upper Arm Armor Rear').location.y:
+            raise RuntimeError(f'{tag} upper-arm shell seam safeguard failed.')
+        if require(f'{tag} Forearm Armor Front').location.y >= require(f'{tag} Forearm Armor Rear').location.y:
+            raise RuntimeError(f'{tag} forearm shell seam safeguard failed.')
+    save_checkpoint(checkpoint_dir, 2, 'arm_shells')
+    render(os.path.join(region_review_dir, '02_arm_shells.png'), (320, -305, 225), (132, 0, 177), 70)
+
+    polish_head_cockpit(changes)
+    if not validate_parent('Cockpit Door Bezel', 'Cockpit Door Pivot'):
+        raise RuntimeError('Cockpit-door hierarchy safeguard failed after head polish.')
+    save_checkpoint(checkpoint_dir, 3, 'head_cockpit')
+    render(os.path.join(region_review_dir, '03_head_cockpit.png'), (115, -245, 305), (0, -5, 265), 78)
+
+    polish_rear_service(changes)
+    if not validate_parent('Rear Entry Hatch', 'Rear Hatch Pivot'):
+        raise RuntimeError('Rear-hatch hierarchy safeguard failed after service-bay polish.')
+    save_checkpoint(checkpoint_dir, 4, 'rear_hatch_service_bay')
+    hp = require('Rear Hatch Pivot')
+    hp.rotation_euler.z = math.radians(-52)
+    render(os.path.join(region_review_dir, '04_rear_hatch_service_bay.png'), (-245, 315, 220), (-2, 38, 178), 66)
+    hp.rotation_euler.z = 0
+
+    polish_hull_wheels(changes)
+    for prefix in ('LF', 'LR', 'RF', 'RR'):
+        if not validate_parent(f'{prefix} Tire', f'{prefix} Wheel Rotation Pivot'):
+            raise RuntimeError(f'{prefix} wheel hierarchy safeguard failed after hull/wheel polish.')
+    save_checkpoint(checkpoint_dir, 5, 'hull_wheels_fairings')
+    render(os.path.join(region_review_dir, '05_hull_wheels_fairings.png'), (260, -235, 110), (112, -62, 29), 74)
+
+    polish_torso_waist(changes)
+    if int(bpy.context.scene.get('SAGA Assembly Steps', 18)) != 18:
+        raise RuntimeError('Torso/waist pass altered frozen assembly-step count.')
+    save_checkpoint(checkpoint_dir, 6, 'torso_waist_global')
+    render(os.path.join(region_review_dir, '06_torso_waist_global.png'), (235, -330, 245), (0, 0, 165), 66)
+
+    polish_shading_materials(changes)
+    cutters, bool_mods = validate_no_booleans()
+    if cutters or bool_mods:
+        raise RuntimeError(f'Hierarchy/pivot/shading pass left Boolean construction state: cutters={cutters}, modifiers={bool_mods}')
+    save_checkpoint(checkpoint_dir, 7, 'hierarchy_pivot_shading')
+    render(os.path.join(region_review_dir, '07_hierarchy_pivot_shading.png'), (310, -390, 300), (0, 0, 150), 58)
+
+    # Gate 3 runtime checks and required review images.
+    qa_results = run_functional_qa(review_dir)
+    neutralize()
+    render_review_set(review_dir)
+
+    scene = bpy.context.scene
+    scene['SAGA Gate'] = 'PRODUCTION POLISH'
+    scene['SAGA Production Polish'] = 'BOUNDED PASS COMPLETE'
+    scene['SAGA Assembly Steps'] = 18
+    scene['SAGA Reference Images Embedded'] = 0
+
+    final_blend = os.path.join(output_dir, 'SAGA_Demo_Workshop_Scout_Robot_PRODUCTION_POLISH.blend')
+    bpy.ops.wm.save_as_mainfile(filepath=final_blend)
+    try:
+        bpy.ops.file.pack_all()
+        bpy.ops.wm.save_as_mainfile(filepath=final_blend)
+    except Exception:
+        pass
+
+    write_audit(os.path.join(output_dir, 'SCOUT_POLISH_AUDIT.md'), static_audit, runtime_inventory)
+    write_changelog(os.path.join(output_dir, 'SCOUT_POLISH_CHANGELOG.md'), changes)
+    write_object_map(os.path.join(output_dir, 'SCOUT_OBJECT_NAME_MAP.csv'))
+    write_qa(os.path.join(output_dir, 'SCOUT_FUNCTIONAL_QA.md'), qa_results)
+
+    manifest = write_manifest(output_dir)
+    zip_path = os.path.join(os.path.dirname(output_dir), os.path.basename(output_dir) + '.zip')
+    zip_folder(output_dir, zip_path)
+
+    print('SAGA_GATE2_PRODUCTION_POLISH=PASS')
+    print('SAGA_OUTPUT_BLEND=' + final_blend)
+    print('SAGA_OUTPUT_BLEND_SHA256=' + sha256(final_blend))
+    print('SAGA_OUTPUT_ZIP=' + zip_path)
+    print('SAGA_OUTPUT_ZIP_SHA256=' + sha256(zip_path))
+    print('SAGA_MANIFEST=' + manifest)
+
+
+if __name__ == '__main__':
+    main()
