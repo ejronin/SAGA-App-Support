@@ -19,6 +19,16 @@ jobs:
       - name: Checkout isolated Gate 2 branch
         uses: actions/checkout@v4
 
+      - name: Publish active run locator
+        shell: bash
+        run: |
+          printf 'run_id=%s\nstatus=running\nsource_sha=%s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > .gate2_temp/run_info.txt
+          git config user.name 'Gate 2 Runtime'
+          git config user.email 'actions@users.noreply.github.com'
+          git add .gate2_temp/run_info.txt
+          git commit -m "Record active Gate 2 runtime $GITHUB_RUN_ID"
+          git push origin HEAD:codex/scout-gate2-production-polish-20260823
+
       - name: Reassemble authoritative source and bounded polish scripts
         shell: bash
         run: |
@@ -102,13 +112,11 @@ jobs:
           compression-level: 0
           retention-days: 7
 
-      - name: Publish run locator
+      - name: Publish final run locator
         if: always()
         shell: bash
         run: |
           printf 'run_id=%s\nstatus=%s\nsource_sha=%s\n' "$GITHUB_RUN_ID" "${{ job.status }}" "$GITHUB_SHA" > .gate2_temp/run_info.txt
-          git config user.name 'Gate 2 Runtime'
-          git config user.email 'actions@users.noreply.github.com'
           git add .gate2_temp/run_info.txt
           git commit -m "Record Gate 2 runtime $GITHUB_RUN_ID (${{ job.status }})" || exit 0
           git push origin HEAD:codex/scout-gate2-production-polish-20260823
