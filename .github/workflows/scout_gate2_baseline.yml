@@ -1,0 +1,62 @@
+name: Scout Gate 2 Baseline Reconstruction
+
+on:
+  push:
+    branches:
+      - codex/scout-gate2-production-polish-20260823
+    paths:
+      - '.gate2_trigger_baseline'
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble authoritative builder
+        shell: bash
+        run: |
+          cat .gate2_temp/builder.part00 .gate2_temp/builder.part01 .gate2_temp/builder.part02 .gate2_temp/builder.part03 .gate2_temp/builder.part04 .gate2_temp/builder.part05 .gate2_temp/builder.part06 > build_workshop_scout_final.py
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('build_workshop_scout_final.py')
+          lines=p.read_text(encoding='utf-8').splitlines()
+          out=[]; skipped=0
+          for line in lines:
+              if line.lstrip().startswith('render(preview_dir,'):
+                  out.append(line[:len(line)-len(line.lstrip())] + '# baseline transfer: preview suppressed')
+                  skipped += 1
+              else:
+                  out.append(line)
+          if skipped != 8:
+              raise SystemExit(f'expected 8 preview calls, got {skipped}')
+          p.write_text('\n'.join(out)+'\n', encoding='utf-8')
+          PY
+          python -m py_compile build_workshop_scout_final.py
+      - name: Install Blender runtime support
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri
+          curl -fL --retry 5 --retry-delay 5 https://download.blender.org/release/Blender5.2/blender-5.2.0-linux-x64.tar.xz -o blender.tar.xz
+          tar -xf blender.tar.xz
+      - name: Rebuild approved baseline
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+        run: |
+          BLENDER="$(pwd)/blender-5.2.0-linux-x64/blender"
+          mkdir -p empty_previews
+          xvfb-run -a "$BLENDER" --background --factory-startup --python-exit-code 20 --python build_workshop_scout_final.py -- --output "$(pwd)/SAGA_Demo_Workshop_Scout_Robot_FINAL_REBUILT.blend" --previews "$(pwd)/empty_previews" | tee rebuild_baseline.log
+          grep -q 'SAGA_WORKSHOP_SCOUT_FINAL_BUILD_READY=YES' rebuild_baseline.log
+          sha256sum SAGA_Demo_Workshop_Scout_Robot_FINAL_REBUILT.blend
+      - name: Upload baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: SAGA_Workshop_Scout_Rebuilt_Baseline
+          path: |
+            SAGA_Demo_Workshop_Scout_Robot_FINAL_REBUILT.blend
+            rebuild_baseline.log
+          compression-level: 0
+          retention-days: 2
