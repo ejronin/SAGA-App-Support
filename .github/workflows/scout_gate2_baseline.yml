@@ -8,7 +8,7 @@ on:
       - '.gate2_trigger_baseline'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   baseline:
@@ -16,6 +16,15 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Publish baseline run locator
+        shell: bash
+        run: |
+          printf 'run_id=%s\nstatus=running\nsource_sha=%s\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" > .gate2_temp/baseline_run_info.txt
+          git config user.name 'Gate 2 Runtime'
+          git config user.email 'actions@users.noreply.github.com'
+          git add .gate2_temp/baseline_run_info.txt
+          git commit -m "Record Scout baseline runtime $GITHUB_RUN_ID" || true
+          git push origin HEAD:codex/scout-gate2-production-polish-20260823
       - name: Reassemble authoritative builder
         shell: bash
         run: |
@@ -60,3 +69,11 @@ jobs:
             rebuild_baseline.log
           compression-level: 0
           retention-days: 2
+      - name: Publish final baseline locator
+        if: always()
+        shell: bash
+        run: |
+          printf 'run_id=%s\nstatus=%s\nsource_sha=%s\n' "$GITHUB_RUN_ID" "${{ job.status }}" "$GITHUB_SHA" > .gate2_temp/baseline_run_info.txt
+          git add .gate2_temp/baseline_run_info.txt
+          git commit -m "Record Scout baseline runtime $GITHUB_RUN_ID (${{ job.status }})" || exit 0
+          git push origin HEAD:codex/scout-gate2-production-polish-20260823
