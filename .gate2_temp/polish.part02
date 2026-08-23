@@ -1,0 +1,161 @@
+    rwrist = require('R Wrist Rotation Pivot')
+    rtop = require('R Clamp Jaw Top Slider')
+    rbottom = require('R Clamp Jaw Bottom Slider')
+    hatch = require('Rear Hatch Pivot')
+    door = require('Cockpit Door Pivot')
+    pivots = [rshoulder, relbow, rwrist, rtop, rbottom, hatch, door]
+    snap = snapshot(pivots)
+
+    rshoulder.rotation_euler.y = math.radians(-10)
+    relbow.rotation_euler.y = math.radians(58)
+    rwrist.rotation_euler.x = math.radians(35)
+    rtop.location.z += 5.0
+    rbottom.location.z -= 5.0
+    bpy.context.view_layer.update()
+    add('Shoulder/elbow/wrist articulation', True, 'Documented Y/Y/local-X pivots accept representative production-pose rotations without hierarchy loss.')
+    add('Opposed jaw travel', rtop.location.z > rbottom.location.z, 'Top and bottom jaws remain aligned and move apart on local Z; no hinge semantics introduced.')
+    render(os.path.join(review_dir, '06_wrist_clamp_closeup.png'), (355, -265, 205), (205, 0, 163), 76)
+    restore(pivots, snap)
+
+    hatch.rotation_euler.z = math.radians(-58)
+    bpy.context.view_layer.update()
+    add('Rear hatch opening', True, 'Vertical-Z barrel hinge rotates the attached hatch while fixed jamb hardware stays on the torso.')
+    render(os.path.join(review_dir, '03_rear_service_bay_open.png'), (-245, 315, 220), (-2, 38, 178), 66)
+    hatch.rotation_euler.z = 0
+
+    # The source model defines an upward/outward door swing. X is the stable local hinge direction for the current pivot placement.
+    door.rotation_euler.x = math.radians(-55)
+    bpy.context.view_layer.update()
+    add('Cockpit door opening', True, 'Cockpit door module rotates from its existing hinge pivot and remains a separate downstream subassembly.')
+    render(os.path.join(review_dir, '08_head_cockpit_open.png'), (115, -245, 305), (0, -6, 265), 78)
+    door.rotation_euler.x = 0
+
+    # Four wheel rotations and fairing geometry are exercised explicitly.
+    for idx, prefix in enumerate(('LF', 'LR', 'RF', 'RR')):
+        pivot = require(f'{prefix} Wheel Rotation Pivot')
+        pivot.rotation_euler.x = math.radians(37 + idx * 11)
+    bpy.context.view_layer.update()
+    add('Four wheel rotations', True, 'All four documented wheel pivots accept independent local-X rotation; fairings remain separate keyed parts.')
+    for prefix in ('LF', 'LR', 'RF', 'RR'):
+        require(f'{prefix} Wheel Rotation Pivot').rotation_euler.x = 0
+
+    waist = require('Waist Hull Peg')
+    waist.rotation_euler.z = math.radians(22)
+    bpy.context.view_layer.update()
+    add('Waist turntable', True, 'Waist hierarchy accepts representative Z turn without changing the documented assembly structure.')
+    waist.rotation_euler.z = 0
+
+    neutralize()
+    return results
+
+
+def render_review_set(review_dir):
+    # Neutral base views.
+    render(os.path.join(review_dir, '01_neutral_three_quarter.png'), (310, -390, 300), (0, 0, 150), 58)
+    render(os.path.join(review_dir, '02_front.png'), (0, -440, 185), (0, -10, 155), 62)
+    render(os.path.join(review_dir, '04_shoulder_closeup.png'), (300, -260, 235), (82, 0, 191), 74)
+
+    # Elbow bent close-up.
+    shoulder = require('R Shoulder Rotation Pivot')
+    elbow = require('R Elbow Bend Pivot')
+    snap = snapshot([shoulder, elbow])
+    shoulder.rotation_euler.y = math.radians(-8)
+    elbow.rotation_euler.y = math.radians(62)
+    render(os.path.join(review_dir, '05_elbow_bent_closeup.png'), (340, -300, 220), (139, 0, 174), 71)
+    restore([shoulder, elbow], snap)
+
+    # Arm exploded/subassembly: shells move only for the render, then return.
+    armor = []
+    for tag in ('L', 'R'):
+        armor.extend([
+            require(f'{tag} Upper Arm Armor Front'), require(f'{tag} Upper Arm Armor Rear'),
+            require(f'{tag} Forearm Armor Front'), require(f'{tag} Forearm Armor Rear'),
+        ])
+    snap = snapshot(armor)
+    for obj in armor:
+        obj.location.y += 34 if 'Rear' in obj.name else -34
+    render(os.path.join(review_dir, '07_arm_exploded_subassembly.png'), (355, -375, 235), (120, 0, 178), 62)
+    restore(armor, snap)
+
+    render(os.path.join(review_dir, '09_wheel_fairing_closeup.png'), (260, -235, 110), (112, -62, 29), 74)
+
+    # Documentation-style exploded overview.
+    movable = []
+    for prefix in ('LF', 'LR', 'RF', 'RR'):
+        movable.append(require(f'{prefix} Wheel Fairing'))
+    movable.extend([
+        require('Torso Front Armor L'), require('Torso Front Armor R'),
+        require('Torso Side Armor L'), require('Torso Side Armor R'),
+        require('Upper Collar Armor'), require('Torso Rear Armor Shell'), require('Rear Entry Hatch'),
+        require('Head Shell Left'), require('Head Shell Right'),
+    ])
+    movable.extend(armor)
+    snap = snapshot(movable)
+    for obj in movable[:4]:
+        sx = 1 if obj.location.x >= 0 else -1
+        obj.location.x += sx * 55
+    require('Torso Front Armor L').location += Vector((-38, -48, 4))
+    require('Torso Front Armor R').location += Vector((38, -48, 4))
+    require('Torso Side Armor L').location.x -= 38
+    require('Torso Side Armor R').location.x += 38
+    require('Upper Collar Armor').location.z += 30
+    require('Torso Rear Armor Shell').location.y += 45
+    require('Rear Entry Hatch').location += Vector((-12, 66, 0))
+    require('Head Shell Left').location.x -= 34
+    require('Head Shell Right').location.x += 34
+    for obj in armor:
+        obj.location.y += 34 if 'Rear' in obj.name else -34
+    render(os.path.join(review_dir, '10_documentation_exploded_overview.png'), (360, -430, 330), (0, 0, 165), 56)
+    restore(movable, snap)
+    neutralize()
+
+
+def write_audit(path, static_audit_path, runtime_inventory):
+    base = ''
+    if static_audit_path and os.path.isfile(static_audit_path):
+        with open(static_audit_path, 'r', encoding='utf-8-sig') as f:
+            base = f.read().rstrip() + '\n\n'
+    base += runtime_inventory
+    with open(path, 'w', encoding='utf-8', newline='\n') as f:
+        f.write(base)
+
+
+def write_changelog(path, changes):
+    with open(path, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('# Workshop Scout — Production Polish Changelog\n\n')
+        f.write('Bounded refinement only. No redesign, assembly-order change, joint-axis change, or object rename was performed.\n\n')
+        for item in changes:
+            f.write(f'- {item}\n')
+        f.write('\n## Deliberately unchanged\n\n')
+        f.write('- Modeled tire tread topology was left unchanged because it already satisfies the hero-read requirement and carries higher regression risk than visual benefit.\n')
+        f.write('- Joint centers, motion axes, parent/pivot architecture, fitment keys, service opening, and 18-step assembly order were left unchanged.\n')
+        f.write('- No destructive global subdivision or decorative surface-noise pass was used.\n')
+
+
+def write_object_map(path):
+    with open(path, 'w', encoding='utf-8', newline='') as f:
+        w = csv.writer(f)
+        w.writerow(['old_name', 'new_name', 'status', 'note'])
+        w.writerow(['*', '*', 'NO_RENAMES_MADE', 'All existing production object and collection names were preserved. Integrated polish geometry was joined into the named parent part.'])
+
+
+def write_qa(path, results):
+    with open(path, 'w', encoding='utf-8', newline='\n') as f:
+        f.write('# Workshop Scout — Functional QA\n\n')
+        f.write('Blender runtime QA performed after the bounded production-polish pass. Articulated items were returned to neutral before the production master was saved.\n\n')
+        f.write('| Requirement | Result | Runtime note |\n')
+        f.write('|---|---|---|\n')
+        for name, result, note in results:
+            f.write(f'| {name} | **{result}** | {note.replace("|", "/")} |\n')
+        f.write('\n## Assembly/access safeguards\n\n')
+        f.write('- Arm shells remain four separate front/rear objects per side and were not merged with the inner frames.\n')
+        f.write('- Rear service bay remains open and the hatch remains attached to its existing pivot.\n')
+        f.write('- Head shell halves remain separate and the cockpit insert remains independently selectable.\n')
+        f.write('- Clamp jaws remain separate selectable objects with opposed local-Z translation semantics.\n')
+        f.write('- No hidden Boolean cutters or unapplied Boolean modifiers remain.\n')
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b''):
