@@ -1,0 +1,274 @@
+import bpy
+import math
+import os
+import sys
+from mathutils import Vector
+
+# SAGA Workshop Scout Robot — FINAL
+# Simplified wheeled articulated model-kit demo asset.
+# The objective is documentation-believable assembly mechanics, not manufacturing engineering.
+# Temporary Boolean construction geometry is applied and deleted before the .blend is saved.
+
+# -----------------------------------------------------------------------------
+# Scene + utility helpers
+# -----------------------------------------------------------------------------
+
+def get_arg(flag, default=None):
+    args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+    for i, value in enumerate(args):
+        if value == flag and i + 1 < len(args):
+            return args[i + 1]
+    return default
+
+
+def reset_scene():
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.object.delete(use_global=False)
+    for col in list(bpy.data.collections):
+        if col.name != 'Collection':
+            bpy.data.collections.remove(col)
+    scene = bpy.context.scene
+    scene.unit_settings.system = 'METRIC'
+    scene.unit_settings.scale_length = 0.001
+    scene.unit_settings.length_unit = 'MILLIMETERS'
+    try:
+        scene.render.engine = 'BLENDER_EEVEE_NEXT'
+    except Exception:
+        try:
+            scene.render.engine = 'BLENDER_EEVEE'
+        except Exception:
+            scene.render.engine = 'BLENDER_WORKBENCH'
+    scene.render.resolution_x = 1280
+    scene.render.resolution_y = 960
+    scene.render.resolution_percentage = 100
+    scene.render.image_settings.file_format = 'PNG'
+    scene.render.film_transparent = False
+    try:
+        scene.view_settings.look = 'AgX - Medium High Contrast'
+    except Exception:
+        pass
+    scene.view_settings.exposure = 0.25
+    scene.world.use_nodes = True
+    bg = scene.world.node_tree.nodes.get('Background')
+    if bg:
+        bg.inputs['Color'].default_value = (0.105, 0.115, 0.125, 1.0)
+        bg.inputs['Strength'].default_value = 0.7
+
+
+def ensure_collection(name):
+    col = bpy.data.collections.get(name)
+    if col is None:
+        col = bpy.data.collections.new(name)
+        bpy.context.scene.collection.children.link(col)
+    return col
+
+
+def move_to_collection(obj, col):
+    for old in list(obj.users_collection):
+        old.objects.unlink(obj)
+    col.objects.link(obj)
+
+
+def material(name, color, metallic=0.0, roughness=0.45):
+    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+    mat.use_nodes = True
+    bsdf = mat.node_tree.nodes.get('Principled BSDF')
+    if bsdf:
+        bsdf.inputs['Base Color'].default_value = (*color, 1.0)
+        bsdf.inputs['Metallic'].default_value = metallic
+        bsdf.inputs['Roughness'].default_value = roughness
+    return mat
+
+
+def bevel(obj, width=1.0, segments=3):
+    if width <= 0:
+        return
+    mod = obj.modifiers.new('Edge Radius', 'BEVEL')
+    mod.width = width
+    mod.segments = segments
+    mod.limit_method = 'ANGLE'
+    bpy.context.view_layer.objects.active = obj
+    try:
+        bpy.ops.object.modifier_apply(modifier=mod.name)
+    except Exception:
+        obj.modifiers.remove(mod)
+
+
+def smooth(obj):
+    if obj.type == 'MESH':
+        for poly in obj.data.polygons:
+            poly.use_smooth = True
+
+
+def box(name, dims, loc, mat, col, radius=1.0, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_cube_add(location=loc, rotation=rotation)
+    obj = bpy.context.object
+    obj.name = name
+    obj.dimensions = dims
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    bevel(obj, radius, 3)
+    obj.data.materials.append(mat)
+    move_to_collection(obj, col)
+    return obj
+
+
+def cylinder(name, radius, depth, loc, mat, col, rotation=(0, 0, 0), vertices=48, edge=0.6):
+    bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=depth, location=loc, rotation=rotation)
+    obj = bpy.context.object
+    obj.name = name
+    if edge:
+        bevel(obj, edge, 3)
+    obj.data.materials.append(mat)
+    move_to_collection(obj, col)
+    smooth(obj)
+    return obj
+
+
+def sphere(name, radius, loc, mat, col, scale=(1, 1, 1)):
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=48, ring_count=24, radius=radius, location=loc)
+    obj = bpy.context.object
+    obj.name = name
+    obj.scale = scale
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    obj.data.materials.append(mat)
+    move_to_collection(obj, col)
+    smooth(obj)
+    return obj
+
+
+def torus(name, major, minor, loc, mat, col, rotation=(0, 0, 0)):
+    bpy.ops.mesh.primitive_torus_add(
+        major_radius=major,
+        minor_radius=minor,
+        major_segments=56,
+        minor_segments=16,
+        location=loc,
+        rotation=rotation,
+    )
+    obj = bpy.context.object
+    obj.name = name
+    obj.data.materials.append(mat)
+    move_to_collection(obj, col)
+    smooth(obj)
+    return obj
+
+
+def prism_x(name, pts_yz, depth, loc, mat, col, edge=0.8):
+    hx = depth / 2.0
+    verts = []
+    for x in (-hx, hx):
+        for y, z in pts_yz:
+            verts.append((x + loc[0], y + loc[1], z + loc[2]))
+    n = len(pts_yz)
+    faces = [tuple(range(n - 1, -1, -1)), tuple(range(n, 2 * n))]
+    for i in range(n):
+        j = (i + 1) % n
+        faces.append((i, j, n + j, n + i))
+    mesh = bpy.data.meshes.new(name + '_mesh')
+    mesh.from_pydata(verts, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    col.objects.link(obj)
+    obj.data.materials.append(mat)
+    bevel(obj, edge, 2)
+    return obj
+
+
+def prism_y(name, pts_xz, depth, loc, mat, col, edge=0.8):
+    hy = depth / 2.0
+    verts = []
+    for y in (-hy, hy):
+        for x, z in pts_xz:
+            verts.append((x + loc[0], y + loc[1], z + loc[2]))
+    n = len(pts_xz)
+    faces = [tuple(range(n - 1, -1, -1)), tuple(range(n, 2 * n))]
+    for i in range(n):
+        j = (i + 1) % n
+        faces.append((i, j, n + j, n + i))
+    mesh = bpy.data.meshes.new(name + '_mesh')
+    mesh.from_pydata(verts, [], faces)
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    col.objects.link(obj)
+    obj.data.materials.append(mat)
+    bevel(obj, edge, 2)
+    return obj
+
+
+def cable(name, points, radius, mat, col):
+    crv = bpy.data.curves.new(name + '_curve', type='CURVE')
+    crv.dimensions = '3D'
+    crv.bevel_depth = radius
+    crv.bevel_resolution = 3
+    spline = crv.splines.new('BEZIER')
+    spline.bezier_points.add(len(points) - 1)
+    for bp, co in zip(spline.bezier_points, points):
+        bp.co = co
+        bp.handle_left_type = 'AUTO'
+        bp.handle_right_type = 'AUTO'
+    obj = bpy.data.objects.new(name, crv)
+    col.objects.link(obj)
+    obj.data.materials.append(mat)
+    return obj
+
+
+def beam_between(name, a, b, width, depth, mat, col):
+    a = Vector(a)
+    b = Vector(b)
+    mid = (a + b) * 0.5
+    vec = b - a
+    length = vec.length
+    obj = box(name, (width, depth, length), mid, mat, col, radius=min(width, depth) * 0.18)
+    obj.rotation_euler = vec.to_track_quat('Z', 'Y').to_euler()
+    return obj
+
+
+def duplicate_mesh(obj, name, col):
+    out = obj.copy()
+    out.data = obj.data.copy()
+    out.name = name
+    col.objects.link(out)
+    return out
+
+
+def keep_parent(obj, parent):
+    world = obj.matrix_world.copy()
+    obj.parent = parent
+    obj.matrix_world = world
+
+
+def parent_all(objs, parent):
+    for obj in objs:
+        keep_parent(obj, parent)
+
+
+def join_mesh_objects(base, extras):
+    """Join visible modeled detail into one logical mesh object.
+
+    This is used for tire tread blocks: they are real geometry, not a shader or
+    Boolean cutter, but they remain one documented tire part after joining.
+    """
+    objs = [base] + [o for o in extras if o and o.name in bpy.data.objects and o.type == 'MESH']
+    bpy.ops.object.select_all(action='DESELECT')
+    for obj in objs:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = base
+    bpy.ops.object.join()
+    return base
+
+
+def make_pivot(name, loc, parent=None):
+    obj = bpy.data.objects.new(name, None)
+    bpy.context.scene.collection.objects.link(obj)
+    obj.empty_display_type = 'PLAIN_AXES'
+    obj.empty_display_size = 7
+    obj.location = loc
+    if parent:
+        keep_parent(obj, parent)
+    return obj
+
+
+def part_meta(obj, item, display, stage, classification='Part', material_name='PLA/PETG', demo=False, notes=''):
+    obj['SAGA Item'] = item
+    obj['SAGA Display Name'] = display
+    obj['SAGA Classification'] = classification
