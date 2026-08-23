@@ -36,6 +36,27 @@ jobs:
           cat .gate2_temp/polish.part00 .gate2_temp/polish.part01 .gate2_temp/polish.part02 .gate2_temp/polish.part03_v2 > gate2_production_polish.py
           python -m py_compile build_workshop_scout_final.py gate2_production_polish.py
 
+      - name: Suppress redundant fallback preview renders
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('build_workshop_scout_final.py')
+          lines = path.read_text(encoding='utf-8').splitlines()
+          out = []
+          skipped = 0
+          for line in lines:
+              if line.lstrip().startswith("render(preview_dir,"):
+                  out.append(line[:len(line)-len(line.lstrip())] + "# Gate 2: pre-polish fallback preview render suppressed; geometry is unchanged.")
+                  skipped += 1
+              else:
+                  out.append(line)
+          if skipped != 8:
+              raise SystemExit(f'Expected 8 fallback preview render calls, found {skipped}')
+          path.write_text('\n'.join(out) + '\n', encoding='utf-8')
+          PY
+          python -m py_compile build_workshop_scout_final.py
+
       - name: Install headless display support
         shell: bash
         run: |
