@@ -1,0 +1,252 @@
+import bpy
+import bmesh
+import csv
+import hashlib
+import math
+import os
+import shutil
+import sys
+import zipfile
+from mathutils import Vector
+
+# Bounded Gate 2 polish for the approved SAGA Workshop Scout.
+# This script expects the approved/fallback-final .blend to already be open.
+# It preserves the existing assembly logic, names, hierarchy, pivots and joint axes.
+
+
+def get_arg(flag, default=None):
+    args = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+    for i, value in enumerate(args):
+        if value == flag and i + 1 < len(args):
+            return args[i + 1]
+    return default
+
+
+def require(name):
+    obj = bpy.data.objects.get(name)
+    if obj is None:
+        raise RuntimeError(f'Required object missing: {name}')
+    return obj
+
+
+def ensure_dir(path):
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def safe_apply_bevel(obj, width, segments=2):
+    if obj.type != 'MESH' or width <= 0:
+        return False
+    mod = obj.modifiers.new('Production Polish Edge Radius', 'BEVEL')
+    mod.width = width
+    mod.segments = segments
+    mod.limit_method = 'ANGLE'
+    bpy.context.view_layer.objects.active = obj
+    obj.select_set(True)
+    try:
+        bpy.ops.object.modifier_apply(modifier=mod.name)
+        return True
+    except Exception:
+        try:
+            obj.modifiers.remove(mod)
+        except Exception:
+            pass
+        return False
+    finally:
+        obj.select_set(False)
+
+
+def recalc_normals(obj):
+    if obj.type != 'MESH':
+        return
+    mesh = obj.data
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    try:
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+        bm.to_mesh(mesh)
+        mesh.update()
+    finally:
+        bm.free()
+
+
+def set_mat(name, roughness=None, metallic=None):
+    mat = bpy.data.materials.get(name)
+    if not mat or not mat.use_nodes:
+        return False
+    bsdf = mat.node_tree.nodes.get('Principled BSDF')
+    if not bsdf:
+        return False
+    if roughness is not None and 'Roughness' in bsdf.inputs:
+        bsdf.inputs['Roughness'].default_value = roughness
+    if metallic is not None and 'Metallic' in bsdf.inputs:
+        bsdf.inputs['Metallic'].default_value = metallic
+    return True
+
+
+def add_box_join(target, name, dims, loc, material=None, bevel_width=0.45):
+    bpy.ops.mesh.primitive_cube_add(location=loc)
+    extra = bpy.context.object
+    extra.name = name
+    extra.dimensions = dims
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    if bevel_width:
+        safe_apply_bevel(extra, bevel_width, 2)
+    if material:
+        extra.data.materials.append(material)
+    # Preserve target collection and parent semantics after join.
+    parent = target.parent
+    matrix_parent_inverse = target.matrix_parent_inverse.copy()
+    target_world = target.matrix_world.copy()
+    for col in list(extra.users_collection):
+        col.objects.unlink(extra)
+    for col in target.users_collection:
+        col.objects.link(extra)
+        break
+    target.select_set(True)
+    extra.select_set(True)
+    bpy.context.view_layer.objects.active = target
+    bpy.ops.object.join()
+    target.parent = parent
+    target.matrix_parent_inverse = matrix_parent_inverse
+    target.matrix_world = target_world
+    target.select_set(False)
+    return target
+
+
+def make_torus_join(target, name, major_radius, minor_radius, loc, rotation, material=None):
+    bpy.ops.mesh.primitive_torus_add(
+        major_radius=major_radius,
+        minor_radius=minor_radius,
+        major_segments=48,
+        minor_segments=12,
+        location=loc,
+        rotation=rotation,
+    )
+    extra = bpy.context.object
+    extra.name = name
+    if material:
+        extra.data.materials.append(material)
+    parent = target.parent
+    matrix_parent_inverse = target.matrix_parent_inverse.copy()
+    target_world = target.matrix_world.copy()
+    for col in list(extra.users_collection):
+        col.objects.unlink(extra)
+    for col in target.users_collection:
+        col.objects.link(extra)
+        break
+    target.select_set(True)
+    extra.select_set(True)
+    bpy.context.view_layer.objects.active = target
+    bpy.ops.object.join()
+    target.parent = parent
+    target.matrix_parent_inverse = matrix_parent_inverse
+    target.matrix_world = target_world
+    target.select_set(False)
+    return target
+
+
+def snapshot(objs):
+    return {
+        o.name: (o.location.copy(), o.rotation_euler.copy(), o.scale.copy())
+        for o in objs if o is not None
+    }
+
+
+def restore(objs, snap):
+    for o in objs:
+        data = snap.get(o.name)
+        if data:
+            o.location, o.rotation_euler, o.scale = data
+
+
+def save_checkpoint(folder, index, slug):
+    path = os.path.join(folder, f'{index:02d}_{slug}.blend')
+    bpy.ops.wm.save_as_mainfile(filepath=path)
+    return path
+
+
+def point_at(obj, target):
+    direction = Vector(target) - obj.location
+    obj.rotation_euler = direction.to_track_quat('-Z', 'Y').to_euler()
+
+
+def ensure_review_camera():
+    cam = bpy.data.objects.get('Review Camera')
+    if cam and cam.type == 'CAMERA':
+        bpy.context.scene.camera = cam
+        return cam
+    data = bpy.data.cameras.new('Review Camera')
+    cam = bpy.data.objects.new('Review Camera', data)
+    bpy.context.scene.collection.objects.link(cam)
+    bpy.context.scene.camera = cam
+    return cam
+
+
+def render(path, cam_loc, target=(0, 0, 150), lens=58):
+    scene = bpy.context.scene
+    cam = ensure_review_camera()
+    cam.location = cam_loc
+    cam.data.lens = lens
+    point_at(cam, target)
+    scene.render.resolution_x = 1280
+    scene.render.resolution_y = 960
+    scene.render.resolution_percentage = 100
+    scene.render.image_settings.file_format = 'PNG'
+    scene.render.filepath = path
+    bpy.ops.render.render(write_still=True)
+
+
+def inventory_text():
+    lines = []
+    lines.append('# Workshop Scout — Production Polish Gate 1 Runtime Inventory')
+    lines.append('')
+    lines.append('This appendix records the actual Blender runtime state before Gate 2 changes.')
+    lines.append('')
+    lines.append('## Collections')
+    for col in sorted(bpy.data.collections, key=lambda c: c.name.lower()):
+        lines.append(f'- `{col.name}` — {len(col.objects)} direct objects')
+    lines.append('')
+    lines.append('## Objects')
+    for obj in sorted(bpy.data.objects, key=lambda o: o.name.lower()):
+        parent = obj.parent.name if obj.parent else ''
+        mats = ', '.join(ms.material.name for ms in obj.material_slots if ms.material)
+        mods = ', '.join(f'{m.type}:{m.name}' for m in obj.modifiers)
+        loc = tuple(round(v, 4) for v in obj.location)
+        rot = tuple(round(v, 4) for v in obj.rotation_euler)
+        scale = tuple(round(v, 4) for v in obj.scale)
+        lines.append(f'- `{obj.name}` | type={obj.type} | parent=`{parent}` | loc={loc} | rot={rot} | scale={scale} | modifiers=[{mods}] | materials=[{mats}]')
+    lines.append('')
+    lines.append('## Scene metadata')
+    for key in sorted(bpy.context.scene.keys()):
+        if key != '_RNA_UI':
+            lines.append(f'- `{key}` = `{bpy.context.scene[key]}`')
+    lines.append('')
+    lines.append('## Embedded text blocks')
+    for text in sorted(bpy.data.texts, key=lambda t: t.name.lower()):
+        lines.append(f'- `{text.name}` — {len(text.as_string())} characters')
+    return '\n'.join(lines) + '\n'
+
+
+def polish_arm_chain(changes):
+    # Visual hierarchy only: small, localized edge cleanup and a stronger guide-body read.
+    for tag in ('L', 'R'):
+        for name, width in [
+            (f'{tag} Shoulder Spine Gusset', 0.45),
+            (f'{tag} Upper Arm Structural Spine', 0.40),
+            (f'{tag} Elbow Clevis Spine Bridge', 0.45),
+            (f'{tag} Forearm Structural Spine', 0.40),
+            (f'{tag} Loader Hand Guide Body', 0.55),
+            (f'{tag} Clamp Jaw Top Slider', 0.35),
+            (f'{tag} Clamp Jaw Bottom Slider', 0.35),
+        ]:
+            obj = require(name)
+            if safe_apply_bevel(obj, width, 2):
+                changes.append(f'{name}: added localized production bevel ({width:.2f} mm).')
+
+        # Preserve the guide body object/name but give it purpose-built rail shoulders.
+        palm = require(f'{tag} Loader Hand Guide Body')
+        sx = 1 if tag == 'R' else -1
+        mat = palm.data.materials[0] if palm.data.materials else None
+        hc = palm.location.copy()
+        # Two compact exterior rail bosses align visually with the opposed jaw travel.
