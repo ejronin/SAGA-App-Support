@@ -3,7 +3,7 @@ layout: page
 title: Licensing
 ---
 
-SAGA is proprietary software published by Shawn Gordon and distributed through the Autodesk Design and Make Marketplace.
+SAGA is proprietary software published by Shawn Gordon and distributed through the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a).
 
 Copyright © 2026 Shawn Gordon. All rights reserved.
 
@@ -11,7 +11,7 @@ The license terms that govern a user's copy of SAGA are the terms presented with
 
 ## Trial and purchased access
 
-SAGA is submitted as a paid, one-time-purchase application with the Marketplace **Free 30-Day Trial** option enabled. The trial is fully functional: output is not watermarked, and customer logos and cover images remain available.
+SAGA is available as a paid, one-time-purchase application with the Marketplace **Free 30-Day Trial** option enabled. The trial is fully functional: output is not watermarked, and customer logos and cover images remain available.
 
 Autodesk controls both trial and purchased Marketplace access. SAGA does not run a separate local trial clock and cannot display whether an active entitlement is a trial or purchase. It asks Autodesk only whether the signed-in account currently has valid Marketplace access.
 
