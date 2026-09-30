@@ -5,7 +5,7 @@ title: Release and Update Policy
 
 **Effective date: August 5, 2026**
 
-SAGA is submitted to the Autodesk Design and Make Marketplace as a paid, one-time-purchase application. It is not a subscription.
+SAGA is available through the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) as a paid, one-time-purchase application. It is not a subscription.
 
 Under the current SAGA 1.0 licensing model, a purchase includes the version purchased and any 1.x maintenance updates that Shawn Gordon chooses to release. Maintenance updates may include defect fixes, compatibility corrections, security fixes, and small workflow improvements. Maintenance updates are not promised on a fixed schedule.
 
