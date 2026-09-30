@@ -6,7 +6,7 @@ description: Go from first launch to a finished SAGA PDF, with the full User Gui
 ---
 
 <div class="notice-box">
-<strong>Release status:</strong> SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. These steps describe the intended Marketplace release workflow; public Marketplace availability has not yet been confirmed.
+<strong>Release status:</strong> SAGA 1.0.2 is <strong>LIVE</strong> on the Autodesk Design and Make Marketplace. <a href="https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a">Open the Marketplace listing</a> to install, start the trial, or purchase SAGA.
 </div>
 
 <div class="notice-box">
@@ -15,7 +15,7 @@ description: Go from first launch to a finished SAGA PDF, with the full User Gui
 
 ## 1. Install and start SAGA
 
-Install SAGA through the Autodesk Design and Make Marketplace. Close Fusion before installing, updating, or removing the add-in.
+Install SAGA through the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a). Close Fusion before installing, updating, or removing the add-in.
 
 In Fusion:
 
@@ -96,7 +96,7 @@ Open **Check Project** and run the check.
 4. Choose whether to include the **Cover page**, **Contents and links**, and **Bill of materials**.
 5. Select **Generate PDF**.
 
-SAGA writes the complete PDF directly into the project folder. The demonstration guide and listing screenshots are part of the Marketplace submission materials. Public downloads will be added after Marketplace review is complete.
+SAGA writes the complete PDF directly into the project folder.
 
 ## Help while you work
 
