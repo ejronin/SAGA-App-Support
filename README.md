@@ -10,6 +10,8 @@ SAGA helps makers, independent product designers, and small hardware developers 
 
 **Public support site:** [SAGA Support on GitHub Pages](https://ejronin.github.io/SAGA-App-Support/)
 
+**Autodesk Marketplace:** [SAGA — Assembly Guide Authoring](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) — version **1.0.2 is live**.
+
 ## Documentation
 
 - [Quick Start](quick-start.md)

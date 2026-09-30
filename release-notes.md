@@ -3,15 +3,16 @@ layout: page
 title: Release Notes
 ---
 
-## Version 1.0.0
+## Version 1.0.2
 
-**Status:** Autodesk Design and Make Marketplace submission / initial release preparation  
+**Status:** LIVE — Autodesk Design and Make Marketplace  
 **Platform:** Windows  
-**Host application:** Autodesk Fusion
+**Host application:** Autodesk Fusion  
+**Marketplace:** [SAGA — Assembly Guide Authoring](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a)
 
-SAGA 1.0.0 is the planned first public release of Shawn's Assembly Guide Authoring for Autodesk Fusion. It remains under Marketplace review and final release qualification; this page does not indicate Autodesk approval or public availability.
+SAGA 1.0.2 is the current public Marketplace release of Shawn's Assembly Guide Authoring for Autodesk Fusion.
 
-### Included in the 1.0.0 release candidate
+### Included in the 1.0.2 release
 
 - Local, editable SAGA project folders
 - Assembly-step capture from the active Fusion view
@@ -36,12 +37,12 @@ SAGA 1.0.0 is the planned first public release of Shawn's Assembly Guide Authori
 - No nested configuration splits
 - No SAGA cloud account or SAGA cloud project-storage service
 - No product analytics or automatic crash-report uploads
-- No macOS support in version 1.0.0
+- No macOS support in version 1.0.2
 - SAGA is not a replacement for Fusion Drawings, Fusion Animation, or an enterprise PLM system
 
 ### Installation
 
-The 1.0.0 submission is packaged for distribution through the Autodesk Design and Make Marketplace. When the release becomes available, close Fusion before installing, updating, or uninstalling SAGA, then use the Marketplace-provided installer.
+SAGA 1.0.2 is distributed through the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a). Close Fusion before installing, updating, or uninstalling SAGA, then use the Marketplace-provided installer.
 
 SAGA does not start automatically by default. After installation, start it from **Utilities > Scripts and Add-Ins > Add-Ins** in Fusion and use the SAGA toolbar command to reopen its palette during that Fusion session.
 
@@ -49,4 +50,4 @@ SAGA does not start automatically by default. After installation, start it from 
 
 For installation, Marketplace-access, or reproducible defect reports, email **sagaappsupport@gmail.com** and include the SAGA, Fusion, and Windows versions involved. See the [Troubleshooting](troubleshooting.md) and [Support Policy](support.md) pages for recovery steps and support scope.
 
-The final public release date and exact supported Fusion build will be recorded after Autodesk review and final package qualification are complete.
+For the current supported Fusion build, trial availability, and purchase information, use the [live Autodesk Marketplace listing](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a).

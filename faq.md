@@ -15,17 +15,21 @@ SAGA is intended for makers, independent product designers, 3D-printable product
 
 Use the [Quick Start](quick-start.md) to go from first launch to a finished PDF. The [User Guide](user-guide.md) provides additional workflow detail, and [Troubleshooting](troubleshooting.md) covers common recovery and access questions.
 
+## Where can I get SAGA?
+
+SAGA for Fusion version **1.0.2 is live** on the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a).
+
 ## Does SAGA upload my Fusion model or project files?
 
 No. SAGA projects, captures, instructions, BOM information, and generated PDFs stay in the local folders chosen by the user. SAGA contacts Autodesk only as needed to verify Marketplace access. See the [Privacy Policy](privacy.md) for details.
 
 ## Is SAGA a subscription?
 
-No. SAGA is submitted to the Autodesk Design and Make Marketplace as a paid, one-time-purchase application.
+No. SAGA is available through the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) as a paid, one-time-purchase application.
 
 ## Can I try SAGA before buying it?
 
-Yes. The current Marketplace submission has Autodesk's **Free 30-Day Trial** option enabled. The trial is fully functional and does not watermark PDFs or disable customer branding.
+Yes. The [live Marketplace listing](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) has Autodesk's **Free 30-Day Trial** option enabled. The trial is fully functional and does not watermark PDFs or disable customer branding.
 
 Autodesk controls both trial and purchased Marketplace access. SAGA does not run a separate local trial clock. When Autodesk reports that access is no longer valid, authoring and PDF publication remain unavailable until valid access is reported again. Existing projects and previously generated PDFs are not deleted or altered.
 

@@ -1,7 +1,7 @@
 fusion:
-  show_purchase: false
+  show_purchase: true
   price: "$29.99"
-  purchase_url: ""
+  purchase_url: "https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a"
   purchase_label: "Buy SAGA for Fusion"
   store_name: "Autodesk Design and Make Marketplace"
 

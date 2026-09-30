@@ -208,7 +208,7 @@ title: SAGA
 <div class="platform-grid">
   <a class="platform-card fusion" href="{{ '/fusion/' | relative_url }}">
     <img src="{{ '/assets/SAGA for Fusion.png' | relative_url }}" alt="SAGA for Fusion">
-    <span class="platform-status">Documentation live</span>
+    <span class="platform-status">Marketplace Live</span>
     {% if fusion_commerce.show_purchase and fusion_commerce.price != '' %}<span class="platform-price">{{ fusion_commerce.price | escape }}</span>{% endif %}
     <strong>For Autodesk Fusion workflows</strong>
     <span>Build illustrated guides around Fusion projects with SAGA projects, parts and BOMs, captured Steps, markup, configuration paths, validation, and PDF publication.</span>
