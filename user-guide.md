@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-SAGA — Shawn's Assembly Guide Authoring — is an Autodesk Fusion add-in for creating illustrated assembly guides from the model and view already open in Fusion. SAGA 1.0 is currently in Autodesk Design and Make Marketplace review and release qualification. Projects remain editable in normal local folders, and SAGA creates one complete PDF in the project folder when the guide is ready.
+SAGA — Shawn's Assembly Guide Authoring — is an Autodesk Fusion add-in for creating illustrated assembly guides from the model and view already open in Fusion. SAGA **1.0.2 is LIVE** on the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a). Projects remain editable in normal local folders, and SAGA creates one complete PDF in the project folder when the guide is ready.
 
 For a shorter first-use walkthrough, start with the [Quick Start](quick-start.md). Use [Troubleshooting](troubleshooting.md) when something appears broken, access is not recognized, or publication fails.
 
@@ -398,7 +398,7 @@ Open the project folder to review or share the finished guide. If Windows report
 
 ## Marketplace access
 
-SAGA uses the Autodesk account signed into Fusion to check whether Marketplace access is active. The Marketplace listing is set up as a one-time purchase with Autodesk's **Free 30-Day Trial** option.
+SAGA uses the Autodesk account signed into Fusion to check whether Marketplace access is active. The [Marketplace listing](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) is live as a one-time purchase with Autodesk's **Free 30-Day Trial** option.
 
 The trial is the full SAGA experience: there is no trial watermark, and the project logo and cover image remain available. SAGA does not run a second, separate trial clock on your computer.
 
@@ -409,7 +409,7 @@ SAGA only needs to know whether Autodesk currently reports valid access for the 
 If the palette shows **Access required**:
 
 1. Check that Fusion is signed in with the Autodesk account you used for SAGA.
-2. If you have not started the trial or purchased SAGA yet, do that through the Autodesk Marketplace using the same account.
+2. If you have not started the trial or purchased SAGA yet, do that through the [Autodesk Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) using the same account.
 3. Return to SAGA and select **Check again**.
 
 When access is valid, SAGA shows **Access active**.
