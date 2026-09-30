@@ -215,7 +215,7 @@ permalink: /fusion/
 
 <div class="docs-status" role="status">
   <strong>Release status</strong>
-  <span>SAGA 1.0 is in Autodesk Design and Make Marketplace review and release qualification. Public Marketplace availability has not yet been confirmed.</span>
+  <span>SAGA 1.0.2 is <strong>LIVE</strong> on the Autodesk Design and Make Marketplace.</span>
 </div>
 
 {% if commerce.show_purchase and commerce.purchase_url != '' %}
@@ -282,7 +282,7 @@ permalink: /fusion/
   </div>
   <div class="docs-fact" role="listitem">
     <strong>Marketplace access</strong>
-    <span>One-time purchase with Autodesk's Free 30-Day Trial option enabled for the submitted release.</span>
+    <span>One-time purchase with Autodesk's Free 30-Day Trial option enabled for the current Marketplace release.</span>
   </div>
   <div class="docs-fact" role="listitem">
     <strong>Support</strong>
