@@ -5,9 +5,9 @@ title: Refund Policy
 
 **Effective date: August 6, 2026**
 
-SAGA is submitted to the Autodesk Design and Make Marketplace as a paid, one-time-purchase application.
+SAGA is sold through the [Autodesk Design and Make Marketplace](https://marketplace.autodesk.com/apps/ba97abb7-47a9-461d-a69e-a31130964c5a) as a paid, one-time-purchase application.
 
-The current Marketplace submission has the **Free 30-Day Trial** option enabled. The trial is fully functional so users can evaluate SAGA with their Fusion setup and workflow before purchasing. Trial output is not watermarked, and customer branding remains available. The trial does not guarantee that SAGA will meet every user's needs or expectations.
+The live Marketplace listing has the **Free 30-Day Trial** option enabled. The trial is fully functional so users can evaluate SAGA with their Fusion setup and workflow before purchasing. Trial output is not watermarked, and customer branding remains available. The trial does not guarantee that SAGA will meet every user's needs or expectations.
 
 Autodesk directs refund, return, cancellation, and billing questions for third-party Marketplace apps to the app publisher. Autodesk's own subscription refund windows do not apply to SAGA. Refund eligibility for SAGA is determined under this policy, subject to applicable law and any requirements of the Marketplace transaction or payment processor.
 
